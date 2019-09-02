@@ -9,7 +9,7 @@ class ClientList extends React.Component{
         }
     }
 
-    async updateClients(){
+    updateClients=async()=>{
         const url="http://localhost:9000/clients";
         fetch(url)
             .then(res => res.json())
@@ -19,19 +19,20 @@ class ClientList extends React.Component{
             .catch(console.log)
     }
 
-
-    componentDidMount() {
-        this.interval = setInterval(() => this.updateClients(), 1000);
-        this.updateClients();
-    }
-
-    deleteClient(clientId) {
+    deleteClient=(clientId)=> {
         const url="http://localhost:9000/clients/"+clientId;
         fetch(url,{method:'DELETE'})
             .catch(console.log)
+        this.updateClients();
     };
 
+    componentDidMount() {
+        this.interval = setInterval(() => this.updateClients(), 10000);
+    }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
 
     render() {
         return (

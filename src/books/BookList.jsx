@@ -9,7 +9,7 @@ class BookList extends React.Component{
         }
     }
 
-    async updateBooks(){
+    updateBooks=()=>{
         const url="http://localhost:9000/books";
         fetch(url)
             .then(res => res.json())
@@ -19,19 +19,20 @@ class BookList extends React.Component{
             .catch(console.log)
     }
 
-
-    componentDidMount() {
-        this.interval = setInterval(() => this.updateBooks(), 1000);
-        this.updateBooks();
-    }
-
-    deleteBook(bookId) {
+    deleteBook=(bookId)=> {
         const url="http://localhost:9000/books/"+bookId;
         fetch(url,{method:'DELETE'})
             .catch(console.log)
+        this.updateBooks();
     };
 
+    componentDidMount() {
+        this.interval = setInterval(() => this.updateBooks(), 10000);
+    }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
 
     render() {
         return (
