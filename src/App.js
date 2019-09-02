@@ -1,16 +1,23 @@
 import React from 'react';
-import Header from "./components/Header";
-import ClientList from "./components/ClientList";
+import Header from "./mainComponents/Header";
+import ClientList from "./clients/ClientList";
 import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Route} from "react-router-dom";
+import BookList from "./books/BookList";
 
 class App extends React.Component{
     render() {
         return (
-            <div className="App">
-                <Header/>
-                <ClientList/>
-            </div>
+            <BrowserRouter>
+                <div className="App container-fluid">
+                    <Header/>
+                    <div className="content-wrapper">
+                        <Route path="/clients" component={ClientList}/>
+                        <Route path="/books" component={BookList}/>
+                    </div>
+                </div>
+            </BrowserRouter>
         );
     }
 }

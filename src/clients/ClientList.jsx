@@ -19,6 +19,7 @@ class ClientList extends React.Component{
             .catch(console.log)
     }
 
+
     componentDidMount() {
         this.interval = setInterval(() => this.updateClients(), 1000);
         this.updateClients();
@@ -35,7 +36,7 @@ class ClientList extends React.Component{
     render() {
         return (
             <div className="container">
-                <table className="table">
+                <table className="table table-striped">
                     {this.state.clients.map((client)=>(
                     <ClientItem client={client} deleteClient={this.deleteClient}/>
                 ))}
