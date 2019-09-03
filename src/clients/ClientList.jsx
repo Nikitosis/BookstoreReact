@@ -1,6 +1,6 @@
 import React from "react";
 import ClientItem from "./ClientItem";
-import ClientDialog from "./ClientDialog/ClientDialog";
+import CreateClientModal from "./ClientDialog/CreateClientModal";
 import Button from "react-bootstrap/Button";
 
 class ClientList extends React.Component{
@@ -8,21 +8,24 @@ class ClientList extends React.Component{
         super(props);
         this.state = {
             clients: [],
-            modalShow: false
+            createModalShow: false,
+            updateModalShow: false,
+            editedClient:{}
         };
 
         this.getClients();
     }
 
-    setModalShow=(isShown)=>{
-        console.log("Setting modalShow to"+isShown);
+    setCreateModalShow=(isShown)=>{
+        console.log("Setting createModalShow to"+isShown);
         this.setState({
-            modalShow: isShown
+            createModalShow: isShown
         });
     };
 
     getClients=async()=>{
         const url="http://localhost:9000/clients";
+        console.log("getting clients");
         fetch(url)
             .then(res => res.json())
             .then((data)=>{
@@ -40,7 +43,6 @@ class ClientList extends React.Component{
 
     saveClient=(client)=>{
         const url="http://localhost:9000/clients";
-        console.log(JSON.stringify(client));
 
         fetch(url,{
             method:"POST",
@@ -50,7 +52,20 @@ class ClientList extends React.Component{
             }
         })
             .then(this.getClients)
-            .then(()=>this.setModalShow(false))
+            .then(()=>this.setCreateModalShow(false))
+    };
+
+    updateClient=(client)=>{
+        const url="http://localhost:9000/clients";
+        console.log(JSON.stringify(client));
+        fetch(url,{
+            method:"PUT",
+            body:JSON.stringify(client),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(this.getClients)
     };
 
 
@@ -66,19 +81,24 @@ class ClientList extends React.Component{
 
         return (
             <div className="container">
-                <table className="table table-striped">
-                    {this.state.clients.map((client)=>(
-                    <ClientItem client={client} deleteClient={this.deleteClient}/>
-                ))}
-                </table>
-
-                <Button variant="success" onClick={()=>this.setModalShow(true)}>
+                <Button variant="success" onClick={()=>this.setCreateModalShow(true)}>
                     New client
                 </Button>
-                <ClientDialog title="New client"
-                              show={this.state.modalShow}
-                              onSave={this.saveClient}
-                              onClose={()=>this.setModalShow(false)}/>
+
+                <table className="table table-striped">
+                    <tbody>
+                    {this.state.clients.map((client)=>(
+                    <ClientItem client={client} deleteClient={this.deleteClient} updateClient={this.updateClient}/>
+
+                    ))}
+                    </tbody>
+                </table>
+
+                <CreateClientModal show={this.state.createModalShow}
+                                   onSave={this.saveClient}
+                                   onClose={()=>this.setCreateModalShow(false)}/>
+
+
             </div>
         );
     }
