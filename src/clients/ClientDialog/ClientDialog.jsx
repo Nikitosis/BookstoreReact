@@ -5,10 +5,10 @@ import {Button} from "react-bootstrap";
 class ClientDialog extends React.Component{
 
     firstNameChange =(e)=>{
-        this.setState({firstName: e.target.value});
+        this.setState({fName: e.target.value});
     }
     lastNameChange=(e)=>{
-        this.setState({lastName: e.target.value});
+        this.setState({lName: e.target.value});
     }
 
     handleSave=()=>{
@@ -26,12 +26,12 @@ class ClientDialog extends React.Component{
                 <Modal.Body>
                     <form className="form">
                         <div className="form-group">
-                            <span>First Name</span>
-                            <input type="text" placeholder="First Name" onChange={(e)=>this.firstNameChange(e)}/>
+                            <label>First Name</label>
+                            <input type="text" className="form-control" placeholder="First Name" onChange={(e)=>this.firstNameChange(e)}/>
                         </div>
                         <div className="form-group">
-                            <span>Last Name</span>
-                            <input type="text" placeholder="Last Name" onChange={(e)=>this.lastNameChange(e)}/>
+                            <label>Last Name</label>
+                            <input type="text" className="form-control" placeholder="Last Name" onChange={(e)=>this.lastNameChange(e)}/>
                         </div>
                     </form>
                 </Modal.Body>

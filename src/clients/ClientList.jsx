@@ -19,7 +19,7 @@ class ClientList extends React.Component{
         this.setState({
             modalShow: isShown
         });
-    }
+    };
 
     getClients=async()=>{
         const url="http://localhost:9000/clients";
@@ -29,7 +29,7 @@ class ClientList extends React.Component{
                 this.setState({clients:data});
             })
             .catch(console.log)
-    }
+    };
 
     deleteClient=(clientId)=> {
         const url="http://localhost:9000/clients/"+clientId;
@@ -40,11 +40,18 @@ class ClientList extends React.Component{
 
     saveClient=(client)=>{
         const url="http://localhost:9000/clients";
+        console.log(JSON.stringify(client));
 
-        fetch(url,{method:"POST",body:JSON.stringify(client)})
+        fetch(url,{
+            method:"POST",
+            body:JSON.stringify(client),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
             .then(this.getClients)
             .then(()=>this.setModalShow(false))
-    }
+    };
 
 
     componentDidMount() {
