@@ -7,6 +7,7 @@ class BookList extends React.Component{
         this.state = {
             books: []
         }
+        this.updateBooks();
     }
 
     updateBooks=()=>{

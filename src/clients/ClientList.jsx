@@ -1,15 +1,27 @@
 import React from "react";
 import ClientItem from "./ClientItem";
+import ClientDialog from "./ClientDialog/ClientDialog";
+import Button from "react-bootstrap/Button";
 
 class ClientList extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            clients: []
-        }
+            clients: [],
+            modalShow: false
+        };
+
+        this.getClients();
     }
 
-    updateClients=async()=>{
+    setModalShow=(isShown)=>{
+        console.log("Setting modalShow to"+isShown);
+        this.setState({
+            modalShow: isShown
+        });
+    }
+
+    getClients=async()=>{
         const url="http://localhost:9000/clients";
         fetch(url)
             .then(res => res.json())
@@ -22,12 +34,21 @@ class ClientList extends React.Component{
     deleteClient=(clientId)=> {
         const url="http://localhost:9000/clients/"+clientId;
         fetch(url,{method:'DELETE'})
-            .catch(console.log)
-        this.updateClients();
+            .then(this.getClients)
+            .catch(console.log);
     };
 
+    saveClient=(client)=>{
+        const url="http://localhost:9000/clients";
+
+        fetch(url,{method:"POST",body:JSON.stringify(client)})
+            .then(this.getClients)
+            .then(()=>this.setModalShow(false))
+    }
+
+
     componentDidMount() {
-        this.interval = setInterval(() => this.updateClients(), 10000);
+        this.interval = setInterval(() => this.getClients(), 10000);
     }
 
     componentWillUnmount() {
@@ -35,6 +56,7 @@ class ClientList extends React.Component{
     }
 
     render() {
+
         return (
             <div className="container">
                 <table className="table table-striped">
@@ -42,6 +64,14 @@ class ClientList extends React.Component{
                     <ClientItem client={client} deleteClient={this.deleteClient}/>
                 ))}
                 </table>
+
+                <Button variant="success" onClick={()=>this.setModalShow(true)}>
+                    New client
+                </Button>
+                <ClientDialog title="New client"
+                              show={this.state.modalShow}
+                              onSave={this.saveClient}
+                              onClose={()=>this.setModalShow(false)}/>
             </div>
         );
     }
