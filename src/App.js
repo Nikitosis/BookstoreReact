@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
 import BookList from "./books/BookList";
+import LoginPage from "./login/LoginPage";
 
 class App extends React.Component{
     render() {
@@ -13,8 +14,9 @@ class App extends React.Component{
                 <div className="App container-fluid">
                     <Header/>
                     <div className="content-wrapper">
-                        <Route path="/clients" component={ClientList}/>
-                        <Route path="/books" component={BookList}/>
+                        /*<Route path="/clients" component={ClientList}/>
+                        <Route path="/books" component={BookList}/>*/
+                        <Route path="/login" component={LoginPage}/>
                     </div>
                 </div>
             </BrowserRouter>
