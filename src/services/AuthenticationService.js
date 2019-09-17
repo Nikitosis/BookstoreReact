@@ -1,14 +1,23 @@
 import axios from 'axios';
+import UserService from "./UserService";
 
 const API_URL="http://localhost:9004";
 
-export const USER_NAME_SESSION_ATTRIBUTE="authenticatedUser";
+export const USER_NAME_SESSION_ATTRIBUTE="authenticatedUsername";
+export const USER_ID_SESSION_ATTRIBUTE="authenticatedUserId";
 
 class AuthenticationService{
 
     constructor(props) {
         this.axiousInterceptor=null;
 
+    }
+
+    parseJwt(token) {
+        if (!token) { return; }
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(window.atob(base64));
     }
 
 
@@ -21,10 +30,10 @@ class AuthenticationService{
         })
     }
 
-
     registerSuccessfulLogin(username,token){
-        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,username);
         this.setupAxiosInterceptors(token);
+        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,username);
+        sessionStorage.setItem(USER_ID_SESSION_ATTRIBUTE,this.parseJwt(token).userId);
     }
 
     isUserLoggedIn(){
@@ -36,9 +45,9 @@ class AuthenticationService{
 
     //to always setup request headers with authorization token
     setupAxiosInterceptors(token){
-        console.log(this.isUserLoggedIn());
-
-        console.log(this.axiosInterceptor);
+        if(this.axiosInterceptor!=null) {
+            axios.interceptors.request.eject(this.axiosInterceptor);
+        }
 
         this.axiosInterceptor =axios.interceptors.request.use(
             (config)=>{
@@ -49,11 +58,6 @@ class AuthenticationService{
                 return config;
             }
         )
-
-        if(this.axiousInterceptor!=null) {
-            axios.interceptors.request.eject(this.axiosInterceptor);
-            console.log("eject");
-        }
     }
 }
 
