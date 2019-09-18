@@ -6,6 +6,8 @@ import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
 import BookList from "./books/BookList";
 import LoginPage from "./login/LoginPage";
+import HomePage from "./home/HomePage";
+import {PrivateRoute} from "./utils/PrivateRoute";
 
 class App extends React.Component{
     render() {
@@ -16,6 +18,7 @@ class App extends React.Component{
                     <div className="content-wrapper">
                         /*<Route path="/clients" component={ClientList}/>
                         <Route path="/books" component={BookList}/>*/
+                        <PrivateRoute path="/home" component={HomePage}/>
                         <Route path="/login" component={LoginPage}/>
                     </div>
                 </div>

@@ -1,16 +1,16 @@
 import axios from 'axios';
-import UserService from "./UserService";
+import User from "../models/User";
 
 const API_URL="http://localhost:9004";
 
 export const USER_NAME_SESSION_ATTRIBUTE="authenticatedUsername";
 export const USER_ID_SESSION_ATTRIBUTE="authenticatedUserId";
+export const USER_ROLES_SESSION_ATTRIBUTE="authenticatedUserRoles";
 
 class AuthenticationService{
 
     constructor(props) {
         this.axiousInterceptor=null;
-
     }
 
     parseJwt(token) {
@@ -34,6 +34,7 @@ class AuthenticationService{
         this.setupAxiosInterceptors(token);
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,username);
         sessionStorage.setItem(USER_ID_SESSION_ATTRIBUTE,this.parseJwt(token).userId);
+        sessionStorage.setItem(USER_ROLES_SESSION_ATTRIBUTE,this.parseJwt(token).roles);
     }
 
     isUserLoggedIn(){
@@ -41,6 +42,18 @@ class AuthenticationService{
         if(user==null)
             return false;
         return true;
+    }
+
+    getCurrentUser(){
+        if(!this.isUserLoggedIn()){
+            return null;
+        }
+        var user=new User(
+            sessionStorage.getItem(USER_ID_SESSION_ATTRIBUTE),
+            sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE),
+            sessionStorage.getItem(USER_ROLES_SESSION_ATTRIBUTE)
+        );
+        return user;
     }
 
     //to always setup request headers with authorization token
