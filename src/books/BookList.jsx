@@ -1,5 +1,6 @@
 import React from "react";
 import BookItem from "./BookItem";
+import BooksService from "../services/BooksService";
 
 class BookList extends React.Component{
     constructor(props){
@@ -12,12 +13,8 @@ class BookList extends React.Component{
 
     updateBooks=()=>{
         const url="http://localhost:9000/books";
-        fetch(url)
-            .then(res => res.json())
-            .then((data)=>{
-                this.setState({books:data});
-            })
-            .catch(console.log)
+
+        this.setState({books:BooksService.getAllBooks()});
     }
 
     deleteBook=(bookId)=> {
