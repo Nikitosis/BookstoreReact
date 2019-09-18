@@ -11,6 +11,9 @@ class AuthenticationService{
 
     constructor(props) {
         this.axiousInterceptor=null;
+        if(localStorage.getItem("token")){
+            this.registerSuccessfulLogin(localStorage.getItem("token"))
+        }
     }
 
     parseJwt(token) {
@@ -30,11 +33,18 @@ class AuthenticationService{
         })
     }
 
-    registerSuccessfulLogin(username,token){
+    executeLogout(){
+        sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE);
+        sessionStorage.removeItem(USER_ID_SESSION_ATTRIBUTE);
+        sessionStorage.removeItem(USER_ROLES_SESSION_ATTRIBUTE);
+    }
+
+    registerSuccessfulLogin(token){
         this.setupAxiosInterceptors(token);
-        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,username);
+        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,this.parseJwt(token).sub);
         sessionStorage.setItem(USER_ID_SESSION_ATTRIBUTE,this.parseJwt(token).userId);
         sessionStorage.setItem(USER_ROLES_SESSION_ATTRIBUTE,this.parseJwt(token).roles);
+        localStorage.setItem("token",token);
     }
 
     isUserLoggedIn(){
