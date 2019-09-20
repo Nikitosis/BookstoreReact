@@ -7,12 +7,14 @@ export const USER_NAME_SESSION_ATTRIBUTE="authenticatedUsername";
 export const USER_ID_SESSION_ATTRIBUTE="authenticatedUserId";
 export const USER_ROLES_SESSION_ATTRIBUTE="authenticatedUserRoles";
 
+const LOCAL_STORAGE_TOKEN="token";
+
 class AuthenticationService{
 
     constructor(props) {
         this.axiousInterceptor=null;
         if(localStorage.getItem("token")){
-            this.registerSuccessfulLogin(localStorage.getItem("token"))
+            this.registerSuccessfulLogin(localStorage.getItem(LOCAL_STORAGE_TOKEN))
         }
     }
 
@@ -37,6 +39,8 @@ class AuthenticationService{
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE);
         sessionStorage.removeItem(USER_ID_SESSION_ATTRIBUTE);
         sessionStorage.removeItem(USER_ROLES_SESSION_ATTRIBUTE);
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+        axios.interceptors.request.eject(this.axiosInterceptor);
     }
 
     registerSuccessfulLogin(token){
@@ -44,7 +48,7 @@ class AuthenticationService{
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE,this.parseJwt(token).sub);
         sessionStorage.setItem(USER_ID_SESSION_ATTRIBUTE,this.parseJwt(token).userId);
         sessionStorage.setItem(USER_ROLES_SESSION_ATTRIBUTE,this.parseJwt(token).roles);
-        localStorage.setItem("token",token);
+        localStorage.setItem(LOCAL_STORAGE_TOKEN,token);
     }
 
     isUserLoggedIn(){

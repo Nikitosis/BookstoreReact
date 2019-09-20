@@ -1,6 +1,7 @@
 import React from "react";
 import AuthenticationService from "../services/AuthenticationService";
 import UserService from "../services/UserService";
+import {ClipLoader} from "react-spinners";
 
 class HomePage extends React.Component{
 
@@ -17,13 +18,20 @@ class HomePage extends React.Component{
                     })
                 }
             )
+            .catch(()=>{
+                console.log("Cannot load user details");
+            })
     }
 
 
     render() {
+        if(this.state.curUser==null){
+            return <ClipLoader loading={true}/>;
+        }
+
         return (
             <div>
-                <h1>Welcome, {AuthenticationService.getCurrentUser().username}</h1>
+                <h1>Welcome, {this.state.curUser.username}</h1>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4">First name:</div>

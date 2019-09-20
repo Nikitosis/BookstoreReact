@@ -1,11 +1,11 @@
 import React from "react";
 
-const BookItem=({book,deleteBook})=>{
+const BookItem=({book,takeBook})=>{
     return (
         <tr>
             <td>{book.id}</td>
             <td>{book.name}</td>
-            <td><button className="btn btn-danger" onClick={()=>deleteBook(book.id)}>Delete</button></td>
+            <td><button className="btn btn-success" onClick={()=>takeBook(book.id)}>Take</button></td>
         </tr>
     );
 };

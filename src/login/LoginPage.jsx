@@ -26,6 +26,7 @@ class LoginPage extends React.Component{
                 console.log("Authenticated");
                 AuthenticationService.registerSuccessfulLogin(response.headers.authorization);
                 this.props.history.push("/home");
+                window.location.reload(true);
             })
             .catch(()=>{
                 console.log("Not Authenticated");
