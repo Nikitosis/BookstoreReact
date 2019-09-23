@@ -2,6 +2,7 @@ import React from "react";
 import UserService from "../services/UserService";
 
 class RegistrationPage extends React.Component{
+
     constructor(props){
         super(props);
 
@@ -68,7 +69,6 @@ class RegistrationPage extends React.Component{
                 })
         }
 
-
     }
 
     render() {
@@ -117,6 +117,7 @@ class RegistrationPage extends React.Component{
             </div>
         );
     }
+
 }
 
 export default RegistrationPage;

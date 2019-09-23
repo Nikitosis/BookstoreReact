@@ -17,6 +17,16 @@ class UserService{
                 },
         });
     }
+
+    updateUser(user){
+        return axios.put(`${API_URL}/users`,
+            user,
+            {
+                headers:{
+                    'content-type': 'application/json'
+                },
+            });
+    }
 }
 
 export default new UserService();
