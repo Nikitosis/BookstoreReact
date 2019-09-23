@@ -29,6 +29,9 @@ class LoginPage extends React.Component{
                 window.location.reload(true);
             })
             .catch(()=>{
+                this.setState({
+                    hasLoginFailed:true
+                })
                 console.log("Not Authenticated");
             })
     }

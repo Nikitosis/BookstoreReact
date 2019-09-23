@@ -21,11 +21,11 @@ class App extends React.Component{
                     <Header/>
                     <div className="content-wrapper">
                         <Route path="/books" component={BookList}/>
-                        <PrivateRoute path="/logout" component={LogoutPage}/>
-                        <PrivateRoute path="/myBooks" component={MyBooksList}/>
-                        <PrivateRoute path="/home" component={HomePage}/>
-                        <Route path="/login" component={LoginPage}/>
-                        <Route path="/registration" component={RegistrationPage}/>
+                        <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/logout" component={LogoutPage}/>
+                        <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/myBooks" component={MyBooksList}/>
+                        <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/home" component={HomePage}/>
+                        <PrivateRoute nonAuthorised={true} path="/login" component={LoginPage}/>
+                        <PrivateRoute nonAuthorised={true} path="/registration" component={RegistrationPage}/>
                     </div>
                 </div>
             </BrowserRouter>

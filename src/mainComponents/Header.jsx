@@ -7,13 +7,18 @@ class Header extends React.Component{
         return(
             <div className="navbar navbar-expand-md  navbar-light bg-light">
                 <ul className="navbar-nav m-auto">
-                    <PrivateComponent>
+                    <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
                         <li className="nav-item"><NavLink to="/logout" className="nav-link">Logout</NavLink></li>
                     </PrivateComponent>
                     <PrivateComponent roles={["ROLE_USER"]}>
                         <li className="nav-item"><NavLink to="/myBooks" className="nav-link">My books</NavLink></li>
                     </PrivateComponent>
-                    <li className="nav-item"><NavLink to="/clients" className="nav-link">Clients</NavLink></li>
+                    <PrivateComponent nonAuthorised={true}>
+                        <li className="nav-item"><NavLink to="/registration" className="nav-link">Register</NavLink></li>
+                    </PrivateComponent>
+                    <PrivateComponent nonAuthorised={true}>
+                        <li className="nav-item"><NavLink to="/login" className="nav-link">Login</NavLink></li>
+                    </PrivateComponent>
                     <li className="nav-item"><NavLink to="/books" className="nav-link">Books</NavLink></li>
                 </ul>
             </div>

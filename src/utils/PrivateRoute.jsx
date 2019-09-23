@@ -2,9 +2,14 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import AuthenticationService from "../services/AuthenticationService";
 
-export const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+export const PrivateRoute = ({ component: Component, roles,nonAuthorised, ...rest }) => (
     <Route {...rest} render={props => {
         const currentUser = AuthenticationService.getCurrentUser();
+
+        if(nonAuthorised &&!currentUser){
+            return <Component {...props} />
+        }
+
         if (!currentUser) {
             // not logged in so redirect to login page with the return url
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
@@ -21,7 +26,7 @@ export const PrivateRoute = ({ component: Component, roles, ...rest }) => (
             }
         }
 
-        if (accessRoles && !accessRoles) {
+        if (!accessRoles) {
             // role not authorised so redirect to home page
             return <Redirect to={{ pathname: '/'}} />
         }

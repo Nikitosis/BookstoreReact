@@ -9,6 +9,11 @@ class PrivateComponent extends React.Component{
 
     render() {
         const currentUser = AuthenticationService.getCurrentUser();
+
+        if(this.props.nonAuthorised &&!currentUser){
+            return this.props.children;
+        }
+
         if (!currentUser) {
             // not logged in so redirect to authentication page with the return url
             return null;
@@ -25,7 +30,7 @@ class PrivateComponent extends React.Component{
             }
         }
 
-        if (accessRoles && !isRolePass) {
+        if (!isRolePass) {
             // role not authorised so redirect to home page
             return null;
         }
