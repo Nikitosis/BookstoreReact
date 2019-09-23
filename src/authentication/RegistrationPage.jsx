@@ -72,19 +72,23 @@ class RegistrationPage extends React.Component{
     }
 
     render() {
+        const usernameValidation=this.state.usernameHelp=="" ? "" : "is-invalid";
+        const passwordValidation=this.state.passwordHelp=="" ? "" : "is-invalid";
+        const repeatPasswordValidation=this.state.repeatPasswordHelp=="" ? "" : "is-invalid";
+
         return (
             <div className="container">
                 <form>
                     <div className="form-group row">
                         <label htmlFor={"inputUsername"} className="col-form-label col-md-2">Username</label>
-                        <input type="text" className="form-control col-md-3" id={"inputFirstName"} name="fName" placeholder="First Name" onChange={this.onInputChange}/>
+                        <input type="text" className={`form-control col-md-3`} id={"inputFirstName"} name="fName" placeholder="First Name" onChange={this.onInputChange}/>
                         <div className="col-md-1"></div>
                         <input type="text" className="form-control col-md-3" id={"inputLastName"} name="lName" placeholder="Last Name" onChange={this.onInputChange}/>
                     </div>
 
                     <div className="form-group row">
                         <label htmlFor={"inputUsername"} className="col-form-label col-md-2">Username</label>
-                        <input type="text" className="form-control col-md-7" id={"inputUsername"} name="username" placeholder="Username" onChange={this.onInputChange}/>
+                        <input type="text" className={`form-control col-md-7 ${usernameValidation}`} id={"inputUsername"} name="username" placeholder="Username" onChange={this.onInputChange}/>
                         <small id="usernameHelp" className="text-danger col-md-3">
                             {this.state.usernameHelp}
                         </small>
@@ -92,7 +96,7 @@ class RegistrationPage extends React.Component{
 
                     <div className="form-group row">
                         <label htmlFor={"inputPassword"} className="col-form-label col-md-2">Password</label>
-                        <input type="password" className="form-control col-sm-7" id={"inputPassword"} name="password" placeholder="Password" onChange={this.onInputChange}/>
+                        <input type="password" className={`form-control col-sm-7 ${passwordValidation}`} id={"inputPassword"} name="password" placeholder="Password" onChange={this.onInputChange}/>
                         <small id="passwordHelp" className="text-danger col-md-3">
                             {this.state.passwordHelp}
                         </small>
@@ -100,13 +104,14 @@ class RegistrationPage extends React.Component{
 
                     <div className="form-group row">
                         <label htmlFor={"inputRepeatPassword"} className="col-form-label col-md-2">Repeat password</label>
-                        <input type="password" className="form-control col-sm-7" id={"inputRepeatPassword"} name="repeatPassword" placeholder="Repeat password" onChange={this.onInputChange}/>
+                        <input type="password" className={`form-control col-sm-7 ${repeatPasswordValidation}`} id={"inputRepeatPassword"} name="repeatPassword" placeholder="Repeat password" onChange={this.onInputChange}/>
                         <small id="repeatPasswordHelp" className="text-danger col-md-3">
                             {this.state.repeatPasswordHelp}
                         </small>
                     </div>
                 </form>
                 <div className="row">
+                    <div className="col-md-5"></div>
                     <button className="btn btn-primary btn-block col-md-4 mr-auto" onClick={this.onRegisterClick}>Register</button>
                 </div>
             </div>
