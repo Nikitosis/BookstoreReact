@@ -10,7 +10,7 @@ class PrivateComponent extends React.Component{
     render() {
         const currentUser = AuthenticationService.getCurrentUser();
         if (!currentUser) {
-            // not logged in so redirect to login page with the return url
+            // not logged in so redirect to authentication page with the return url
             return null;
         }
 

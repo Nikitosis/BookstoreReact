@@ -5,12 +5,13 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
 import BookList from "./books/BookList";
-import LoginPage from "./login/LoginPage";
+import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
 import {PrivateRoute} from "./utils/PrivateRoute";
 import AuthenticationService from "./services/AuthenticationService";
 import MyBooksList from "./myBooks/MyBooksList";
-import LogoutPage from "./login/LogoutPage";
+import LogoutPage from "./authentication/LogoutPage";
+import RegistrationPage from "./authentication/RegistrationPage";
 
 class App extends React.Component{
     render() {
@@ -24,6 +25,7 @@ class App extends React.Component{
                         <PrivateRoute path="/myBooks" component={MyBooksList}/>
                         <PrivateRoute path="/home" component={HomePage}/>
                         <Route path="/login" component={LoginPage}/>
+                        <Route path="/registration" component={RegistrationPage}/>
                     </div>
                 </div>
             </BrowserRouter>

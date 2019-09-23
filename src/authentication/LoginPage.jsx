@@ -47,7 +47,7 @@ class LoginPage extends React.Component{
                   <div className="col-md-6 m-auto">
                       {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid credentials</div>}
                       <input type="text" name="username" placeholder="username" className="form-control" value={this.state.username} onChange={this.onInputChange}/>
-                      <input type="text" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
+                      <input type="password" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
                       <button className="btn btn-primary btn-block" name="loginButton" onClick={this.loginClicked}>Sign in</button>
                       <button className="btn btn-primary btn-block" name="loginButton" onClick={this.getBooksClicked}>get books</button>
                   </div>

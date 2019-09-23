@@ -15,6 +15,12 @@ class BookList extends React.Component{
 
     componentDidMount() {
         this.fetchBooks();
+        this.timer=setInterval(()=>this.fetchBooks(),5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer=null;
     }
 
     fetchBooks=()=>{
