@@ -36,13 +36,6 @@ class LoginPage extends React.Component{
             })
     }
 
-    getBooksClicked=()=>{
-        BooksService.getAllBooks()
-            .then((result)=>{
-                console.log(result);
-            })
-    }
-
     render() {
         return (
           <div className="container">
@@ -52,7 +45,6 @@ class LoginPage extends React.Component{
                       <input type="text" name="username" placeholder="username" className="form-control" value={this.state.username} onChange={this.onInputChange}/>
                       <input type="password" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
                       <button className="btn btn-primary btn-block" name="loginButton" onClick={this.loginClicked}>Sign in</button>
-                      <button className="btn btn-primary btn-block" name="loginButton" onClick={this.getBooksClicked}>get books</button>
                   </div>
               </div>
           </div>
