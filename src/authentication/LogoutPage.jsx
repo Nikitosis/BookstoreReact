@@ -5,8 +5,6 @@ class LogoutPage extends React.Component{
 
     onLogoutClick=()=>{
         AuthenticationService.executeLogout();
-        this.props.history.push("/authentication");
-        window.location.reload(true);
     }
 
     render() {

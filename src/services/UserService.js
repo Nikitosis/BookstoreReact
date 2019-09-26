@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthenticationService from "./AuthenticationService";
 
 const API_URL="http://localhost:9000";
 
@@ -6,6 +7,12 @@ class UserService{
 
     getUserInfo(userId){
         return axios.get(`${API_URL}/users/${userId}`)
+            .catch(reason => {
+                if(reason.response.status==401){
+                    console.log("unauthorised, loggint out...");
+                    AuthenticationService.executeLogout();
+                }
+            })
     }
 
     createUser(user){
@@ -15,7 +22,13 @@ class UserService{
                 headers:{
                     'content-type': 'application/json'
                 },
-        });
+        })
+            .catch(reason => {
+                if(reason.response.status==401){
+                    console.log("unauthorised, loggint out...");
+                    AuthenticationService.executeLogout();
+                }
+            })
     }
 
     updateUser(user){
@@ -25,7 +38,13 @@ class UserService{
                 headers:{
                     'content-type': 'application/json'
                 },
-            });
+            })
+            .catch(reason => {
+                if(reason.response.status==401){
+                    console.log("unauthorised, loggint out...");
+                    AuthenticationService.executeLogout();
+                }
+            })
     }
 }
 

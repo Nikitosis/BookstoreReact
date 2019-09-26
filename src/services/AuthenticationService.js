@@ -41,6 +41,7 @@ class AuthenticationService{
         sessionStorage.removeItem(USER_ROLES_SESSION_ATTRIBUTE);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN);
         axios.interceptors.request.eject(this.axiosInterceptor);
+        window.location.reload(true);
     }
 
     registerSuccessfulLogin(token){
@@ -85,6 +86,7 @@ class AuthenticationService{
                 return config;
             }
         )
+
     }
 }
 
