@@ -10,18 +10,10 @@ class BooksService{
         return axios.get(`${API_URL}/users/${userId}/books`);
     }
     returnBookByUserId(userId,bookId){
-        return axios.delete(`${API_URL}/users/${userId}/books`,{
-            params:{
-                "bookId":bookId
-            }
-        })
+        return axios.delete(`${API_URL}/users/${userId}/books/${bookId}`)
     }
     takeBookByUserId(userId,bookId){
-        return axios.put(`${API_URL}/users/${userId}/books`,{},{
-            params:{
-                "bookId":bookId
-            }
-        })
+        return axios.put(`${API_URL}/users/${userId}/books/${bookId}`)
     }
 }
 

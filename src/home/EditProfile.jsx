@@ -34,7 +34,7 @@ class EditProfile extends React.Component{
         return (
             <Modal show={this.props.show} onHide={this.props.onClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.title}</Modal.Title>
+                    <Modal.Title>Edit profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form">
