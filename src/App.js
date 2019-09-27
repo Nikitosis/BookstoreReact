@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from "./mainComponents/Header";
-import ClientList from "./clients/ClientList";
+import UserList from "./clients/UserList";
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
@@ -24,6 +24,7 @@ class App extends React.Component{
                         <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/logout" component={LogoutPage}/>
                         <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/myBooks" component={MyBooksList}/>
                         <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/home" component={HomePage}/>
+                        <PrivateRoute roles={["ROLE_ADMIN"]} path="/users" component={UserList}/>
                         <PrivateRoute nonAuthorised={true} path="/login" component={LoginPage}/>
                         <PrivateRoute nonAuthorised={true} path="/registration" component={RegistrationPage}/>
                     </div>

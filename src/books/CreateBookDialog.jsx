@@ -1,41 +1,45 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
+import AuthenticationService from "../services/AuthenticationService";
 
-class CreateClientModal extends React.Component{
+class CreateBookDialog extends React.Component{
+    constructor(props){
+        super(props);
 
-    firstNameChange =(e)=>{
-        this.setState({firstName: e.target.value});
+        this.state={
+            name:""
+        }
     }
 
-    lastNameChange=(e)=>{
-        this.setState({lastName: e.target.value});
+    // componentWillReceiveProps=(nextProps) =>{
+    //     this.setState({
+    //         firstName: nextProps.curUser.fName,
+    //         lastName: nextProps.curUser.lName
+    //     })
+    // }
+
+    handleChange=(event)=>{
+        this.setState({
+            [event.target.name]:event.target.value
+        })
     }
 
     handleSave=()=>{
-        const client={
-            fName:this.state.firstName,
-            lName:this.state.lastName
-        };
-        this.props.onSave(client);
+        this.props.onSave(this.state.name);
     }
-
 
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.onClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create new client</Modal.Title>
+                    <Modal.Title>Add book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form">
                         <div className="form-group">
-                            <label>First Name</label>
-                            <input type="text" className="form-control" placeholder="First Name" onChange={(e)=>this.firstNameChange(e)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Last Name</label>
-                            <input type="text" className="form-control" placeholder="Last Name" onChange={(e)=>this.lastNameChange(e)}/>
+                            <label>Name</label>
+                            <input type="text" className="form-control" placeholder="Book name" name="name" onChange={this.handleChange}/>
                         </div>
                     </form>
                 </Modal.Body>
@@ -50,6 +54,7 @@ class CreateClientModal extends React.Component{
             </Modal>
         );
     }
+
 }
 
-export default CreateClientModal;
+export default CreateBookDialog;

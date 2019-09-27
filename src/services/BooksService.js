@@ -18,6 +18,20 @@ class BooksService{
     takeBookByUserId(userId,bookId){
         return axios.put(`${API_URL}/users/${userId}/books/${bookId}`)
     }
+
+    saveBook(book){
+        return axios.post(`${API_URL}/books`,
+            book,
+            {
+                headers:{
+                    'content-type': 'application/json'
+                }
+            })
+    }
+
+    deleteBook(id){
+        return axios.delete(`${API_URL}/books/${id}`)
+    }
 }
 
 export default new BooksService();

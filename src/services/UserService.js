@@ -6,6 +6,10 @@ const API_URL=LIBRARY_URL;
 
 class UserService{
 
+    getAll(){
+        return axios.get(`${API_URL}/users`)
+    }
+
     getUserInfo(userId){
         return axios.get(`${API_URL}/users/${userId}`)
     }

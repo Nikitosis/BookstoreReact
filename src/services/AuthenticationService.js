@@ -67,11 +67,11 @@ class AuthenticationService{
         if(!this.isUserLoggedIn()){
             return null;
         }
-        var user=new User(
-            sessionStorage.getItem(USER_ID_SESSION_ATTRIBUTE),
-            sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE),
-            sessionStorage.getItem(USER_ROLES_SESSION_ATTRIBUTE)
-        );
+        var user= {
+            id: sessionStorage.getItem(USER_ID_SESSION_ATTRIBUTE),
+            username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE),
+            roles: sessionStorage.getItem(USER_ROLES_SESSION_ATTRIBUTE)
+        }
         return user;
     }
 
