@@ -14,7 +14,8 @@ class AuthenticationService{
 
     constructor(props) {
         console.log(API_URL);
-        this.axiousInterceptor=null;
+        this.axiousRequestInterceptor=null;
+        this.axiousResponseInterceptor=null;
         if(localStorage.getItem("token")){
             this.registerSuccessfulLogin(localStorage.getItem(LOCAL_STORAGE_TOKEN))
         }
@@ -42,7 +43,8 @@ class AuthenticationService{
         sessionStorage.removeItem(USER_ID_SESSION_ATTRIBUTE);
         sessionStorage.removeItem(USER_ROLES_SESSION_ATTRIBUTE);
         localStorage.removeItem(LOCAL_STORAGE_TOKEN);
-        axios.interceptors.request.eject(this.axiosInterceptor);
+        axios.interceptors.request.eject(this.axiousRequestInterceptor);
+        axios.interceptors.response.eject(this.axiousResponseInterceptor);
         window.location.reload(true);
     }
 
@@ -75,11 +77,15 @@ class AuthenticationService{
 
     //to always setup request headers with authorization token
     setupAxiosInterceptors(token){
-        if(this.axiosInterceptor!=null) {
-            axios.interceptors.request.eject(this.axiosInterceptor);
+        if(this.axiousRequestInterceptor!=null) {
+            axios.interceptors.request.eject(this.axiousRequestInterceptor);
         }
 
-        this.axiosInterceptor =axios.interceptors.request.use(
+        if(this.axiousResponseInterceptor!=null){
+            axios.interceptors.response.eject(this.axiousResponseInterceptor);
+        }
+
+        this.axiousRequestInterceptor =axios.interceptors.request.use(
             (config)=>{
                 if(this.isUserLoggedIn()){
                     console.log("Setting header auth: "+token);
@@ -87,6 +93,19 @@ class AuthenticationService{
                 }
                 return config;
             }
+        )
+
+        this.axiousResponseInterceptor=axios.interceptors.response.use(
+            (response)=> {
+                return response;
+            },
+                (error)=>{
+                    console.log("Response status" + error.response.status);
+                    if (401 == error.response.status) {
+                        console.log("unauthorised, loggint out...");
+                        this.executeLogout();
+                    }
+                }
         )
 
     }

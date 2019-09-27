@@ -22,8 +22,8 @@ class HomePage extends React.Component{
                     })
                 }
             )
-            .catch(()=>{
-                console.log("Cannot load user details");
+            .catch((e)=>{
+                console.log("Cannot load user details"+e);
             })
     }
 
