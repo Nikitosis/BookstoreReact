@@ -1,7 +1,8 @@
 import axios from 'axios';
 import User from "../models/User";
+import {AUTHORISER_URL, LIBRARY_URL} from "../utils/UrlConstraints";
 
-const API_URL="http://localhost:9004";
+const API_URL=AUTHORISER_URL;
 
 export const USER_NAME_SESSION_ATTRIBUTE="authenticatedUsername";
 export const USER_ID_SESSION_ATTRIBUTE="authenticatedUserId";
@@ -12,6 +13,7 @@ const LOCAL_STORAGE_TOKEN="token";
 class AuthenticationService{
 
     constructor(props) {
+        console.log(API_URL);
         this.axiousInterceptor=null;
         if(localStorage.getItem("token")){
             this.registerSuccessfulLogin(localStorage.getItem(LOCAL_STORAGE_TOKEN))

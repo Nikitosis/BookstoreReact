@@ -1,7 +1,8 @@
 import axios from "axios";
 import AuthenticationService from "./AuthenticationService";
+import {LIBRARY_URL} from "../utils/UrlConstraints";
 
-const API_URL="http://localhost:9000";
+const API_URL=LIBRARY_URL
 
 class UserService{
 
