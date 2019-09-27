@@ -12,6 +12,7 @@ import AuthenticationService from "./services/AuthenticationService";
 import MyBooksList from "./myBooks/MyBooksList";
 import LogoutPage from "./authentication/LogoutPage";
 import RegistrationPage from "./authentication/RegistrationPage";
+import LogList from "./logs/LogList";
 
 class App extends React.Component{
     render() {
@@ -25,6 +26,7 @@ class App extends React.Component{
                         <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/myBooks" component={MyBooksList}/>
                         <PrivateRoute roles={["ROLE_USER","ROLE_ADMIN"]} path="/home" component={HomePage}/>
                         <PrivateRoute roles={["ROLE_ADMIN"]} path="/users" component={UserList}/>
+                        <PrivateRoute roles={["ROLE_ADMIN"]} path="/logs" component={LogList}/>
                         <PrivateRoute nonAuthorised={true} path="/login" component={LoginPage}/>
                         <PrivateRoute nonAuthorised={true} path="/registration" component={RegistrationPage}/>
                     </div>
