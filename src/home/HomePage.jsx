@@ -84,7 +84,7 @@ class HomePage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-1">
-                        <button className="btn btn-primary btn-block shadow-lg" onClick={this.openModal}>
+                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.openModal}>
                             <i className="fa fa-edit"></i>
                         </button>
                     </div>

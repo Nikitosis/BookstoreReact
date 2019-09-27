@@ -4,6 +4,7 @@ import BooksService from "../services/BooksService";
 import AuthenticationService from "../services/AuthenticationService";
 import MyBookItem from "./MyBookItem";
 import {ClipLoader} from "react-spinners";
+import styles from "./BookList.module.css";
 
 class MyBooksList extends React.Component{
     state={
@@ -52,16 +53,15 @@ class MyBooksList extends React.Component{
 
     render() {
         return (
-            <div>
-                <div className="container">
-                    <ClipLoader loading={this.state.isLoading}/>
-                    <table className="table table-striped">
-                        <tbody>
-                        {this.state.books.map((book)=>(
-                            <MyBookItem key={book.id} book={book} returnBook={this.returnBook}/>
-                        ))}
-                        </tbody>
-                    </table>
+            <div className="container">
+                <div className={`${styles.cardList} row`}>
+                    {
+                        this.state.books
+                            .map((book)=>(
+                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}/>
+                                )
+                            )
+                    }
                 </div>
             </div>
         );

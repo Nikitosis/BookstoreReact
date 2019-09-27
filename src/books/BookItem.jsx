@@ -1,15 +1,20 @@
 import React from "react";
 import PrivateComponent from "../utils/PrivateComponent";
+import styles from "./BookItem.module.css";
 
 const BookItem=({book,takeBook})=>{
     return (
-        <tr>
-            <td>{book.id}</td>
-            <td>{book.name}</td>
-            <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
-                <td><button className="btn btn-success" onClick={()=>takeBook(book.id)}>Take</button></td>
-            </PrivateComponent>
-        </tr>
+        <div className={`${styles.cardWrapper} col-md-4`}>
+            <div className="card shadow-sm">
+                <div className="card-body">
+                    <h4 className="card-title">{book.name}</h4>
+                    <p className="card-text">Some book description. Will be added later on</p>
+                    <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
+                        <td><button className="btn btn-success" onClick={()=>takeBook(book.id)}>Take</button></td>
+                    </PrivateComponent>
+                </div>
+            </div>
+        </div>
     );
 };
 

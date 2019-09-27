@@ -13,7 +13,7 @@ class Header extends React.Component{
                     <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
                         <li className="nav-item"><NavLink to="/home" className="nav-link">Home</NavLink></li>
                     </PrivateComponent>
-                    <PrivateComponent roles={["ROLE_USER"]}>
+                    <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
                         <li className="nav-item"><NavLink to="/myBooks" className="nav-link">My books</NavLink></li>
                     </PrivateComponent>
                     <PrivateComponent nonAuthorised={true}>
