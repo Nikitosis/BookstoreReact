@@ -1,7 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
-import AuthenticationService from "../services/AuthenticationService";
 
 class CreateBookDialog extends React.Component{
     constructor(props){
@@ -11,14 +10,6 @@ class CreateBookDialog extends React.Component{
             name:""
         }
     }
-
-    // componentWillReceiveProps=(nextProps) =>{
-    //     this.setState({
-    //         firstName: nextProps.curUser.fName,
-    //         lastName: nextProps.curUser.lName
-    //     })
-    // }
-
     handleChange=(event)=>{
         this.setState({
             [event.target.name]:event.target.value

@@ -3,7 +3,6 @@ import AuthenticationService from "../services/AuthenticationService";
 import UserService from "../services/UserService";
 import {ClipLoader} from "react-spinners";
 import styles from "./HomePage.module.css";
-import User from "../models/User";
 import EditProfile from "./EditProfile";
 
 class HomePage extends React.Component{

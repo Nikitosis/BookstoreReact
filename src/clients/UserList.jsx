@@ -1,10 +1,6 @@
 import React from "react";
 import UserItem from "./UserItem";
-import Button from "react-bootstrap/Button";
-import BooksService from "../services/BooksService";
-import Book from "../models/Book";
 import UserService from "../services/UserService";
-import User from "../models/User";
 
 class UserList extends React.Component{
     constructor(props){
@@ -37,11 +33,11 @@ class UserList extends React.Component{
 
     componentDidMount() {
         this.fetchUsers();
-        this.timer = setInterval(() => this.fetchUsers(), 5000);
+        this.timer=setInterval(()=>this.fetchUsers(),5000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.timer);
         this.timer=null;
     }
 

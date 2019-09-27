@@ -6,12 +6,13 @@ export const PrivateRoute = ({ component: Component, roles,nonAuthorised, ...res
     <Route {...rest} render={props => {
         const currentUser = AuthenticationService.getCurrentUser();
 
+        //not logged in, but nonAuthorised flag
         if(nonAuthorised &&!currentUser){
             return <Component {...props} />
         }
 
+        // not logged in so redirect to login page with the return url
         if (!currentUser) {
-            // not logged in so redirect to login page with the return url
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
@@ -20,14 +21,14 @@ export const PrivateRoute = ({ component: Component, roles,nonAuthorised, ...res
         let accessRoles=roles;
         let userRoles=currentUser.roles.split(",");
         for(let i=0;i<userRoles.length;i++){
-            if(accessRoles && accessRoles.indexOf(userRoles[i])!=-1){
+            if(accessRoles && accessRoles.indexOf(userRoles[i])!==-1){
                 isRolePass=true;
                 break;
             }
         }
 
-        if (!accessRoles) {
-            // role not authorised so redirect to home page
+        // role not authorised so redirect to home page
+        if (!isRolePass) {
             return <Redirect to={{ pathname: '/'}} />
         }
 

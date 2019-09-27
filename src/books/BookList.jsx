@@ -98,7 +98,7 @@ class BookList extends React.Component{
                 <div className={`${styles.cardList} row`}>
                     {
                         this.state.books
-                        .filter((book)=> book.taken==false)
+                        .filter((book)=> book.taken===false)
                         .map((book)=>(
                                 <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}/>
                                 )

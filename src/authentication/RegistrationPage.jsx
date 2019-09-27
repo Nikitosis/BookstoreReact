@@ -72,9 +72,9 @@ class RegistrationPage extends React.Component{
     }
 
     render() {
-        const usernameValidation=this.state.usernameHelp=="" ? "" : "is-invalid";
-        const passwordValidation=this.state.passwordHelp=="" ? "" : "is-invalid";
-        const repeatPasswordValidation=this.state.repeatPasswordHelp=="" ? "" : "is-invalid";
+        const usernameValidation=this.state.usernameHelp==="" ? "" : "is-invalid";
+        const passwordValidation=this.state.passwordHelp==="" ? "" : "is-invalid";
+        const repeatPasswordValidation=this.state.repeatPasswordHelp==="" ? "" : "is-invalid";
 
         return (
             <div className="container">

@@ -10,7 +10,7 @@ const MyBookItem=({book,returnBook})=>{
                         <h4 className="card-title">{book.name}</h4>
                         <p className="card-text">Some book description. Will be added later on</p>
                         <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
-                            <td><button className="btn btn-danger" onClick={()=>returnBook(book.id)}>Return book</button></td>
+                            <button className="btn btn-danger" onClick={()=>returnBook(book.id)}>Return book</button>
                         </PrivateComponent>
                     </div>
                 </div>

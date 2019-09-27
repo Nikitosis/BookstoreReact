@@ -1,6 +1,5 @@
 import axios from 'axios';
-import User from "../models/User";
-import {AUTHORISER_URL, LIBRARY_URL} from "../utils/UrlConstraints";
+import {AUTHORISER_URL} from "../utils/UrlConstraints";
 
 const API_URL=AUTHORISER_URL;
 
@@ -13,7 +12,6 @@ const LOCAL_STORAGE_TOKEN="token";
 class AuthenticationService{
 
     constructor(props) {
-        console.log(API_URL);
         this.axiousRequestInterceptor=null;
         this.axiousResponseInterceptor=null;
         if(localStorage.getItem("token")){
@@ -101,7 +99,7 @@ class AuthenticationService{
             },
                 (error)=>{
                     console.log("Response status" + error.response.status);
-                    if (401 == error.response.status) {
+                    if (401 === error.response.status) {
                         console.log("unauthorised, loggint out...");
                         this.executeLogout();
                     }

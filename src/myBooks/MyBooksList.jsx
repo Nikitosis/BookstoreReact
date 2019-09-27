@@ -1,9 +1,7 @@
 import React from "react";
-import BookItem from "../books/BookItem";
 import BooksService from "../services/BooksService";
 import AuthenticationService from "../services/AuthenticationService";
 import MyBookItem from "./MyBookItem";
-import {ClipLoader} from "react-spinners";
 import styles from "./BookList.module.css";
 
 class MyBooksList extends React.Component{
