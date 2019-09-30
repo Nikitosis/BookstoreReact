@@ -1,19 +1,20 @@
 import React from "react";
-import AuthenticationService from "../services/AuthenticationService";
 import UserService from "../services/UserService";
 import {ClipLoader} from "react-spinners";
-import styles from "./HomePage.module.css";
-import EditProfile from "./EditProfile";
+import styles from "./UserPage.module.css"
+import {withRouter} from "react-router-dom";
 
-class HomePage extends React.Component{
+class UserPage extends React.Component{
 
-    state={
-        curUser:null,
-        isModalOpened:false
+    constructor(props){
+        super(props);
+        this.state={
+            curUser:null
+        }
     }
 
     componentDidMount() {
-        UserService.getUserInfo(AuthenticationService.getCurrentUser().id)
+        UserService.getUserInfo(this.props.match.params.userId)
             .then(res=> {
                     const user=res.data;
                     this.setState({
@@ -26,37 +27,9 @@ class HomePage extends React.Component{
             })
     }
 
-    updateUser=(firstName,lastName)=>{
-        let user={
-            id:AuthenticationService.getCurrentUser().id,
-            fName:firstName,
-            lName:lastName
-        }
-        UserService.updateUser(user)
-            .then(res=>{
-                const user=res.data;
-                this.setState({
-                    curUser:user
-                })
-            })
-            .catch((e)=>{
-                console.log("Cannot update user");
-            })
-        this.closeModal();
+    openBooksPage=()=>{
+        this.props.history.push("/users/"+this.props.match.params.userId+"/books");
     }
-
-    closeModal=()=>{
-        this.setState({
-            isModalOpened:false
-        })
-    }
-
-    openModal=()=>{
-        this.setState({
-            isModalOpened:true
-        })
-    }
-
 
     render() {
         if(this.state.curUser==null){
@@ -83,17 +56,16 @@ class HomePage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-1">
-                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.openModal}>
-                            <i className="fa fa-edit"></i>
+                        <button className={`${styles.profile__openBooksButton} btn btn-primary btn-block shadow-lg`} onClick={this.openBooksPage}>
+                            <i className="fa fa-book"></i>
                         </button>
                     </div>
                 </div>
 
-                <EditProfile curUser={this.state.curUser} onSave={this.updateUser} onClose={this.closeModal} show={this.state.isModalOpened}/>
             </div>
 
         );
     }
 }
 
-export default HomePage;
+export default withRouter(UserPage);

@@ -1,6 +1,6 @@
 import React from "react";
 import LogService from "../services/LogService";
-import UserItem from "../clients/UserItem";
+import UserItem from "../users/UserItem";
 import LogItem from "./LogItem";
 
 class LogList extends React.Component{
