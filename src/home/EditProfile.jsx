@@ -13,7 +13,8 @@ class EditProfile extends React.Component{
             city:props.curUser.city,
             gender:props.curUser.gender,
             email:props.curUser.email,
-            phone:props.curUser.phone
+            phone:props.curUser.phone,
+            avatarPreviewUrl:props.curUser.avatarLink
         }
     }
 
@@ -25,7 +26,8 @@ class EditProfile extends React.Component{
             city:nextProps.curUser.city,
             gender:nextProps.curUser.gender,
             email:nextProps.curUser.email,
-            phone:nextProps.curUser.phone
+            phone:nextProps.curUser.phone,
+            avatarPreviewUrl:nextProps.curUser.avatarLink
         })
     }
 
@@ -38,7 +40,8 @@ class EditProfile extends React.Component{
 
     handleChangeFile=(event)=>{
         this.setState({
-            [event.target.name]:event.target.files[0]
+            [event.target.name]:event.target.files[0],
+            avatarPreviewUrl:URL.createObjectURL(event.target.files[0])
         })
     }
 
@@ -94,9 +97,13 @@ class EditProfile extends React.Component{
                             <input type="tel" className={"form-control"} placeholder="+38012334123" pattern={"[+]{1}[0-9]{11,14}"} name="phone" defaultValue={this.state.phone} onChange={this.handleChange}/>
                         </div>
 
-                        <div className="custom-file">
-                            <input type="file" className="custom-file-input" id="avatar" name="avatar" accept="image/*" onChange={this.handleChangeFile}/>
-                            <label className="custom-file-label" htmlFor="avatar">Choose file</label>
+                        <div className={"form-group"}>
+                            <p className={"font-weight-bold"}>Avatar: </p>
+                            <div className="custom-file">
+                                <input type="file" className="custom-file-input" id="avatar" name="avatar" accept="image/*" onChange={this.handleChangeFile}/>
+                                <label className="custom-file-label" htmlFor="avatar">Choose file</label>
+                            </div>
+                            <img src={this.state.avatarPreviewUrl} className={"img-thumbnail"} alt=""/>
                         </div>
                     </form>
                 </Modal.Body>
