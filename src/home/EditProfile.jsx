@@ -32,7 +32,6 @@ class EditProfile extends React.Component{
     }
 
     handleChange=(event)=>{
-        console.log(event);
         this.setState({
             [event.target.name]:event.target.value
         })
@@ -46,7 +45,6 @@ class EditProfile extends React.Component{
     }
 
     handleSave=()=>{
-        console.log(this.state);
         this.props.onSave(this.state.firstName,
             this.state.lastName,
             this.state.country,
@@ -103,7 +101,9 @@ class EditProfile extends React.Component{
                                 <input type="file" className="custom-file-input" id="avatar" name="avatar" accept="image/*" onChange={this.handleChangeFile}/>
                                 <label className="custom-file-label" htmlFor="avatar">Choose file</label>
                             </div>
-                            <img src={this.state.avatarPreviewUrl} className={"img-thumbnail"} alt=""/>
+                            {this.state.avatarPreviewUrl != null &&
+                                <img src={this.state.avatarPreviewUrl} className={"img-thumbnail"} alt=""/>
+                            }
                         </div>
                     </form>
                 </Modal.Body>
