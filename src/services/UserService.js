@@ -14,11 +14,18 @@ class UserService{
     }
 
     createUser(user){
+        let userInfoJson=JSON.stringify(user);
+        let userInfo=new Blob([userInfoJson],{
+            type:'application/json'
+        });
+
+        let formData=new FormData();
+        formData.append('userInfo',userInfo);
         return axios.post(`${API_URL}/users`,
-            user,
+            formData,
             {
                 headers:{
-                    'content-type': 'application/json'
+                    'content-type': 'multipart/form-data'
                 },
         })
     }
