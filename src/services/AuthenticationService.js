@@ -99,7 +99,7 @@ class AuthenticationService{
             },
                 (error)=>{
                     console.log("Response status" + error.response.status);
-                    if (401 === error.response.status) {
+                    if (403 === error.response.status) {
                         console.log("unauthorised, loggint out...");
                         this.executeLogout();
                     }
