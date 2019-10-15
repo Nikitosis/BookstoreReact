@@ -23,12 +23,21 @@ class UserService{
         })
     }
 
-    updateUser(user){
+    updateUser(user,avatar){
+        let userInfoJson=JSON.stringify(user);
+        let userInfo=new Blob([userInfoJson],{
+            type:'application/json'
+        });
+
+        let formData=new FormData();
+        formData.append('userInfo',userInfo);
+        if(avatar!=null)
+            formData.append("image",avatar);
         return axios.put(`${API_URL}/users`,
-            user,
+            formData,
             {
                 headers:{
-                    'content-type': 'application/json'
+                    'content-type': 'multipart/form-data'
                 },
             })
     }

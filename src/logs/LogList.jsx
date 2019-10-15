@@ -46,6 +46,15 @@ class LogList extends React.Component{
         return (
             <div className="container">
                 <table className="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>User id</th>
+                        <th>Book id</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
                     <tbody>
                     {this.state.logs.map((log)=>(
                         <LogItem key={log.id} log={log}/>

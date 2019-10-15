@@ -45,13 +45,10 @@ class UserPage extends React.Component{
                         <div className={`${styles.profile__description} col-md-8 row`}>
                             <p className={`${styles.profile__name} col-md-12`}>{this.state.curUser.fName} {this.state.curUser.lName}</p>
                             <p className="col-md-3">Country: </p>
-                            <p className="col-md-9">United stetes</p>
+                            <p className="col-md-9">{this.state.curUser.country}</p>
 
                             <p className="col-md-3">City: </p>
-                            <p className="col-md-9">Arizena</p>
-
-                            <p className="col-md-3">Description: </p>
-                            <p className="col-md-9">My name is Name and last name is Surname</p>
+                            <p className="col-md-9">{this.state.curUser.city}</p>
 
                         </div>
                     </div>

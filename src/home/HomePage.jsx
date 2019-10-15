@@ -26,13 +26,19 @@ class HomePage extends React.Component{
             })
     }
 
-    updateUser=(firstName,lastName)=>{
+    updateUser=(firstName,lastName,country,city,gender,email,phone,avatar)=>{
         let user={
             id:AuthenticationService.getCurrentUser().id,
+            username:AuthenticationService.getCurrentUser().username,
             fName:firstName,
-            lName:lastName
+            lName:lastName,
+            country:country,
+            city:city,
+            gender:gender,
+            email:email,
+            phone:phone
         }
-        UserService.updateUser(user)
+        UserService.updateUser(user,avatar)
             .then(res=>{
                 const user=res.data;
                 this.setState({
@@ -62,7 +68,7 @@ class HomePage extends React.Component{
         if(this.state.curUser==null){
             return <ClipLoader loading={true}/>;
         }
-        const imgUrl="/userImage.png";
+        const imgUrl=this.state.curUser.avatarLink==null ? "/userImage.png" : this.state.curUser.avatarLink;
 
         return (
             <div className={`${styles.content} container`}>
@@ -72,13 +78,25 @@ class HomePage extends React.Component{
                         <div className={`${styles.profile__description} col-md-8 row`}>
                             <p className={`${styles.profile__name} col-md-12`}>{this.state.curUser.fName} {this.state.curUser.lName}</p>
                             <p className="col-md-3">Country: </p>
-                            <p className="col-md-9">United stetes</p>
+                            <p className="col-md-9">{this.state.curUser.country}</p>
 
                             <p className="col-md-3">City: </p>
-                            <p className="col-md-9">Arizena</p>
+                            <p className="col-md-9">{this.state.curUser.city}</p>
 
-                            <p className="col-md-3">Description: </p>
-                            <p className="col-md-9">My name is Name and last name is Surname</p>
+                            <p className="col-md-3">Gender: </p>
+                            <p className="col-md-9">{this.state.curUser.gender}</p>
+
+                            <p className="col-md-3">Email: </p>
+                            <p className="col-md-7">{this.state.curUser.email}</p>
+                            {this.state.curUser.emailVerified &&
+                            <p className={"col-md-2 small text-success"}>Verified</p>
+                            }
+                            {!this.state.curUser.emailVerified &&
+                            <p className={"col-md-2 small text-danger"}>Not verified</p>
+                            }
+
+                            <p className="col-md-3">Phone: </p>
+                            <p className="col-md-9">{this.state.curUser.phone}</p>
 
                         </div>
                     </div>

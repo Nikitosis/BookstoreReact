@@ -8,7 +8,7 @@ class LogItem extends React.Component{
                 <td>{this.props.log.userId}</td>
                 <td>{this.props.log.bookId}</td>
                 <td>{this.props.log.date}</td>
-                <td>{this.props.log.action}</td>
+                <td className={this.props.log.action==="TAKE" ? "text-success" : "text-danger"}>{this.props.log.action}</td>
             </tr>
         );
     }
