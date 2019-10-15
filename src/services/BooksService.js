@@ -18,12 +18,22 @@ class BooksService{
         return axios.put(`${API_URL}/users/${userId}/books/${bookId}`)
     }
 
-    saveBook(book){
+    saveBook(book,image,file){
+        let bookInfoJson=JSON.stringify(book);
+        let bookInfo=new Blob([bookInfoJson],{
+            type:'application/json'
+        });
+
+        let formData=new FormData();
+        formData.append('bookInfo',bookInfo);
+        formData.append("image",image);
+        formData.append("file",file);
+
         return axios.post(`${API_URL}/books`,
-            book,
+            formData,
             {
                 headers:{
-                    'content-type': 'application/json'
+                    'content-type': 'multipart/form-data'
                 }
             })
     }

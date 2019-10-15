@@ -30,7 +30,7 @@ class BookList extends React.Component{
     fetchBooks=()=>{
         BooksService.getAllBooks()
             .then((res)=>{
-                let books=res.data.map((book)=> new Book(book.id,book.name,book.taken));
+                let books=res.data.map((book)=> new Book(book.id,book.name,book.isbn,book.price,book.photoLink));
                 this.setState({
                     books:books,
                     isLoading:false
@@ -66,9 +66,13 @@ class BookList extends React.Component{
         })
     }
 
-    saveBook=(name)=>{
-        let book=new Book(null, name ,null);
-        BooksService.saveBook(book)
+    saveBook=(name,isbn,price,image,file)=>{
+        let book={
+            name:name,
+            isbn:isbn,
+            price:price
+        }
+        BooksService.saveBook(book,image,file)
             .then(res=>{
                 this.fetchBooks();
             })
@@ -92,13 +96,12 @@ class BookList extends React.Component{
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-                    <CreateBookDialog onSave={this.saveBook} onClose={this.closeCreateModal} show={this.state.isCreateModalOpened}/>
+                    <CreateBookDialog onSave={this.saveBook} onClose={this.closeCreateModal} show={this.state.isCreateModalOpened} curBook={{}}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>
                     {
                         this.state.books
-                        .filter((book)=> book.taken===false)
                         .map((book)=>(
                                 <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}/>
                                 )

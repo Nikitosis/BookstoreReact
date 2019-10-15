@@ -1,7 +1,9 @@
 export default class Book{
-    constructor(id,name,taken){
+    constructor(id,name,isbn,price,photoLink){
         this.id=id;
         this.name=name;
-        this.taken=taken;
+        this.isbn=isbn;
+        this.photoLink=photoLink;
+        this.price=price;
     }
 }
