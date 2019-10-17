@@ -4,71 +4,29 @@ import UserService from "../services/UserService";
 import {ClipLoader} from "react-spinners";
 import styles from "./HomePage.module.css";
 import EditProfile from "./EditProfile";
+import connect from "react-redux/lib/connect/connect";
+import {
+    closeModal,
+    fetchUser,
+    openModal,
+    updateUser,
+} from "../redux/reducers/homePageReducer";
 
 class HomePage extends React.Component{
-
-    state={
-        curUser:null,
-        isModalOpened:false
+    constructor(props) {
+        super(props);
     }
 
     componentDidMount() {
-        UserService.getUserInfo(AuthenticationService.getCurrentUser().id)
-            .then(res=> {
-                    const user=res.data;
-                    this.setState({
-                        curUser:user
-                    })
-                }
-            )
-            .catch((e)=>{
-                console.log("Cannot load user details"+e);
-            })
+        this.props.fetchUser();
     }
-
-    updateUser=(firstName,lastName,country,city,gender,email,phone,avatar)=>{
-        let user={
-            id:AuthenticationService.getCurrentUser().id,
-            username:AuthenticationService.getCurrentUser().username,
-            fName:firstName,
-            lName:lastName,
-            country:country,
-            city:city,
-            gender:gender,
-            email:email,
-            phone:phone
-        }
-        UserService.updateUser(user,avatar)
-            .then(res=>{
-                const user=res.data;
-                this.setState({
-                    curUser:user
-                })
-            })
-            .catch((e)=>{
-                console.log("Cannot update user");
-            })
-        this.closeModal();
-    }
-
-    closeModal=()=>{
-        this.setState({
-            isModalOpened:false
-        })
-    }
-
-    openModal=()=>{
-        this.setState({
-            isModalOpened:true
-        })
-    }
-
 
     render() {
-        if(this.state.curUser==null){
+        if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }
-        const imgUrl=this.state.curUser.avatarLink==null ? "/userImage.png" : this.state.curUser.avatarLink;
+
+        const imgUrl=this.props.curUser.avatarLink==null ? "/userImage.png" : this.props.curUser.avatarLink;
 
         return (
             <div className={`${styles.content} container`}>
@@ -76,42 +34,62 @@ class HomePage extends React.Component{
                     <div className={`${styles.card} row col-md-11 shadow-lg p-0`}>
                         <div className={`${styles.profilePhoto} col-md-4`} style={{backgroundImage: "url("+imgUrl+")"}}></div>
                         <div className={`${styles.profile__description} col-md-8 row`}>
-                            <p className={`${styles.profile__name} col-md-12`}>{this.state.curUser.fName} {this.state.curUser.lName}</p>
+                            <p className={`${styles.profile__name} col-md-12`}>{this.props.curUser.fName} {this.props.curUser.lName}</p>
                             <p className="col-md-3">Country: </p>
-                            <p className="col-md-9">{this.state.curUser.country}</p>
+                            <p className="col-md-9">{this.props.curUser.country}</p>
 
                             <p className="col-md-3">City: </p>
-                            <p className="col-md-9">{this.state.curUser.city}</p>
+                            <p className="col-md-9">{this.props.curUser.city}</p>
 
                             <p className="col-md-3">Gender: </p>
-                            <p className="col-md-9">{this.state.curUser.gender}</p>
+                            <p className="col-md-9">{this.props.curUser.gender}</p>
 
                             <p className="col-md-3">Email: </p>
-                            <p className="col-md-7">{this.state.curUser.email}</p>
-                            {this.state.curUser.emailVerified &&
+                            <p className="col-md-7">{this.props.curUser.email}</p>
+                            {this.props.curUser.emailVerified &&
                             <p className={"col-md-2 small text-success"}>Verified</p>
                             }
-                            {!this.state.curUser.emailVerified &&
+                            {!this.props.curUser.emailVerified &&
                             <p className={"col-md-2 small text-danger"}>Not verified</p>
                             }
 
                             <p className="col-md-3">Phone: </p>
-                            <p className="col-md-9">{this.state.curUser.phone}</p>
+                            <p className="col-md-9">{this.props.curUser.phone}</p>
 
                         </div>
                     </div>
                     <div className="col-md-1">
-                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.openModal}>
+                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.props.openModal}>
                             <i className="fa fa-edit"></i>
                         </button>
                     </div>
                 </div>
 
-                <EditProfile curUser={this.state.curUser} onSave={this.updateUser} onClose={this.closeModal} show={this.state.isModalOpened}/>
+                <EditProfile curUser={this.props.curUser} onSave={this.props.updateUser} onClose={this.props.closeModal} show={this.props.isModalOpened}/>
             </div>
 
         );
     }
 }
 
-export default HomePage;
+function mapStateToProps(state){
+    return {
+        curUser: state.homePage.user,
+        isLoading:state.homePage.isLoading,
+        isModalOpened:state.homePage.isModalOpened,
+        error:state.homePage.error
+    }
+}
+function mapDispatchToProps(dispatch){
+    return{
+        fetchUser: ()=>dispatch(fetchUser()),
+        updateUser:(firstName,lastName,country,city,gender,email,phone,avatar)=>dispatch(updateUser(firstName,lastName,country,city,gender,email,phone,avatar)),
+        openModal:()=>dispatch(openModal()),
+        closeModal:()=>dispatch(closeModal())
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomePage)
