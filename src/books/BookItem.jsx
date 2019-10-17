@@ -3,7 +3,6 @@ import PrivateComponent from "../utils/PrivateComponent";
 import styles from "./BookItem.module.css";
 
 const BookItem=({book,takeBook,deleteBook})=>{
-    console.log(book);
     let imgUrl=book.photoLink!=null ? book.photoLink : "/bookImage.png";
 
     return (
@@ -13,6 +12,7 @@ const BookItem=({book,takeBook,deleteBook})=>{
                     <h4 className="card-title">{book.name}</h4>
                     <div className={`${styles.bookPhoto}`} style={{backgroundImage: "url("+imgUrl+")"}}></div>
                     <p className="card-text">Some book description. Will be added later on</p>
+                    <p className={`${styles.price}`}>Price: <em>{book.price}$</em></p>
                     <div className="row">
                         <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
                             <button className={`${styles.control_button} btn btn-success col-md-5 mr-auto`} onClick={()=>takeBook(book.id)}>Take</button>
