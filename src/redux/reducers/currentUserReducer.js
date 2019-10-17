@@ -19,7 +19,7 @@ const initialState={
     isModalOpened: false
 }
 
-function homePageReducer(state=initialState, action){
+function currentUserReducer(state=initialState, action){
     switch (action.type) {
         case FETCH_USER_STARTED:
             return {
@@ -46,6 +46,7 @@ function homePageReducer(state=initialState, action){
         case UPDATE_USER_SUCCESS:
             return{
                 ...state,
+                user:action.payload,
                 isModalOpened: false
             }
         case UPDATE_USER_FAILURE:
@@ -140,4 +141,4 @@ export function updateUser(firstName,lastName,country,city,gender,email,phone,av
     }
 }
 
-export default homePageReducer;
+export default currentUserReducer;

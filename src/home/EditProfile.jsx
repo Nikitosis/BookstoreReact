@@ -37,9 +37,9 @@ class EditProfile extends React.Component{
         })
     }
 
-    handleChangeFile=(event)=>{
+    handleChangeImage=(event)=>{
         this.setState({
-            [event.target.name]:event.target.files[0],
+            avatar:event.target.files[0],
             avatarPreviewUrl:URL.createObjectURL(event.target.files[0])
         })
     }
@@ -98,7 +98,7 @@ class EditProfile extends React.Component{
                         <div className={"form-group"}>
                             <p className={"font-weight-bold"}>Avatar: </p>
                             <div className="custom-file">
-                                <input type="file" className="custom-file-input" id="avatar" name="avatar" accept="image/*" onChange={this.handleChangeFile}/>
+                                <input type="file" className="custom-file-input" id="avatar" name="avatar" accept="image/*" onChange={this.handleChangeImage}/>
                                 <label className="custom-file-label" htmlFor="avatar">Choose file</label>
                             </div>
                             {this.state.avatarPreviewUrl != null &&

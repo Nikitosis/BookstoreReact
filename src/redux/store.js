@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import homePageReducer from "./reducers/homePageReducer";
+import currentUserReducer from "./reducers/currentUserReducer";
 
 const reducers=combineReducers({
-    homePage:homePageReducer
+    homePage:currentUserReducer
 });
 
 const store=createStore(

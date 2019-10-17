@@ -10,7 +10,7 @@ import {
     fetchUser,
     openModal,
     updateUser,
-} from "../redux/reducers/homePageReducer";
+} from "../redux/reducers/currentUserReducer";
 
 class HomePage extends React.Component{
     constructor(props) {
