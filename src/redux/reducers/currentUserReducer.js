@@ -7,17 +7,13 @@ const FETCH_USER_SUCCESS="FETCH_USER_SUCCESS";
 const FETCH_USER_FAILURE="FETCH_USER_FAILURE";
 
 const UPDATE_USER_STARTED="UPDATE_USER_STARTED";
-const UPDATE_USER_SUCCESS="UPDATE_USER_SUCCESS";
+export const UPDATE_USER_SUCCESS="UPDATE_USER_SUCCESS";
 const UPDATE_USER_FAILURE="UPDATE_USER_FAILURE";
-
-const OPEN_MODAL="OPEN_MODAL";
-const CLOSE_MODAL="CLOSE_MODAL";
 
 const initialState={
     user:null,
     loading:false,
     error:null,
-    isModalOpened: false
 }
 
 function currentUserReducer(state=initialState, action){
@@ -48,22 +44,11 @@ function currentUserReducer(state=initialState, action){
             return{
                 ...state,
                 user:action.payload,
-                isModalOpened: false
             }
         case UPDATE_USER_FAILURE:
             return {
                 ...state,
                 error: action.payload
-            }
-        case OPEN_MODAL:
-            return{
-                ...state,
-                isModalOpened: true
-            }
-        case CLOSE_MODAL:
-            return{
-                ...state,
-                isModalOpened: false
             }
         case LOGIN_USER_SUCCESS:
             return{
@@ -103,14 +88,6 @@ export function updateUserSuccess(user){
 
 export function updateUserFailure(error) {
     return {type:UPDATE_USER_FAILURE,payload:error};
-}
-
-export function openModal(){
-    return {type:OPEN_MODAL};
-}
-
-export function closeModal(){
-    return {type:CLOSE_MODAL};
 }
 
 export function fetchUser(){
