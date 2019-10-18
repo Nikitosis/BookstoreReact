@@ -14,6 +14,7 @@ const initialState={
     user:null,
     loading:false,
     error:null,
+    token:null,
 }
 
 function currentUserReducer(state=initialState, action){
@@ -53,7 +54,8 @@ function currentUserReducer(state=initialState, action){
         case LOGIN_USER_SUCCESS:
             return{
                 ...state,
-                user:action.payload
+                user:action.payload.user,
+                token:action.payload.token
             }
         case LOGOUT_USER:
             return{
@@ -61,7 +63,6 @@ function currentUserReducer(state=initialState, action){
                 user:null
             }
         default:
-            debugger;
             return state;
     }
 }

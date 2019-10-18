@@ -1,6 +1,5 @@
 import React from "react";
-import AuthenticationService from "../redux/services/AuthenticationService";
-import {logoutUser} from "../redux/reducers/loginReducer";
+import {executeLogout} from "../redux/reducers/loginReducer";
 import connect from "react-redux/lib/connect/connect";
 
 function LogoutPage(props){
@@ -13,7 +12,7 @@ function LogoutPage(props){
 
 function mapDispatchToProps(dispatch){
     return{
-        executeLogout:()=>dispatch(logoutUser()),
+        executeLogout:()=>dispatch(executeLogout()),
     }
 }
 

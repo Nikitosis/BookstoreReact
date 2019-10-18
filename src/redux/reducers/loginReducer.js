@@ -1,4 +1,5 @@
 import AuthenticationService from "../services/AuthenticationService";
+import axios from "axios";
 
 const LOGIN_USER_STARTED="LOGIN_USER_STARTED";
 export const LOGIN_USER_SUCCESS="LOGIN_USER_SUCCESS";
@@ -50,17 +51,23 @@ function loginUserStarted(){
     return {type:LOGIN_USER_STARTED};
 }
 
-function loginUserSuccess(user){
-    return {type:LOGIN_USER_SUCCESS,payload:user};
+function loginUserSuccess(user,token){
+    return {type:LOGIN_USER_SUCCESS,payload:{user,token}};
 }
 
 function loginUserFailed(){
     return {type:LOGIN_USER_FAILED};
 }
 
-export function logoutUser(){
-    debugger;
+function logoutUser(){
     return {type:LOGOUT_USER};
+}
+
+export function executeLogout(){
+    return (dispatch)=>{
+
+        dispatch(logoutUser());
+    }
 }
 
 export function executeLogin(username,password){
@@ -69,7 +76,12 @@ export function executeLogin(username,password){
         AuthenticationService.executeAuthentication(username, password)
             .then((response) => {
                 let user=response.data;
-                dispatch(loginUserSuccess(user));
+                let token=response.headers.authorization;
+
+                axios.defaults.headers.common.authorization = token;
+
+                dispatch(loginUserSuccess(user,token));
+                debugger;
             })
             .catch(() => {
                 dispatch(loginUserFailed());

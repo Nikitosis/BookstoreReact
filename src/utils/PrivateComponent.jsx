@@ -15,7 +15,6 @@ function PrivateComponent(props){
         }
 
         // check if route is restricted by role
-    debugger;
         let isRolePass=false;
         let accessRoles=props.roles!==undefined? props.roles : null;
         let userRoles=currentUser.roles.map(role=> role.name);
