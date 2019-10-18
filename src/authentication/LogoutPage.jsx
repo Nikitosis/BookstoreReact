@@ -1,19 +1,20 @@
 import React from "react";
 import AuthenticationService from "../redux/services/AuthenticationService";
+import {logoutUser} from "../redux/reducers/loginReducer";
+import connect from "react-redux/lib/connect/connect";
 
-class LogoutPage extends React.Component{
+function LogoutPage(props){
+    return (
+        <div className="conatiner">
+            <div className="btn btn-primary" onClick={props.executeLogout}>Logout</div>
+        </div>
+    );
+}
 
-    onLogoutClick=()=>{
-        AuthenticationService.executeLogout();
-    }
-
-    render() {
-        return (
-            <div className="conatiner">
-                <div className="btn btn-primary" onClick={this.onLogoutClick}>Logout</div>
-            </div>
-        );
+function mapDispatchToProps(dispatch){
+    return{
+        executeLogout:()=>dispatch(logoutUser()),
     }
 }
 
-export default LogoutPage;
+export default connect(null,mapDispatchToProps)(LogoutPage);

@@ -3,6 +3,7 @@ import AuthenticationService from "../services/AuthenticationService";
 const LOGIN_USER_STARTED="LOGIN_USER_STARTED";
 export const LOGIN_USER_SUCCESS="LOGIN_USER_SUCCESS";
 const LOGIN_USER_FAILED="LOGIN_USER_FAILED";
+export const LOGOUT_USER="LOGOUT_USER";
 
 const initialState={
     isLoginFailed:false,
@@ -33,6 +34,12 @@ export default function loginReducer(state=initialState, action){
                 isLoginFailed: true,
                 isLogged:false,
             }
+        case LOGOUT_USER:
+            return{
+                ...state,
+                isLogged: false
+            }
+
         default:
             return state;
 
@@ -43,12 +50,17 @@ function loginUserStarted(){
     return {type:LOGIN_USER_STARTED};
 }
 
-function loginUserSuccess(user,token){
-    return {type:LOGIN_USER_SUCCESS,payload:{user,token}};
+function loginUserSuccess(user){
+    return {type:LOGIN_USER_SUCCESS,payload:user};
 }
 
 function loginUserFailed(){
     return {type:LOGIN_USER_FAILED};
+}
+
+export function logoutUser(){
+    debugger;
+    return {type:LOGOUT_USER};
 }
 
 export function executeLogin(username,password){
@@ -56,7 +68,8 @@ export function executeLogin(username,password){
         dispatch(loginUserStarted());
         AuthenticationService.executeAuthentication(username, password)
             .then((response) => {
-                dispatch(loginUserSuccess(response.data,response.headers.authorization));
+                let user=response.data;
+                dispatch(loginUserSuccess(user));
             })
             .catch(() => {
                 dispatch(loginUserFailed());

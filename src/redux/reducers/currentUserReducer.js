@@ -1,6 +1,6 @@
 import UserService from "../services/UserService";
 import AuthenticationService from "../services/AuthenticationService";
-import {LOGIN_USER_SUCCESS} from "./loginReducer";
+import {LOGIN_USER_SUCCESS, LOGOUT_USER} from "./loginReducer";
 
 const FETCH_USER_STARTED="FETCH_USER_STARTED";
 const FETCH_USER_SUCCESS="FETCH_USER_SUCCESS";
@@ -14,7 +14,7 @@ const OPEN_MODAL="OPEN_MODAL";
 const CLOSE_MODAL="CLOSE_MODAL";
 
 const initialState={
-    user:JSON.parse(localStorage.getItem("user")),
+    user:null,
     loading:false,
     error:null,
     isModalOpened: false
@@ -28,7 +28,6 @@ function currentUserReducer(state=initialState, action){
                 loading:true
             }
         case FETCH_USER_SUCCESS:
-            localStorage.setItem("user",JSON.stringify(action.payload));
             return{
                 ...state,
                 loading:false,
@@ -46,7 +45,6 @@ function currentUserReducer(state=initialState, action){
                 ...state,
             }
         case UPDATE_USER_SUCCESS:
-            localStorage.setItem("user",JSON.stringify(action.payload));
             return{
                 ...state,
                 user:action.payload,
@@ -68,11 +66,14 @@ function currentUserReducer(state=initialState, action){
                 isModalOpened: false
             }
         case LOGIN_USER_SUCCESS:
-            localStorage.setItem("token",action.payload.token);
-            localStorage.setItem("user",JSON.stringify(action.payload.user));
             return{
                 ...state,
-                user:action.payload.user
+                user:action.payload
+            }
+        case LOGOUT_USER:
+            return{
+                ...state,
+                user:null
             }
         default:
             debugger;
@@ -128,10 +129,10 @@ export function fetchUser(){
 }
 
 export function updateUser(firstName,lastName,country,city,gender,email,phone,avatar){
-    return (dispatch)=>{
+    return (dispatch,getState)=>{
         let user={
-            id:AuthenticationService.getCurrentUser().id,
-            username:AuthenticationService.getCurrentUser().username,
+            id:getState().currentUserReducer.user.id,
+            username:getState().currentUserReducer.user.username,
             fName:firstName,
             lName:lastName,
             country:country,
