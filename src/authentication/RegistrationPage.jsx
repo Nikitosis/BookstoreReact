@@ -1,5 +1,5 @@
 import React from "react";
-import UserService from "../services/UserService";
+import UserService from "../redux/services/UserService";
 
 class RegistrationPage extends React.Component{
 

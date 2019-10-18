@@ -1,5 +1,5 @@
 import React from "react";
-import AuthenticationService from "../services/AuthenticationService";
+import AuthenticationService from "../redux/services/AuthenticationService";
 
 class LogoutPage extends React.Component{
 

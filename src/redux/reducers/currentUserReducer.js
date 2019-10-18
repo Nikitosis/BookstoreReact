@@ -1,5 +1,6 @@
-import UserService from "../../services/UserService";
-import AuthenticationService from "../../services/AuthenticationService";
+import UserService from "../services/UserService";
+import AuthenticationService from "../services/AuthenticationService";
+import {LOGIN_USER_SUCCESS} from "./loginReducer";
 
 const FETCH_USER_STARTED="FETCH_USER_STARTED";
 const FETCH_USER_SUCCESS="FETCH_USER_SUCCESS";
@@ -13,7 +14,7 @@ const OPEN_MODAL="OPEN_MODAL";
 const CLOSE_MODAL="CLOSE_MODAL";
 
 const initialState={
-    user:{},
+    user:JSON.parse(localStorage.getItem("user")),
     loading:false,
     error:null,
     isModalOpened: false
@@ -27,6 +28,7 @@ function currentUserReducer(state=initialState, action){
                 loading:true
             }
         case FETCH_USER_SUCCESS:
+            localStorage.setItem("user",JSON.stringify(action.payload));
             return{
                 ...state,
                 loading:false,
@@ -44,6 +46,7 @@ function currentUserReducer(state=initialState, action){
                 ...state,
             }
         case UPDATE_USER_SUCCESS:
+            localStorage.setItem("user",JSON.stringify(action.payload));
             return{
                 ...state,
                 user:action.payload,
@@ -64,7 +67,15 @@ function currentUserReducer(state=initialState, action){
                 ...state,
                 isModalOpened: false
             }
+        case LOGIN_USER_SUCCESS:
+            localStorage.setItem("token",action.payload.token);
+            localStorage.setItem("user",JSON.stringify(action.payload.user));
+            return{
+                ...state,
+                user:action.payload.user
+            }
         default:
+            debugger;
             return state;
     }
 }
@@ -102,9 +113,9 @@ export function closeModal(){
 }
 
 export function fetchUser(){
-        return (dispatch)=>{
+        return (dispatch,getState)=>{
             dispatch(fetchUserStarted());
-            UserService.getUserInfo(AuthenticationService.getCurrentUser().id)
+            UserService.getUserInfo(getState().currentUserReducer.user.id)
                 .then(res=> {
                     const user=res.data;
                     dispatch(fetchUserSuccess(user));

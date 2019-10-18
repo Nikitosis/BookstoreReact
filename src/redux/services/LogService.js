@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGGER_URL} from "../utils/UrlConstraints";
+import {LOGGER_URL} from "../../utils/UrlConstraints";
 
 const API_URL=LOGGER_URL;
 

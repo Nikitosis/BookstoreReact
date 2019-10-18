@@ -1,12 +1,12 @@
 import React from 'react';
-import AuthenticationService from "../services/AuthenticationService";
+import AuthenticationService from "../redux/services/AuthenticationService";
+import connect from "react-redux/lib/connect/connect";
 
-class PrivateComponent extends React.Component{
-    render() {
-        const currentUser = AuthenticationService.getCurrentUser();
+function PrivateComponent(props){
+        let currentUser=props.curUser;
 
-        if(this.props.nonAuthorised &&!currentUser){
-            return this.props.children;
+        if(props.nonAuthorised &&!currentUser){
+            return props.children;
         }
 
         if (!currentUser) {
@@ -15,9 +15,10 @@ class PrivateComponent extends React.Component{
         }
 
         // check if route is restricted by role
+    debugger;
         let isRolePass=false;
-        let accessRoles=this.props.roles!==undefined? this.props.roles : null;
-        let userRoles=currentUser.roles.split(",");
+        let accessRoles=props.roles!==undefined? props.roles : null;
+        let userRoles=currentUser.roles.map(role=> role.name);
         for(let i=0;i<userRoles.length;i++){
             if(accessRoles && accessRoles.indexOf(userRoles[i])!==-1){
                 isRolePass=true;
@@ -31,7 +32,12 @@ class PrivateComponent extends React.Component{
         }
 
         // authorised so return component
-        return this.props.children;
+        return props.children;
+}
+function mapStateToProps(state){
+    return{
+        curUser:state.currentUserReducer.user
     }
 }
-export default PrivateComponent;
+
+export default connect(mapStateToProps,null)(PrivateComponent);

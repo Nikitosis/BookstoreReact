@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {AUTHORISER_URL} from "../utils/UrlConstraints";
+import {AUTHORISER_URL} from "../../utils/UrlConstraints";
 
 const API_URL=AUTHORISER_URL;
 

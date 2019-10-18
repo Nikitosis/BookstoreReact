@@ -1,5 +1,5 @@
 import React from "react";
-import BooksService from "../services/BooksService";
+import BooksService from "../redux/services/BooksService";
 import styles from "./BookList.module.css";
 import UserBookItem from "./UserBookItem";
 

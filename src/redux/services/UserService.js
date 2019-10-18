@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LIBRARY_URL} from "../utils/UrlConstraints";
+import {LIBRARY_URL} from "../../utils/UrlConstraints";
 
 const API_URL=LIBRARY_URL;
 

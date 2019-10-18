@@ -1,5 +1,5 @@
 import React from "react";
-import LogService from "../services/LogService";
+import LogService from "../redux/services/LogService";
 import UserItem from "../users/UserItem";
 import LogItem from "./LogItem";
 

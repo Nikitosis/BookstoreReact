@@ -1,6 +1,6 @@
 import React from "react";
 import UserItem from "./UserItem";
-import UserService from "../services/UserService";
+import UserService from "../redux/services/UserService";
 
 class UserList extends React.Component{
     constructor(props){

@@ -1,6 +1,6 @@
 import React from "react";
-import AuthenticationService from "../services/AuthenticationService";
-import UserService from "../services/UserService";
+import AuthenticationService from "../redux/services/AuthenticationService";
+import UserService from "../redux/services/UserService";
 import {ClipLoader} from "react-spinners";
 import styles from "./HomePage.module.css";
 import EditProfile from "./EditProfile";
@@ -74,10 +74,10 @@ class HomePage extends React.Component{
 
 function mapStateToProps(state){
     return {
-        curUser: state.homePage.user,
-        isLoading:state.homePage.isLoading,
-        isModalOpened:state.homePage.isModalOpened,
-        error:state.homePage.error
+        curUser: state.currentUserReducer.user,
+        isLoading:state.currentUserReducer.isLoading,
+        isModalOpened:state.currentUserReducer.isModalOpened,
+        error:state.currentUserReducer.error
     }
 }
 function mapDispatchToProps(dispatch){
