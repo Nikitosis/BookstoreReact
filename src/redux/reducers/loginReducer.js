@@ -78,10 +78,7 @@ export function executeLogin(username,password){
                 let user=response.data;
                 let token=response.headers.authorization;
 
-                axios.defaults.headers.common.authorization = token;
-
                 dispatch(loginUserSuccess(user,token));
-                debugger;
             })
             .catch(() => {
                 dispatch(loginUserFailed());
