@@ -40,7 +40,6 @@ function App(props){
 }
 
 function mapStateToProps(state){
-    debugger;
     return{
         currentUser:state.currentUserReducer.user
     }

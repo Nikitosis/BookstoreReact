@@ -58,7 +58,6 @@ function currentUserReducer(state=initialState, action){
                 token:action.payload.token
             }
         case LOGOUT_USER:
-            debugger;
             return initialState;
         default:
             return state;

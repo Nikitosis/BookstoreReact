@@ -26,7 +26,6 @@ class LoginPage extends React.Component{
     }
 
     render() {
-        debugger;
         if(this.props.isLogged)
             return <Redirect to="/" />
 

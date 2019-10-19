@@ -1,21 +1,11 @@
 import React from "react";
-import UserService from "../redux/services/UserService";
+import {executeRegistration} from "../redux/reducers/registrationPageReducer";
+import connect from "react-redux/lib/connect/connect";
 
 class RegistrationPage extends React.Component{
 
     constructor(props){
         super(props);
-
-        this.state={
-            username:"",
-            password:"",
-            fName:"",
-            lName:"",
-            repeatPassword:"",
-            usernameHelp:"",
-            passwordHelp:"",
-            repeatPasswordHelp:"",
-        }
     }
 
     onInputChange=(event)=>{
@@ -25,56 +15,19 @@ class RegistrationPage extends React.Component{
     }
 
     onRegisterClick=()=>{
-        let isValid=true;
-        this.setState({
-            usernameHelp:"",
-            passwordHelp:"",
-            repeatPasswordHelp:""
-        })
-
-        if(!this.state.username.match(/\w{6,}/i)){
-            this.setState({
-                usernameHelp:"Username have to be at least 6 characters long and contain only letters"
-            })
-            isValid=false;
-        }
-
-        if(!this.state.password.match(/.{6,}/)){
-            this.setState({
-                passwordHelp:"Password have to be at least 6 characters long"
-            })
-            isValid=false;
-        }
-
-        console.log(this.state.password+" "+this.state.repeatPassword);
-        if(this.state.repeatPassword!==this.state.password){
-            this.setState({
-                repeatPasswordHelp:"Repeated password is not equal to original one"
-            })
-            isValid=false;
-        }
-
-        if(isValid){
-            UserService.createUser({
-                fName:this.state.fName,
-                lName:this.state.lName,
-                username:this.state.username,
-                password:this.state.password
-            })
-                .then(()=>{
-                    this.props.history.push("/login")
-                })
-                .catch(()=>{
-                    console.log("Couldn't create user")
-                })
-        }
-
+        this.props.executeRegistration(
+            this.state.fName,
+            this.state.lName,
+            this.state.username,
+            this.state.password,
+            this.state.repeatPassword
+        )
     }
 
     render() {
-        const usernameValidation=this.state.usernameHelp==="" ? "" : "is-invalid";
-        const passwordValidation=this.state.passwordHelp==="" ? "" : "is-invalid";
-        const repeatPasswordValidation=this.state.repeatPasswordHelp==="" ? "" : "is-invalid";
+        const usernameValidation=this.props.usernameErrorMessage===null ? "" : "is-invalid";
+        const passwordValidation=this.props.passwordErrorMessage===null ? "" : "is-invalid";
+        const repeatPasswordValidation=this.props.repeatPasswordErrorMessage===null ? "" : "is-invalid";
 
         return (
             <div className="container">
@@ -90,7 +43,7 @@ class RegistrationPage extends React.Component{
                         <label htmlFor={"inputUsername"} className="col-form-label col-md-2">Username</label>
                         <input type="text" className={`form-control col-md-7 ${usernameValidation}`} id={"inputUsername"} name="username" placeholder="Username" onChange={this.onInputChange}/>
                         <small id="usernameHelp" className="text-danger col-md-3">
-                            {this.state.usernameHelp}
+                            {this.props.usernameErrorMessage}
                         </small>
                     </div>
 
@@ -98,7 +51,7 @@ class RegistrationPage extends React.Component{
                         <label htmlFor={"inputPassword"} className="col-form-label col-md-2">Password</label>
                         <input type="password" className={`form-control col-sm-7 ${passwordValidation}`} id={"inputPassword"} name="password" placeholder="Password" onChange={this.onInputChange}/>
                         <small id="passwordHelp" className="text-danger col-md-3">
-                            {this.state.passwordHelp}
+                            {this.props.passwordErrorMessage}
                         </small>
                     </div>
 
@@ -106,7 +59,7 @@ class RegistrationPage extends React.Component{
                         <label htmlFor={"inputRepeatPassword"} className="col-form-label col-md-2">Repeat password</label>
                         <input type="password" className={`form-control col-sm-7 ${repeatPasswordValidation}`} id={"inputRepeatPassword"} name="repeatPassword" placeholder="Repeat password" onChange={this.onInputChange}/>
                         <small id="repeatPasswordHelp" className="text-danger col-md-3">
-                            {this.state.repeatPasswordHelp}
+                            {this.props.repeatPasswordErrorMessage}
                         </small>
                     </div>
                 </form>
@@ -120,4 +73,18 @@ class RegistrationPage extends React.Component{
 
 }
 
-export default RegistrationPage;
+function mapStateToProps(state){
+    return{
+        usernameErrorMessage:state.registrationPageReducer.usernameErrorMessage,
+        passwordErrorMessage:state.registrationPageReducer.passwordErrorMessage,
+        repeatPasswordErrorMessage:state.registrationPageReducer.repeatPasswordErrorMessage
+    }
+}
+
+function mapDispathToProps(dispatch){
+    return{
+        executeRegistration:(fName,lName,username,password,repeatPassword)=>dispatch(executeRegistration(fName,lName,username,password,repeatPassword))
+    }
+}
+
+export default connect(mapStateToProps,mapDispathToProps)(RegistrationPage);
