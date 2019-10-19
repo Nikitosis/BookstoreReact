@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser, .
         if(nonAuthorised &&!currentUser){
             return <Component {...props} />
         }
-
+        debugger;
         // not logged in so redirect to login page with the return url
         if (!currentUser) {
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
@@ -36,10 +36,4 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser, .
     }} />
 )
 
-function mapStateToProps(state){
-    return{
-        currentUser:state.currentUserReducer.user
-    }
-}
-
-export default connect(mapStateToProps,null)(PrivateRoute);
+export default PrivateRoute;

@@ -22,7 +22,7 @@ class HomePage extends React.Component{
         if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }
-
+        debugger;
         const imgUrl=this.props.curUser.avatarLink==null ? "/userImage.png" : this.props.curUser.avatarLink;
 
         return (

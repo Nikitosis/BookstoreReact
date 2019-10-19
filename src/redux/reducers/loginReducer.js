@@ -36,10 +36,7 @@ export default function loginReducer(state=initialState, action){
                 isLogged:false,
             }
         case LOGOUT_USER:
-            return{
-                ...state,
-                isLogged: false
-            }
+            return initialState;
 
         default:
             return state;
@@ -65,7 +62,6 @@ function logoutUser(){
 
 export function executeLogout(){
     return (dispatch)=>{
-
         dispatch(logoutUser());
     }
 }

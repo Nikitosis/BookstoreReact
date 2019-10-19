@@ -1,4 +1,5 @@
 import {UPDATE_USER_SUCCESS} from "./currentUserReducer";
+import {LOGOUT_USER} from "./loginReducer";
 
 const OPEN_MODAL="OPEN_MODAL";
 const CLOSE_MODAL="CLOSE_MODAL";
@@ -25,6 +26,8 @@ function homePageReducer(state=initialState,action){
                 ...state,
                 isModalOpened: false
             }
+        case LOGOUT_USER:
+            return initialState;
         default:
             return state;
     }
