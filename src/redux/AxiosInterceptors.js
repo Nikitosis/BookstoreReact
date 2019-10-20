@@ -21,6 +21,7 @@ export function setupInterceptors(){
                 console.log("unauthorised, loggint out...");
                 store.dispatch(executeLogout());
             }
+            return Promise.reject(error);
         }
     )
 }
