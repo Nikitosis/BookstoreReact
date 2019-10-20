@@ -23,26 +23,20 @@ function App(props){
             <div className="App container-fluid">
                 <Header/>
                 <div className="content-wrapper">
-                    <Route exact path="/books" currentUser={props.currentUser} component={BookList}/>
-                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/logout" currentUser={props.currentUser} component={LogoutPage}/>
-                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/myBooks" currentUser={props.currentUser} component={MyBooksList}/>
-                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/" currentUser={props.currentUser} component={HomePage}/>
-                    <PrivateRoute roles={["ADMIN"]} exact path="/users" currentUser={props.currentUser} component={UserList}/>
-                    <PrivateRoute roles={["ADMIN"]} exact path="/logs" currentUser={props.currentUser} component={LogList}/>
-                    <PrivateRoute nonAuthorised={true} exact path="/login" currentUser={props.currentUser} component={LoginPage}/>
-                    <PrivateRoute nonAuthorised={true} exact path="/registration" currentUser={props.currentUser} component={RegistrationPage}/>
-                    <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" currentUser={props.currentUser} component={UserPage}/>
-                    <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId/books" currentUser={props.currentUser} component={UserBooksList}/>
+                    <Route exact path="/books" component={BookList}/>
+                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/logout" component={LogoutPage}/>
+                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/myBooks"  component={MyBooksList}/>
+                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/" component={HomePage}/>
+                    <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList}/>
+                    <PrivateRoute roles={["ADMIN"]} exact path="/logs" component={LogList}/>
+                    <PrivateRoute nonAuthorised={true} exact path="/login" component={LoginPage}/>
+                    <PrivateRoute nonAuthorised={true} exact path="/registration" component={RegistrationPage}/>
+                    <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" component={UserPage}/>
+                    <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId/books" component={UserBooksList}/>
                 </div>
             </div>
         </BrowserRouter>
     );
 }
 
-function mapStateToProps(state){
-    return{
-        currentUser:state.currentUserReducer.user
-    }
-}
-
-export default connect(mapStateToProps)(App);
+export default App;

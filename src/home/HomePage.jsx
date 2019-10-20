@@ -10,15 +10,12 @@ import {
 import {closeModal, openModal} from "../redux/reducers/homePageReducer";
 
 class HomePage extends React.Component{
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props.fetchUser();
     }
 
     render() {
+        debugger;
         if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }

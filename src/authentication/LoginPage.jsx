@@ -22,6 +22,7 @@ class LoginPage extends React.Component{
     }
 
     onLoginClicked=()=>{
+        debugger;
         this.props.executeLogin(this.state.username,this.state.password);
     }
 

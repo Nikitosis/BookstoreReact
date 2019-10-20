@@ -8,9 +8,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import store from "./redux/store";
 import Provider from "react-redux/lib/components/Provider";
 import axios from "axios";
-import {setupInterceptors} from "./redux/AxiosInterceptors";
+import * as AxiosInterceptors from "./redux/AxiosInterceptors";
 
-setupInterceptors();
+AxiosInterceptors.setupInterceptors();
 
 ReactDOM.render(
     <Provider store={store}>

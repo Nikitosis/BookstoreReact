@@ -3,14 +3,15 @@ import { Route, Redirect } from 'react-router-dom';
 import AuthenticationService from "../redux/services/AuthenticationService";
 import connect from "react-redux/lib/connect/connect";
 
-const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser, ...rest }) => (
+const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,isLogged, ...rest }) => (
     <Route {...rest} render={props => {
         //not logged in, but nonAuthorised flag
-        if(nonAuthorised &&!currentUser){
+        debugger;
+        if(nonAuthorised && !isLogged){
             return <Component {...props} />
         }
         // not logged in so redirect to login page with the return url
-        if (!currentUser) {
+        if (!isLogged) {
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
@@ -35,4 +36,12 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser, .
     }} />
 )
 
-export default PrivateRoute;
+function mapStateToProps(state){
+    debugger;
+    return{
+        currentUser:state.currentUserReducer.user,
+        isLogged:state.loginReducer.isLogged,
+    }
+}
+
+export default connect(mapStateToProps)(PrivateRoute);

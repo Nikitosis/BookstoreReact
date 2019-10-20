@@ -5,6 +5,8 @@ import {executeLogout} from "./reducers/loginReducer";
 export function setupInterceptors(){
     axios.interceptors.request.use(
         (config)=>{
+            console.log("Authorized token: ");
+            console.log(store.getState().currentUserReducer.token);
             config.headers.authorization=store.getState().currentUserReducer.token;
             return config;
         }

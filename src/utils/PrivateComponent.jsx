@@ -5,11 +5,11 @@ import connect from "react-redux/lib/connect/connect";
 function PrivateComponent(props){
         let currentUser=props.curUser;
 
-        if(props.nonAuthorised &&!currentUser){
+        if(props.nonAuthorised && !props.isLogged){
             return props.children;
         }
 
-        if (!currentUser) {
+        if (!props.isLogged) {
             // not logged in so redirect to authentication page with the return url
             return null;
         }
@@ -35,7 +35,8 @@ function PrivateComponent(props){
 }
 function mapStateToProps(state){
     return{
-        curUser:state.currentUserReducer.user
+        curUser:state.currentUserReducer.user,
+        isLogged:state.loginReducer.isLogged
     }
 }
 
