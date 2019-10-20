@@ -1,5 +1,5 @@
 import React from "react";
-import UserService from "../redux/services/UserService";
+import UserService from "../redux/services/UserAPI";
 import {ClipLoader} from "react-spinners";
 import styles from "./UserPage.module.css"
 import {withRouter} from "react-router-dom";

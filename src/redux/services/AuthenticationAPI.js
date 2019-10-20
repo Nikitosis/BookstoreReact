@@ -9,7 +9,7 @@ export const USER_ROLES_SESSION_ATTRIBUTE="authenticatedUserRoles";
 
 const LOCAL_STORAGE_TOKEN="token";
 
-class AuthenticationService{
+class AuthenticationAPI{
     executeAuthentication(username,password){
         return axios.get(`${API_URL}/authenticate`,{
             params:{
@@ -20,4 +20,4 @@ class AuthenticationService{
     }
 }
 
-export default new AuthenticationService();
+export default new AuthenticationAPI();

@@ -3,7 +3,7 @@ import {LIBRARY_URL} from "../../utils/UrlConstraints";
 
 const API_URL=LIBRARY_URL;
 
-class BooksService{
+class BooksAPI{
     getAllBooks(){
         return axios.get(`${API_URL}/books`)
     }
@@ -43,4 +43,4 @@ class BooksService{
     }
 }
 
-export default new BooksService();
+export default new BooksAPI();

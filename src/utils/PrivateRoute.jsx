@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import AuthenticationService from "../redux/services/AuthenticationService";
+import AuthenticationService from "../redux/services/AuthenticationAPI";
 import connect from "react-redux/lib/connect/connect";
 
 const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,isLogged, ...rest }) => (
@@ -37,7 +37,6 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
 )
 
 function mapStateToProps(state){
-    debugger;
     return{
         currentUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged,

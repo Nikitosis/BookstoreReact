@@ -3,7 +3,7 @@ import {LIBRARY_URL} from "../../utils/UrlConstraints";
 
 const API_URL=LIBRARY_URL;
 
-class UserService{
+class UserAPI{
 
     getAll(){
         return axios.get(`${API_URL}/users`)
@@ -50,4 +50,4 @@ class UserService{
     }
 }
 
-export default new UserService();
+export default new UserAPI();

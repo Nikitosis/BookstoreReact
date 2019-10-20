@@ -1,6 +1,6 @@
 import React from "react";
-import BooksService from "../redux/services/BooksService";
-import AuthenticationService from "../redux/services/AuthenticationService";
+import BooksService from "../redux/services/BooksAPI";
+import AuthenticationService from "../redux/services/AuthenticationAPI";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
 

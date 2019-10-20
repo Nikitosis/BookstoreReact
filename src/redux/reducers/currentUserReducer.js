@@ -1,5 +1,5 @@
-import UserService from "../services/UserService";
-import AuthenticationService from "../services/AuthenticationService";
+import UserService from "../services/UserAPI";
+import AuthenticationService from "../services/AuthenticationAPI";
 import {LOGIN_USER_SUCCESS, LOGOUT_USER} from "./loginReducer";
 
 const FETCH_USER_STARTED="FETCH_USER_STARTED";

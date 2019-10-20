@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthenticationService from "../redux/services/AuthenticationService";
+import AuthenticationService from "../redux/services/AuthenticationAPI";
 import connect from "react-redux/lib/connect/connect";
 
 function PrivateComponent(props){

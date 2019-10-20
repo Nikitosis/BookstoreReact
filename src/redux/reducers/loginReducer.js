@@ -1,4 +1,4 @@
-import AuthenticationService from "../services/AuthenticationService";
+import AuthenticationService from "../services/AuthenticationAPI";
 import axios from "axios";
 
 const LOGIN_USER_STARTED="LOGIN_USER_STARTED";

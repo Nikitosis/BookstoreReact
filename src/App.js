@@ -7,7 +7,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import BookList from "./books/BookList";
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
-import AuthenticationService from "./redux/services/AuthenticationService";
+import AuthenticationService from "./redux/services/AuthenticationAPI";
 import MyBooksList from "./myBooks/MyBooksList";
 import LogoutPage from "./authentication/LogoutPage";
 import RegistrationPage from "./authentication/RegistrationPage";

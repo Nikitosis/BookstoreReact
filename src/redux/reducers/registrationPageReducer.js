@@ -1,4 +1,4 @@
-import UserService from "../services/UserService";
+import UserService from "../services/UserAPI";
 import {executeLogin} from "./loginReducer";
 
 const USERNAME_ALREADY_EXISTS="USERNAME_ALREADY_EXISTS";
@@ -79,7 +79,6 @@ function registrationStarted(){
 
 export function executeRegistration(fName,lName,username,password,repeatPassword){
     return (dispatch)=>{
-        debugger;
         dispatch(registrationStarted());
         let isValid=true;
         if(!username || !username.match(/\w{6,}/i)){
@@ -96,7 +95,7 @@ export function executeRegistration(fName,lName,username,password,repeatPassword
             isValid=false;
             dispatch(repeatPasswordNotValid());
         }
-
+        debugger;
         if(isValid){
             UserService.createUser({
                 fName,
@@ -108,7 +107,7 @@ export function executeRegistration(fName,lName,username,password,repeatPassword
                     dispatch(registrationSuccess());
                     dispatch(executeLogin(username,password));
                 })
-                .catch(()=>{
+                .catch((error)=>{
                     dispatch(usernameAlreadyExists());
                 })
         }
