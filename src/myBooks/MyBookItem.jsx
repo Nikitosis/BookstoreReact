@@ -2,7 +2,7 @@ import React from "react";
 import PrivateComponent from "../utils/PrivateComponent";
 import styles from "./BookItem.module.css";
 
-const MyBookItem=({book,returnBook})=>{
+const MyBookItem=({book,returnBook,downloadBook})=>{
     let imgUrl=book.photoLink!=null ? book.photoLink : "/bookImage.png";
 
     return (
@@ -15,7 +15,10 @@ const MyBookItem=({book,returnBook})=>{
                     <p className={`${styles.price}`}>Price: <em>{book.price}$</em></p>
                     <div className="row">
                         <PrivateComponent roles={["USER","ADMIN"]}>
-                            <button className="btn btn-danger" onClick={()=>returnBook(book.id)}>Return book</button>
+                            <button className="btn btn-danger mr-auto" onClick={()=>returnBook(book.id)}>Return book</button>
+                        </PrivateComponent>
+                        <PrivateComponent roles={["USER","ADMIN"]}>
+                            <button className="btn btn-success ml-auto" onClick={()=>downloadBook(book.id)}>Download</button>
                         </PrivateComponent>
                     </div>
                 </div>

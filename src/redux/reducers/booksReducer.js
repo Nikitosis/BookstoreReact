@@ -142,6 +142,32 @@ export function returnBook(bookId){
     }
 }
 
+const FileDownload = require('js-file-download');
+
+function extractFileName(contentDispositionValue){
+    var filename = "";
+    if (contentDispositionValue && contentDispositionValue.indexOf('attachment') !== -1) {
+        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        var matches = filenameRegex.exec(contentDispositionValue);
+        if (matches != null && matches[1]) {
+            filename = matches[1].replace(/['"]/g, '');
+        }
+    }
+    return filename;
+}
+export function downloadBookFile(bookId){
+    return (dispatch,getState)=>{
+        BooksAPI.getFileBook(getState().currentUserReducer.user.id,bookId)
+            .then(response=>{
+                let fileName=extractFileName(response.headers['content-disposition']);
+                FileDownload(response.data,fileName);
+            })
+            .catch(e=>{
+
+            })
+    }
+}
+
 export function saveBook(book,image,file){
     return (dispatch)=>{
         dispatch(saveBookStartedAC());

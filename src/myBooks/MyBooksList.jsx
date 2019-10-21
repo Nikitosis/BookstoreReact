@@ -4,7 +4,7 @@ import AuthenticationService from "../redux/services/AuthenticationAPI";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
 import connect from "react-redux/lib/connect/connect";
-import {fetchBooks, returnBook} from "../redux/reducers/booksReducer";
+import {fetchBooks, downloadBookFile, returnBook} from "../redux/reducers/booksReducer";
 
 class MyBooksList extends React.Component{
 
@@ -31,7 +31,7 @@ class MyBooksList extends React.Component{
                     {
                         this.props.books
                             .map((book)=>(
-                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}/>
+                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook} downloadBook={this.props.downloadBook}/>
                                 )
                             )
                     }
@@ -51,7 +51,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         returnBook:(bookId)=>dispatch(returnBook(bookId)),
-        fetchBooks:()=>dispatch(fetchBooks())
+        fetchBooks:()=>dispatch(fetchBooks()),
+        downloadBook:(bookId)=>dispatch(downloadBookFile(bookId))
     }
 }
 

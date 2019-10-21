@@ -18,6 +18,10 @@ class BooksAPI{
         return axios.put(`${API_URL}/users/${userId}/books/${bookId}`)
     }
 
+    getFileBook(userId,bookId){
+        return axios.get(`${API_URL}/users/${userId}/books/${bookId}`)
+    }
+
     saveBook(book,image,file){
         let bookInfoJson=JSON.stringify(book);
         let bookInfo=new Blob([bookInfoJson],{
