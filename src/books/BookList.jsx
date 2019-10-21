@@ -45,7 +45,7 @@ class BookList extends React.Component{
         return (
             <div className="container">
 
-                <PrivateComponent roles={["ROLE_ADMIN"]}>
+                <PrivateComponent roles={["ADMIN"]}>
                     <div className={`${styles.controlButtons} row`}>
                         <button className={`${styles.controlButtons__button} btn btn-primary`} onClick={this.props.openCreateModal}>
                             <i className="fa fa-plus"></i>

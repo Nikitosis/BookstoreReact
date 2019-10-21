@@ -3,16 +3,14 @@ import BooksService from "../redux/services/BooksAPI";
 import AuthenticationService from "../redux/services/AuthenticationAPI";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
+import {fetchBooksByUserId, returnBook} from "../redux/reducers/booksReducer";
+import connect from "react-redux/lib/connect/connect";
 
 class MyBooksList extends React.Component{
-    state={
-        books:[],
-        isLoading:false
-    }
 
     componentDidMount() {
-        this.fetchBooks();
-        this.timer=setInterval(()=>this.fetchBooks(),5000);
+        this.props.fetchBooks(this.props.curUser.id);
+        this.timer=setInterval(()=>this.props.fetchBooks(this.props.curUser.id),5000);
     }
 
     componentWillUnmount() {
@@ -20,32 +18,9 @@ class MyBooksList extends React.Component{
         this.timer=null;
     }
 
-    fetchBooks=()=>{
-        BooksService.getBooksByUserId(AuthenticationService.getCurrentUser().id)
-            .then((res)=>{
-                const books=res.data;
-                this.setState({
-                    books:books,
-                    isLoading:false
-                })
-            })
-            .catch(()=>{
-                console.log("Cannot load books")
-                this.setState({
-                    isLoading:true
-                });
-            })
-    }
-
     returnBook=(bookId)=>{
-        BooksService.returnBookByUserId(AuthenticationService.getCurrentUser().id,bookId)
-            .then((res)=>{
-                console.log("Book returned: "+bookId);
-                this.fetchBooks();
-            })
-            .catch(()=>{
-                console.log("Cannot return book");
-            })
+        this.props.returnBook(bookId);
+        this.props.fetchBooks(this.props.curUser.id);
     }
 
 
@@ -54,7 +29,7 @@ class MyBooksList extends React.Component{
             <div className="container">
                 <div className={`${styles.cardList} row`}>
                     {
-                        this.state.books
+                        this.props.books
                             .map((book)=>(
                                     <MyBookItem key={book.id} book={book} returnBook={this.returnBook}/>
                                 )
@@ -66,4 +41,18 @@ class MyBooksList extends React.Component{
     }
 }
 
-export default MyBooksList;
+function mapStateToProps(state){
+    return{
+        books:state.booksReducer.books,
+        curUser:state.currentUserReducer.user
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        returnBook:(bookId)=>dispatch(returnBook(bookId)),
+        fetchBooks:(userId)=>dispatch(fetchBooksByUserId(userId))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyBooksList);

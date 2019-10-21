@@ -1,4 +1,4 @@
-import {FETCH_BOOKS_FAILURE, FETCH_BOOKS_STARTED, FETCH_BOOKS_SUCCESS} from "./booksReducer";
+import {FETCH_BOOKS_FAILURE, FETCH_BOOKS_STARTED, FETCH_BOOKS_SUCCESS, SAVE_BOOK_SUCCESS} from "./booksReducer";
 
 const OPEN_BOOKS_CREATE_MODAL="OPEN_BOOKS_CREATE_MODAL";
 const CLOSE_BOOKS_CREATE_MODAL="CLOSE_BOOKS_CREATE_MODAL";
@@ -35,6 +35,11 @@ function booksPageReducer(state=initialState,action){
             return{
                 ...state,
                 isLoading: false
+            }
+        case SAVE_BOOK_SUCCESS:
+            return{
+                ...state,
+                isModalOpened: false
             }
         default:
             return state;

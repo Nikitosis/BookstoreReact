@@ -16,6 +16,11 @@ export const DELETE_BOOK_STARTED="DELETE_BOOK_STARTED";
 export const DELETE_BOOK_FAILURE="DELETE_BOOK_FAILURE";
 export const DELETE_BOOK_SUCCESS="DELETE_BOOK_SUCCESS";
 
+export const RETURN_BOOK_STARTED="RETURN_BOOK_STARTED";
+export const RETURN_BOOK_FAILURE="RETURN_BOOK_FAILURE";
+export const RETURN_BOOK_SUCCESS="RETURN_BOOK_SUCCESS";
+
+
 
 const initialState={
     books:[]
@@ -81,11 +86,39 @@ function deleteBookSuccessAC(){
     return {type:DELETE_BOOK_SUCCESS};
 }
 
+function returnBookStartedAC(){
+    return {type:RETURN_BOOK_STARTED};
+}
+
+function returnBookFailureAC(){
+    return {type:RETURN_BOOK_FAILURE};
+}
+
+function returnBookSuccessAC(){
+    return {type:RETURN_BOOK_SUCCESS};
+}
+
+
 export function fetchBooks(){
     return (dispatch)=>{
         dispatch(fetchBooksStartedAC());
 
         BooksAPI.getAllBooks()
+            .then(response=>{
+                let books=response.data;
+                dispatch(fetchBooksSuccess(books));
+            })
+            .catch(e=>{
+                dispatch(fetchBooksFailure());
+            })
+    }
+}
+
+export function fetchBooksByUserId(userId){
+    return (dispatch)=>{
+        dispatch(fetchBooksStartedAC());
+
+        BooksAPI.getBooksByUserId(userId)
             .then(response=>{
                 let books=response.data;
                 dispatch(fetchBooksSuccess(books));
@@ -106,6 +139,20 @@ export function takeBook(bookId){
             })
             .catch(e=>{
                 dispatch(takeBookFailureAC())
+            })
+    }
+}
+
+export function returnBook(bookId){
+    return (dispatch,getState)=>{
+        dispatch(returnBookStartedAC());
+
+        BooksAPI.returnBookByUserId(getState().currentUserReducer.user.id,bookId)
+            .then(response=>{
+                dispatch(returnBookSuccessAC())
+            })
+            .catch(e=>{
+                dispatch(returnBookFailureAC())
             })
     }
 }
@@ -135,5 +182,7 @@ export function deleteBook(bookId){
             })
     }
 }
+
+
 
 export default booksReducer;
