@@ -1,4 +1,7 @@
-import {FETCH_BOOKS_FAILURE, FETCH_BOOKS_STARTED, FETCH_BOOKS_SUCCESS} from "./booksReducer";
+import BooksAPI from "../services/BooksAPI";
+import {FETCH_BOOKS_USER_STARTED, FETCH_BOOKS_USER_SUCCESS} from "./userBooksReducer";
+import {FETCH_BOOKS_FAILURE} from "./booksReducer";
+
 
 const initialState={
     isLoading:false
@@ -6,12 +9,12 @@ const initialState={
 
 function myBooksPageReducer(state=initialState,action){
     switch (action.type) {
-        case FETCH_BOOKS_STARTED:
+        case FETCH_BOOKS_USER_STARTED:
             return{
                 ...state,
                 isLoading: true
             }
-        case FETCH_BOOKS_SUCCESS:
+        case FETCH_BOOKS_USER_SUCCESS:
             return{
                 ...state,
                 isLoading: false

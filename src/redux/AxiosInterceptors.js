@@ -19,6 +19,7 @@ export function setupInterceptors(){
         (error)=>{
             if (403 == error.response.status) {
                 console.log("unauthorised, loggint out...");
+                debugger;
                 store.dispatch(executeLogout());
             }
             return Promise.reject(error);

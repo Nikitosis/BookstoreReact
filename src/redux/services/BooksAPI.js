@@ -27,7 +27,6 @@ class BooksAPI{
         let bookInfo=new Blob([bookInfoJson],{
             type:'application/json'
         });
-
         let formData=new FormData();
         formData.append('bookInfo',bookInfo);
         formData.append("image",image);

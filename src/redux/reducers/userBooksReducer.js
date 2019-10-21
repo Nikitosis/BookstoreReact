@@ -1,8 +1,8 @@
 import BooksAPI from "../services/BooksAPI";
 
-const FETCH_BOOKS_USERPAGE_STARTED="FETCH_BOOKS_USERPAGE_STARTED";
-const FETCH_BOOKS_USERPAGE_FAILURE="FETCH_BOOKS_USERPAGE_FAILURE";
-const FETCH_BOOKS_USERPAGE_SUCCESS="FETCH_BOOKS_USERPAGE_SUCCESS";
+export const FETCH_BOOKS_USER_STARTED="FETCH_BOOKS_USER_STARTED";
+export const FETCH_BOOKS_USER_FAILURE="FETCH_BOOKS_USER_FAILURE";
+export const FETCH_BOOKS_USER_SUCCESS="FETCH_BOOKS_USER_SUCCESS";
 
 const initialState={
     books:[],
@@ -11,16 +11,20 @@ const initialState={
 
 function userBooksReducer(state=initialState,action){
     switch(action.type){
-        case FETCH_BOOKS_USERPAGE_SUCCESS:
+        case FETCH_BOOKS_USER_SUCCESS:
             return {
                 ...state,
                 books:action.payload,
                 isError:false
             }
-        case FETCH_BOOKS_USERPAGE_FAILURE:
+        case FETCH_BOOKS_USER_FAILURE:
             return{
                 ...state,
                 isError: true
+            }
+        case FETCH_BOOKS_USER_STARTED:
+            return{
+                ...state
             }
         default:
             return state
@@ -28,15 +32,15 @@ function userBooksReducer(state=initialState,action){
 }
 
 function fetchBooksStartedAC(){
-    return {type:FETCH_BOOKS_USERPAGE_STARTED};
+    return {type:FETCH_BOOKS_USER_STARTED};
 }
 
 function fetchBooksFailureAC(){
-    return {type:FETCH_BOOKS_USERPAGE_FAILURE};
+    return {type:FETCH_BOOKS_USER_FAILURE};
 }
 
 function fetchBooksSuccessAC(books){
-    return {type:FETCH_BOOKS_USERPAGE_SUCCESS,payload:books};
+    return {type:FETCH_BOOKS_USER_SUCCESS,payload:books};
 }
 
 export function fetchBooksByUserId(userId){

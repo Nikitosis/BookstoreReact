@@ -102,8 +102,8 @@ function returnBookSuccessAC(){
 export function fetchBooks(){
     return (dispatch,getState)=>{
         dispatch(fetchBooksStartedAC());
-
-        BooksAPI.getAllBooks(getState().currentUserReducer.user.id)
+        console.log("Fetch books");
+        BooksAPI.getAllBooks()
             .then(response=>{
                 let books=response.data;
                 dispatch(fetchBooksSuccess(books));
@@ -142,7 +142,7 @@ export function returnBook(bookId){
     }
 }
 
-const FileDownload = require('js-file-download');
+const FileDownload = require('react-file-download');
 
 function extractFileName(contentDispositionValue){
     var filename = "";
@@ -174,6 +174,7 @@ export function saveBook(book,image,file){
         BooksAPI.saveBook(book,image,file)
             .then(response=>{
                 dispatch(saveBookSuccessAC());
+                dispatch(fetchBooks());
             })
             .catch(e=>{
                 dispatch(saveBookFailureAC());
@@ -187,6 +188,7 @@ export function deleteBook(bookId){
         BooksAPI.deleteBook(bookId)
             .then(response=>{
                 dispatch(deleteBookSuccessAC())
+                dispatch(fetchBooks());
             })
             .catch(e=>{
                 dispatch(deleteBookFailureAC())

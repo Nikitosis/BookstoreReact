@@ -13,7 +13,7 @@ import {deleteBook, fetchBooks, saveBook, takeBook} from "../redux/reducers/book
 class BookList extends React.Component{
     componentDidMount() {
         this.props.fetchBooks();
-        this.timer=setInterval(()=>this.props.fetchBooks(),5000);
+        this.timer=setInterval(()=>this.props.fetchBooks(),50000);
     }
 
     componentWillUnmount() {
@@ -23,7 +23,6 @@ class BookList extends React.Component{
 
     takeBook=(bookId)=>{
         this.props.takeBook(bookId);
-        this.props.fetchBooks();
     }
 
     saveBook=(name,isbn,price,image,file)=>{
@@ -33,12 +32,10 @@ class BookList extends React.Component{
             price:price
         }
         this.props.saveBook(book,image,file);
-        this.props.fetchBooks();
     }
 
     deleteBook=(id)=>{
         this.props.deleteBook(id);
-        this.props.fetchBooks();
     }
 
     render() {

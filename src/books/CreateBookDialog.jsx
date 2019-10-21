@@ -7,13 +7,30 @@ class CreateBookDialog extends React.Component{
         super(props);
 
         this.state={
-            name:this.props.curBook.name,
-            isbn:this.props.curBook.isbn,
-            price:this.props.curBook.price,
-            imagePreviewUrl:this.props.curBook.photoLink,
-            filePreviewName:null
+            name:"",
+            isbn:"",
+            price:"",
+            imagePreviewUrl:"",
+            filePreviewName:"",
+            file:null,
+            image:null
         }
     }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState(
+            {
+                name:"",
+                isbn:"",
+                price:"",
+                imagePreviewUrl:"",
+                filePreviewName:"",
+                file:null,
+                image:null
+            }
+        )
+    }
+
     handleChange=(event)=>{
         this.setState({
             [event.target.name]:event.target.value
@@ -52,15 +69,15 @@ class CreateBookDialog extends React.Component{
                     <form className="form">
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Name</label>
-                            <input type="text" className="form-control" placeholder="Book name" name="name" onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="Book name" name="name" value={this.state.name} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>ISBN</label>
-                            <input type="text" className="form-control" placeholder="ISBN" name="isbn" onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="ISBN" name="isbn" value={this.state.isbn} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Price</label>
-                            <input type="number" className="form-control" placeholder="0.00" name="price" onChange={this.handleChange}/>
+                            <input type="number" className="form-control" placeholder="0.00" name="price" value={this.state.price} onChange={this.handleChange}/>
                         </div>
 
                         <div className={"form-group"}>
@@ -69,7 +86,7 @@ class CreateBookDialog extends React.Component{
                                 <input type="file" className="custom-file-input" id="file" name="file"
                                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf"
                                        onChange={this.handleChangeFile}/>
-                                <label className="custom-file-label" htmlFor="avatar">{this.state.filePreviewName!=null ? this.state.filePreviewName :"Choose file"}</label>
+                                <label className="custom-file-label" htmlFor="avatar">{this.state.filePreviewName!="" ? this.state.filePreviewName :"Choose file"}</label>
                             </div>
                         </div>
 
@@ -79,7 +96,7 @@ class CreateBookDialog extends React.Component{
                                 <input type="file" className="custom-file-input" id="image" name="image" accept="image/*" onChange={this.handleChangeImage}/>
                                 <label className="custom-file-label" htmlFor="image">Choose image</label>
                             </div>
-                            {this.state.imagePreviewUrl != null &&
+                            {this.state.imagePreviewUrl != "" &&
                             <img src={this.state.imagePreviewUrl} className={"img-thumbnail"} alt=""/>
                             }
                         </div>
