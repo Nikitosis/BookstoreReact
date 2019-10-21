@@ -3,13 +3,13 @@ import BooksService from "../redux/services/BooksAPI";
 import AuthenticationService from "../redux/services/AuthenticationAPI";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
-import {fetchBooksByUserId, returnBook} from "../redux/reducers/booksReducer";
 import connect from "react-redux/lib/connect/connect";
+import {fetchBooks, returnBook} from "../redux/reducers/booksReducer";
 
 class MyBooksList extends React.Component{
 
     componentDidMount() {
-        this.props.fetchBooks(this.props.curUser.id);
+        this.props.fetchBooks();
         this.timer=setInterval(()=>this.props.fetchBooks(this.props.curUser.id),5000);
     }
 
@@ -51,7 +51,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         returnBook:(bookId)=>dispatch(returnBook(bookId)),
-        fetchBooks:(userId)=>dispatch(fetchBooksByUserId(userId))
+        fetchBooks:()=>dispatch(fetchBooks())
     }
 }
 

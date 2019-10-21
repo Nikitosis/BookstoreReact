@@ -1,7 +1,7 @@
 import React from "react";
 import {executeLogin} from "../redux/reducers/loginReducer";
 import connect from "react-redux/lib/connect/connect";
-import Log from "../models/Log";
+import Log from "../redux/models/Log";
 import {Redirect} from "react-router";
 class LoginPage extends React.Component{
 

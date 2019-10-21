@@ -1,21 +1,14 @@
 import React from "react";
-import BooksService from "../redux/services/BooksAPI";
 import styles from "./BookList.module.css";
+import connect from "react-redux/lib/connect/connect";
 import UserBookItem from "./UserBookItem";
+import {fetchBooksByUserId} from "../redux/reducers/userBooksReducer";
 
 class UserBooksList extends React.Component{
 
-    constructor(props){
-        super(props);
-        this.state={
-            books:[],
-            isLoading:false
-        }
-    }
-
     componentDidMount() {
-        this.fetchBooks();
-        this.timer=setInterval(()=>this.fetchBooks(),5000);
+        this.props.fetchBooks(this.props.match.params.userId);
+        this.timer=setInterval(()=>this.props.fetchBooks(this.props.match.params.userId),5000);
     }
 
     componentWillUnmount() {
@@ -23,29 +16,17 @@ class UserBooksList extends React.Component{
         this.timer=null;
     }
 
-    fetchBooks=()=>{
-        BooksService.getBooksByUserId(this.props.match.params.userId)
-            .then((res)=>{
-                const books=res.data;
-                this.setState({
-                    books:books,
-                    isLoading:false
-                })
-            })
-            .catch(()=>{
-                console.log("Cannot load books")
-                this.setState({
-                    isLoading:true
-                });
-            })
-    }
 
     render() {
+        if(this.props.isError){
+            return <div className="alert alert-warning">Cannot load user's books</div>
+        }
+
         return (
             <div className="container">
                 <div className={`${styles.cardList} row`}>
                     {
-                        this.state.books
+                        this.props.books
                             .map((book)=>(
                                     <UserBookItem key={book.id} book={book}/>
                                 )
@@ -57,4 +38,18 @@ class UserBooksList extends React.Component{
     }
 }
 
-export default UserBooksList;
+function mapStateToProps(state){
+    return{
+        books:state.userBooksReducer.books,
+        curUser:state.userPageReducer.user,
+        isError:state.userBooksReducer.isError
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        fetchBooks:(userId)=>dispatch(fetchBooksByUserId(userId))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserBooksList);

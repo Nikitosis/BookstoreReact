@@ -2,7 +2,7 @@ import React from "react";
 import BookItem from "./BookItem";
 import BooksService from "../redux/services/BooksAPI";
 import AuthenticationService from "../redux/services/AuthenticationAPI";
-import Book from "../models/Book";
+import Book from "../redux/models/Book";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
 import CreateBookDialog from "./CreateBookDialog";

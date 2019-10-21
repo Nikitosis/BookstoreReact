@@ -1,30 +1,14 @@
 import React from "react";
-import UserService from "../redux/services/UserAPI";
 import {ClipLoader} from "react-spinners";
 import styles from "./UserPage.module.css"
 import {withRouter} from "react-router-dom";
+import connect from "react-redux/lib/connect/connect";
+import {fetchUserById} from "../redux/reducers/userPageReducer";
+import EditProfile from "../home/EditProfile";
 
 class UserPage extends React.Component{
-
-    constructor(props){
-        super(props);
-        this.state={
-            curUser:null
-        }
-    }
-
     componentDidMount() {
-        UserService.getUserInfo(this.props.match.params.userId)
-            .then(res=> {
-                    const user=res.data;
-                    this.setState({
-                        curUser:user
-                    })
-                }
-            )
-            .catch((e)=>{
-                console.log("Cannot load user details"+e);
-            })
+        this.props.fetchUser(this.props.match.params.userId);
     }
 
     openBooksPage=()=>{
@@ -32,10 +16,14 @@ class UserPage extends React.Component{
     }
 
     render() {
-        if(this.state.curUser==null){
+        if(this.props.isError){
+            return <div className="alert alert-warning">Cannot load user</div>
+        }
+
+        if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }
-        const imgUrl="/userImage.png";
+        const imgUrl=this.props.curUser.avatarLink==null ? "/userImage.png" : this.props.curUser.avatarLink;
 
         return (
             <div className={`${styles.content} container`}>
@@ -43,12 +31,27 @@ class UserPage extends React.Component{
                     <div className={`${styles.card} row col-md-11 shadow-lg p-0`}>
                         <div className={`${styles.profilePhoto} col-md-4`} style={{backgroundImage: "url("+imgUrl+")"}}></div>
                         <div className={`${styles.profile__description} col-md-8 row`}>
-                            <p className={`${styles.profile__name} col-md-12`}>{this.state.curUser.fName} {this.state.curUser.lName}</p>
+                            <p className={`${styles.profile__name} col-md-12`}>{this.props.curUser.fName} {this.props.curUser.lName}</p>
                             <p className="col-md-3">Country: </p>
-                            <p className="col-md-9">{this.state.curUser.country}</p>
+                            <p className="col-md-9">{this.props.curUser.country}</p>
 
                             <p className="col-md-3">City: </p>
-                            <p className="col-md-9">{this.state.curUser.city}</p>
+                            <p className="col-md-9">{this.props.curUser.city}</p>
+
+                            <p className="col-md-3">Gender: </p>
+                            <p className="col-md-9">{this.props.curUser.gender}</p>
+
+                            <p className="col-md-3">Email: </p>
+                            <p className="col-md-7">{this.props.curUser.email}</p>
+                            {this.props.curUser.emailVerified &&
+                            <p className={"col-md-2 small text-success"}>Verified</p>
+                            }
+                            {!this.props.curUser.emailVerified &&
+                            <p className={"col-md-2 small text-danger"}>Not verified</p>
+                            }
+
+                            <p className="col-md-3">Phone: </p>
+                            <p className="col-md-9">{this.props.curUser.phone}</p>
 
                         </div>
                     </div>
@@ -58,11 +61,23 @@ class UserPage extends React.Component{
                         </button>
                     </div>
                 </div>
-
             </div>
 
         );
     }
 }
+function mapStateToProps(state){
+    return{
+        curUser:state.userPageReducer.user,
+        isLoading:state.userPageReducer.isLoading,
+        isError:state.userPageReducer.isError
+    }
+}
 
-export default withRouter(UserPage);
+function mapDispatchToProps(dispatch){
+    return{
+        fetchUser:(userId)=>dispatch(fetchUserById(userId))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserPage));

@@ -100,25 +100,10 @@ function returnBookSuccessAC(){
 
 
 export function fetchBooks(){
-    return (dispatch)=>{
+    return (dispatch,getState)=>{
         dispatch(fetchBooksStartedAC());
 
-        BooksAPI.getAllBooks()
-            .then(response=>{
-                let books=response.data;
-                dispatch(fetchBooksSuccess(books));
-            })
-            .catch(e=>{
-                dispatch(fetchBooksFailure());
-            })
-    }
-}
-
-export function fetchBooksByUserId(userId){
-    return (dispatch)=>{
-        dispatch(fetchBooksStartedAC());
-
-        BooksAPI.getBooksByUserId(userId)
+        BooksAPI.getAllBooks(getState().currentUserReducer.user.id)
             .then(response=>{
                 let books=response.data;
                 dispatch(fetchBooksSuccess(books));
