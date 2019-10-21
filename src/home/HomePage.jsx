@@ -15,7 +15,6 @@ class HomePage extends React.Component{
     }
 
     render() {
-        debugger;
         if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }

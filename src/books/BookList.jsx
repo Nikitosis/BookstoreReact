@@ -6,20 +6,14 @@ import Book from "../models/Book";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
 import CreateBookDialog from "./CreateBookDialog";
+import {closeModalAc, openModalAC} from "../redux/reducers/booksPageReducer";
+import connect from "react-redux/lib/connect/connect";
+import {deleteBook, fetchBooks, saveBook, takeBook} from "../redux/reducers/booksReducer";
 
 class BookList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            books: [],
-            isLoading:false,
-            isCreateModalOpened:false
-        }
-    }
-
     componentDidMount() {
-        this.fetchBooks();
-        this.timer=setInterval(()=>this.fetchBooks(),5000);
+        this.props.fetchBooks();
+        this.timer=setInterval(()=>this.props.fetchBooks(),5000);
     }
 
     componentWillUnmount() {
@@ -27,43 +21,9 @@ class BookList extends React.Component{
         this.timer=null;
     }
 
-    fetchBooks=()=>{
-        BooksService.getAllBooks()
-            .then((res)=>{
-                let books=res.data.map((book)=> new Book(book.id,book.name,book.isbn,book.price,book.photoLink));
-                this.setState({
-                    books:books,
-                    isLoading:false
-                })
-            })
-            .catch(()=>{
-                this.setState({
-                    isLoading:true
-                });
-                console.log("Can't fetch books");
-            })
-    }
-
     takeBook=(bookId)=>{
-        BooksService.takeBookByUserId(AuthenticationService.getCurrentUser().id,bookId)
-            .then(()=>{
-                this.fetchBooks();
-            })
-            .catch(()=>{
-            console.log("Cannot take book");
-        })
-    }
-
-    openCreateModal=()=>{
-        this.setState({
-            isCreateModalOpened:true
-        })
-    }
-
-    closeCreateModal=()=>{
-        this.setState({
-            isCreateModalOpened:false
-        })
+        this.props.takeBook(bookId);
+        this.props.fetchBooks();
     }
 
     saveBook=(name,isbn,price,image,file)=>{
@@ -72,18 +32,13 @@ class BookList extends React.Component{
             isbn:isbn,
             price:price
         }
-        BooksService.saveBook(book,image,file)
-            .then(res=>{
-                this.fetchBooks();
-            })
-        this.closeCreateModal();
+        this.props.saveBook(book,image,file);
+        this.props.fetchBooks();
     }
 
     deleteBook=(id)=>{
-        BooksService.deleteBook(id)
-            .then(()=>{
-                this.fetchBooks();
-            })
+        this.props.deleteBook(id);
+        this.props.fetchBooks();
     }
 
     render() {
@@ -92,16 +47,16 @@ class BookList extends React.Component{
 
                 <PrivateComponent roles={["ROLE_ADMIN"]}>
                     <div className={`${styles.controlButtons} row`}>
-                        <button className={`${styles.controlButtons__button} btn btn-primary`} onClick={this.openCreateModal}>
+                        <button className={`${styles.controlButtons__button} btn btn-primary`} onClick={this.props.openCreateModal}>
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-                    <CreateBookDialog onSave={this.saveBook} onClose={this.closeCreateModal} show={this.state.isCreateModalOpened} curBook={{}}/>
+                    <CreateBookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened} curBook={{}}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>
                     {
-                        this.state.books
+                        this.props.books
                         .map((book)=>(
                                 <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}/>
                                 )
@@ -112,4 +67,23 @@ class BookList extends React.Component{
         );
     }
 }
-export default BookList;
+
+function mapStateToProps(state){
+    return {
+        books:state.booksReducer.books,
+        isCreateModalOpened: state.booksPageReducer.isModalOpened
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        openCreateModal:()=>dispatch(openModalAC()),
+        closeCreateModal:()=>dispatch(closeModalAc()),
+        fetchBooks:()=>dispatch(fetchBooks()),
+        takeBook:(bookId)=>dispatch(takeBook(bookId)),
+        saveBook:(book,image,file)=>dispatch(saveBook(book,image,file)),
+        deleteBook:(bookId)=>dispatch(deleteBook(bookId))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(BookList);

@@ -22,7 +22,6 @@ export default function loginReducer(state=initialState, action){
                 isLogged:false
             }
         case LOGIN_USER_SUCCESS:
-            debugger;
             return{
                 ...state,
                 isLoading: false,

@@ -6,12 +6,16 @@ import {loadState, saveState} from "./localStoreManager";
 import throttle from 'lodash/throttle';
 import homePageReducer from "./reducers/homePageReducer";
 import registrationPageReducer from "./reducers/registrationPageReducer";
+import booksReducer from "./reducers/booksReducer";
+import booksPageReducer from "./reducers/booksPageReducer";
 
 const reducers=combineReducers({
     currentUserReducer,
     loginReducer,
     homePageReducer,
-    registrationPageReducer
+    registrationPageReducer,
+    booksReducer,
+    booksPageReducer,
 });
 const persistedState=loadState();
 const store=createStore(

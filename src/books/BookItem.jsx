@@ -14,10 +14,10 @@ const BookItem=({book,takeBook,deleteBook})=>{
                     <p className="card-text">Some book description. Will be added later on</p>
                     <p className={`${styles.price}`}>Price: <em>{book.price}$</em></p>
                     <div className="row">
-                        <PrivateComponent roles={["ROLE_USER","ROLE_ADMIN"]}>
+                        <PrivateComponent roles={["USER","ADMIN"]}>
                             <button className={`${styles.control_button} btn btn-success col-md-5 mr-auto`} onClick={()=>takeBook(book.id)}>Take</button>
                         </PrivateComponent>
-                        <PrivateComponent roles={["ROLE_ADMIN"]}>
+                        <PrivateComponent roles={["ADMIN"]}>
                             <button className={`${styles.control_button} btn btn-danger col-md-5 ml-auto`} onClick={()=>deleteBook(book.id)}>Delete</button>
                         </PrivateComponent>
                     </div>

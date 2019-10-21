@@ -95,7 +95,6 @@ export function executeRegistration(fName,lName,username,password,repeatPassword
             isValid=false;
             dispatch(repeatPasswordNotValid());
         }
-        debugger;
         if(isValid){
             UserService.createUser({
                 fName,
