@@ -1,4 +1,5 @@
 import BooksAPI from "../services/BooksAPI";
+import {fetchBooksByUserId} from "./userBooksReducer";
 
 export const FETCH_BOOKS_STARTED="FETCH_BOOKS_STARTED";
 export const FETCH_BOOKS_FAILURE="FETCH_BOOKS_FAILURE";
@@ -121,6 +122,7 @@ export function takeBook(bookId){
         BooksAPI.takeBookByUserId(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
                 dispatch(takeBookSuccessAC())
+                dispatch(fetchBooksByUserId(getState().currentUser.user.id))
             })
             .catch(e=>{
                 dispatch(takeBookFailureAC())
@@ -135,6 +137,7 @@ export function returnBook(bookId){
         BooksAPI.returnBookByUserId(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
                 dispatch(returnBookSuccessAC())
+                dispatch(fetchBooksByUserId(getState().currentUserReducer.user.id))
             })
             .catch(e=>{
                 dispatch(returnBookFailureAC())

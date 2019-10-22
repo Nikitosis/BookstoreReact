@@ -1,11 +1,9 @@
 import React from "react";
-import BooksService from "../redux/services/BooksAPI";
-import AuthenticationService from "../redux/services/AuthenticationAPI";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
 import connect from "react-redux/lib/connect/connect";
-import {fetchBooks, downloadBookFile, returnBook} from "../redux/reducers/booksReducer";
 import {fetchBooksByUserId} from "../redux/reducers/userBooksReducer";
+import {downloadBookFile, returnBook} from "../redux/reducers/booksReducer";
 
 class MyBooksList extends React.Component{
 
@@ -21,7 +19,6 @@ class MyBooksList extends React.Component{
 
     returnBook=(bookId)=>{
         this.props.returnBook(bookId);
-        this.props.fetchBooks(this.props.curUser.id);
     }
 
 

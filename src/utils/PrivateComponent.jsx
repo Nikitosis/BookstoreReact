@@ -4,7 +4,6 @@ import connect from "react-redux/lib/connect/connect";
 
 function PrivateComponent(props){
         let currentUser=props.curUser;
-
         if(props.nonAuthorised && !props.isLogged){
             return props.children;
         }

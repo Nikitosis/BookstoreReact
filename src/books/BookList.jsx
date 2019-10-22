@@ -13,7 +13,7 @@ import {deleteBook, fetchBooks, saveBook, takeBook} from "../redux/reducers/book
 class BookList extends React.Component{
     componentDidMount() {
         this.props.fetchBooks();
-        this.timer=setInterval(()=>this.props.fetchBooks(),50000);
+        this.timer=setInterval(()=>this.props.fetchBooks(),5000);
     }
 
     componentWillUnmount() {
