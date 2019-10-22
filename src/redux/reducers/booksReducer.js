@@ -13,6 +13,11 @@ export const DELETE_BOOK_STARTED="DELETE_BOOK_STARTED";
 export const DELETE_BOOK_FAILURE="DELETE_BOOK_FAILURE";
 export const DELETE_BOOK_SUCCESS="DELETE_BOOK_SUCCESS";
 
+export const UPDATE_BOOK_STARTED="UPDATE_BOOK_STARTED";
+export const UPDATE_BOOK_FAILURE="UPDATE_BOOK_FAILURE";
+export const UPDATE_BOOK_SUCCESS="UPDATE_BOOK_SUCCESS";
+
+
 
 
 const initialState={
@@ -67,6 +72,18 @@ function deleteBookSuccessAC(){
     return {type:DELETE_BOOK_SUCCESS};
 }
 
+function updateBookStartedAC(){
+    return {type:UPDATE_BOOK_STARTED};
+}
+
+function updateBookFailureAC(){
+    return {type:UPDATE_BOOK_FAILURE};
+}
+
+function updateBookSuccessAC(){
+    return {type:UPDATE_BOOK_SUCCESS};
+}
+
 export function fetchBooks(){
     return (dispatch,getState)=>{
         dispatch(fetchBooksStartedAC());
@@ -92,6 +109,20 @@ export function saveBook(book,image,file){
             })
             .catch(e=>{
                 dispatch(saveBookFailureAC());
+            })
+    }
+}
+
+export function updateBook(book,image,file){
+    return (dispatch)=>{
+        dispatch(updateBookStartedAC());
+        BooksAPI.updateBook(book,image,file)
+            .then(response=>{
+                dispatch(updateBookSuccessAC());
+                dispatch(fetchBooks());
+            })
+            .catch(e=>{
+                dispatch(updateBookFailureAC());
             })
     }
 }

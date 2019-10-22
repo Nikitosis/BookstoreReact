@@ -41,6 +41,26 @@ class BooksAPI{
             })
     }
 
+    updateBook(book,image,file){
+        let bookInfoJson=JSON.stringify(book);
+        let bookInfo=new Blob([bookInfoJson],{
+            type:'application/json'
+        });
+        let formData=new FormData();
+        formData.append('bookInfo',bookInfo);
+        formData.append("image",image);
+        formData.append("file",file);
+
+        return axios.put(`${API_URL}/books`,
+            formData,
+            {
+                headers:{
+                    'content-type': 'multipart/form-data'
+                }
+            })
+    }
+
+
     deleteBook(id){
         return axios.delete(`${API_URL}/books/${id}`)
     }

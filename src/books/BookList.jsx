@@ -3,10 +3,17 @@ import BookItem from "./BookItem";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
 import CreateBookDialog from "./CreateBookDialog";
-import {closeModalAc, openModalAC} from "../redux/reducers/booksPageReducer";
+import {
+    closeCreateModalAc, closeEditModalAC,
+    closeModalAc,
+    openCreateModalAC,
+    openEditModalAC,
+    openModalAC
+} from "../redux/reducers/booksPageReducer";
 import connect from "react-redux/lib/connect/connect";
-import {deleteBook, fetchBooks, saveBook} from "../redux/reducers/booksReducer";
+import {deleteBook, fetchBooks, saveBook, updateBook} from "../redux/reducers/booksReducer";
 import {takeBook} from "../redux/reducers/userBooksReducer";
+import EditBookDialog from "./EditBookDialog";
 
 class BookList extends React.Component{
     componentDidMount() {
@@ -23,6 +30,10 @@ class BookList extends React.Component{
         this.props.takeBook(bookId);
     }
 
+    openEdit=(book)=>{
+        this.props.openEditModal(book);
+    }
+
     saveBook=(name,isbn,price,description,image,file)=>{
         let book={
             name:name,
@@ -31,6 +42,17 @@ class BookList extends React.Component{
             description:description
         }
         this.props.saveBook(book,image,file);
+    }
+
+    updateBook=(name,isbn,price,description,image,file)=>{
+        let book={
+            id:this.props.curBook.id,
+            name:name,
+            isbn:isbn,
+            price:price,
+            description:description
+        }
+        this.props.updateBook(book,image,file);
     }
 
     deleteBook=(id)=>{
@@ -47,14 +69,15 @@ class BookList extends React.Component{
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-                    <CreateBookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened} curBook={{}}/>
+                    <CreateBookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
+                    <EditBookDialog onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>
                     {
                         this.props.books
                         .map((book)=>(
-                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}/>
+                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook} openEdit={()=>this.openEdit(book)}/>
                                 )
                         )
                     }
@@ -67,18 +90,23 @@ class BookList extends React.Component{
 function mapStateToProps(state){
     return {
         books:state.booksReducer.books,
-        isCreateModalOpened: state.booksPageReducer.isModalOpened
+        isCreateModalOpened: state.booksPageReducer.isCreateModalOpened,
+        isEditModalOpened:state.booksPageReducer.isEditModalOpened,
+        curBook:state.booksPageReducer.curBook
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        openCreateModal:()=>dispatch(openModalAC()),
-        closeCreateModal:()=>dispatch(closeModalAc()),
+        openCreateModal:()=>dispatch(openCreateModalAC()),
+        closeCreateModal:()=>dispatch(closeCreateModalAc()),
+        openEditModal:(book)=>dispatch(openEditModalAC(book)),
+        closeEditModal:(book)=>dispatch(closeEditModalAC(book)),
         fetchBooks:()=>dispatch(fetchBooks()),
         takeBook:(bookId)=>dispatch(takeBook(bookId)),
         saveBook:(book,image,file)=>dispatch(saveBook(book,image,file)),
-        deleteBook:(bookId)=>dispatch(deleteBook(bookId))
+        deleteBook:(bookId)=>dispatch(deleteBook(bookId)),
+        updateBook:(book,image,file)=>dispatch(updateBook(book,image,file))
     }
 }
 

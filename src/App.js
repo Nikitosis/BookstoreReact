@@ -11,7 +11,6 @@ import AuthenticationService from "./redux/services/AuthenticationAPI";
 import MyBooksList from "./myBooks/MyBooksList";
 import LogoutPage from "./authentication/LogoutPage";
 import RegistrationPage from "./authentication/RegistrationPage";
-import LogList from "./logs/LogList";
 import UserPage from "./userPage/UserPage";
 import UserBooksList from "./userPage/UserBooksList";
 import PrivateRoute from "./utils/PrivateRoute";
@@ -28,7 +27,6 @@ function App(props){
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/myBooks"  component={MyBooksList}/>
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/" component={HomePage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList}/>
-                    <PrivateRoute roles={["ADMIN"]} exact path="/logs" component={LogList}/>
                     <PrivateRoute nonAuthorised={true} exact path="/login" component={LoginPage}/>
                     <PrivateRoute nonAuthorised={true} exact path="/registration" component={RegistrationPage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" component={UserPage}/>
