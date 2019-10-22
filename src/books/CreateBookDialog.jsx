@@ -10,6 +10,7 @@ class CreateBookDialog extends React.Component{
             name:"",
             isbn:"",
             price:"",
+            description:"",
             imagePreviewUrl:"",
             filePreviewName:"",
             file:null,
@@ -30,6 +31,7 @@ class CreateBookDialog extends React.Component{
                 name:"",
                 isbn:"",
                 price:"",
+                description:"",
                 imagePreviewUrl:"",
                 filePreviewName:"",
                 file:null,
@@ -62,6 +64,7 @@ class CreateBookDialog extends React.Component{
         this.props.onSave(this.state.name,
             this.state.isbn,
             this.state.price,
+            this.state.description,
             this.state.image,
             this.state.file);
     }
@@ -90,6 +93,11 @@ class CreateBookDialog extends React.Component{
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Price</label>
                             <input type="number" className="form-control" placeholder="0.00" name="price" value={this.state.price} onChange={this.handleChange}/>
+                        </div>
+
+                        <div className="form-group">
+                            <label className={"font-weight-bold"}>Description</label>
+                            <textarea type="number" className="form-control" placeholder="Description" name="description" value={this.state.description} onChange={this.handleChange} rows={3}></textarea>
                         </div>
 
                         <div className={"form-group"}>

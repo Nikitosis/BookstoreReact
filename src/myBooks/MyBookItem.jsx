@@ -11,7 +11,7 @@ const MyBookItem=({book,returnBook,downloadBook})=>{
                 <div className="card-body">
                     <h4 className="card-title">{book.name}</h4>
                     <div className={`${styles.bookPhoto}`} style={{backgroundImage: "url("+imgUrl+")"}}></div>
-                    <p className="card-text">Some book description. Will be added later on</p>
+                    <p className="card-text">{book.description}</p>
                     <p className={`${styles.price}`}>Price: <em>{book.price}$</em></p>
                     <div className="row">
                         <PrivateComponent roles={["USER","ADMIN"]}>

@@ -23,11 +23,12 @@ class BookList extends React.Component{
         this.props.takeBook(bookId);
     }
 
-    saveBook=(name,isbn,price,image,file)=>{
+    saveBook=(name,isbn,price,description,image,file)=>{
         let book={
             name:name,
             isbn:isbn,
-            price:price
+            price:price,
+            description:description
         }
         this.props.saveBook(book,image,file);
     }
