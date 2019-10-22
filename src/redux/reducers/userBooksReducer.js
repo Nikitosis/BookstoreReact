@@ -1,4 +1,5 @@
 import BooksAPI from "../services/BooksAPI";
+import {Buffer} from "buffer";
 
 export const FETCH_BOOKS_USER_STARTED="FETCH_BOOKS_USER_STARTED";
 export const FETCH_BOOKS_USER_FAILURE="FETCH_BOOKS_USER_FAILURE";
@@ -134,15 +135,22 @@ function extractFileName(contentDispositionValue){
     }
     return filename;
 }
+
+function base64ToArrayBuffer(base64) {
+    const binaryString = window.atob(base64); // Comment this if not using base64
+    const bytes = new Uint8Array(binaryString.length);
+    return bytes.map((byte, i) => binaryString.charCodeAt(i));
+}
+
 export function downloadBookFile(bookId){
     return (dispatch,getState)=>{
         BooksAPI.getFileBook(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
                 let fileName=extractFileName(response.headers['content-disposition']);
-                FileDownload(response.data,fileName);
+                FileDownload(base64ToArrayBuffer(response.data),fileName);
             })
             .catch(e=>{
-
+                console.log(e);
             })
     }
 }
