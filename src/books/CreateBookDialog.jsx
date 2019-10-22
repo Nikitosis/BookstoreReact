@@ -17,7 +17,14 @@ class CreateBookDialog extends React.Component{
         }
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+   //clear form, when it opens
+   componentDidUpdate(prevProps, prevState, snapshot) {
+       if(!prevProps.show && this.props.show){
+           this.clearForm();
+       }
+   }
+
+    clearForm=()=>{
         this.setState(
             {
                 name:"",
@@ -59,9 +66,14 @@ class CreateBookDialog extends React.Component{
             this.state.file);
     }
 
+
+    handleClose=()=>{
+        this.props.onClose();
+    }
+
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.props.onClose}>
+            <Modal show={this.props.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add book</Modal.Title>
                 </Modal.Header>
@@ -86,7 +98,7 @@ class CreateBookDialog extends React.Component{
                                 <input type="file" className="custom-file-input" id="file" name="file"
                                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf"
                                        onChange={this.handleChangeFile}/>
-                                <label className="custom-file-label" htmlFor="avatar">{this.state.filePreviewName!="" ? this.state.filePreviewName :"Choose file"}</label>
+                                <label className="custom-file-label" htmlFor="avatar">{this.state.filePreviewName || "Choose file"}</label>
                             </div>
                         </div>
 
@@ -96,14 +108,14 @@ class CreateBookDialog extends React.Component{
                                 <input type="file" className="custom-file-input" id="image" name="image" accept="image/*" onChange={this.handleChangeImage}/>
                                 <label className="custom-file-label" htmlFor="image">Choose image</label>
                             </div>
-                            {this.state.imagePreviewUrl != "" &&
+                            {this.state.imagePreviewUrl &&
                             <img src={this.state.imagePreviewUrl} className={"img-thumbnail"} alt=""/>
                             }
                         </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.onClose}>
+                    <Button variant="secondary" onClick={this.handleClose}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={this.handleSave}>

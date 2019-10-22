@@ -11,6 +11,7 @@ import booksPageReducer from "./reducers/booksPageReducer";
 import myBooksPageReducer from "./reducers/myBooksPageReducer";
 import userPageReducer from "./reducers/userPageReducer";
 import userBooksReducer from "./reducers/userBooksReducer";
+import userListPageReducer from "./reducers/userListPageReducer";
 
 const reducers=combineReducers({
     currentUserReducer,
@@ -21,7 +22,8 @@ const reducers=combineReducers({
     booksPageReducer,
     myBooksPageReducer,
     userPageReducer,
-    userBooksReducer
+    userBooksReducer,
+    userListPageReducer
 });
 const persistedState=loadState();
 const store=createStore(

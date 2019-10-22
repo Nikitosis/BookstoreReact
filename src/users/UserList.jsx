@@ -1,39 +1,13 @@
 import React from "react";
 import UserItem from "./UserItem";
-import UserService from "../redux/services/UserAPI";
+import {fetchUsers} from "../redux/reducers/userListPageReducer";
+import connect from "react-redux/lib/connect/connect";
 
 class UserList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            users: [],
-        };
-    }
-
-    fetchUsers=()=>{
-        UserService.getAll()
-            .then((res)=>{
-                let users=res.data.map((user)=> {
-                    return {
-                        id:user.id,
-                        username:user.username,
-                        fName:user.fName,
-                        lName:user.lName,
-                        roles:user.roles
-                    }
-                });
-                this.setState({
-                    users:users,
-                })
-            })
-            .catch(()=>{
-                console.log("Can't fetch users");
-            })
-    };
 
     componentDidMount() {
-        this.fetchUsers();
-        this.timer=setInterval(()=>this.fetchUsers(),5000);
+        this.props.fetchUsers();
+        this.timer=setInterval(()=>this.props.fetchUsers(),5000);
     }
 
     componentWillUnmount() {
@@ -47,7 +21,7 @@ class UserList extends React.Component{
             <div className="container">
                 <table className="table table-striped">
                     <tbody>
-                    {this.state.users.map((user)=>(
+                    {this.props.users.map((user)=>(
                         <UserItem key={user.id} user={user}/>
 
                     ))}
@@ -58,4 +32,17 @@ class UserList extends React.Component{
         );
     }
 }
-export default UserList;
+
+function mapStateToProps(state){
+    return{
+        users:state.userListPageReducer.users
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        fetchUsers:()=>dispatch(fetchUsers())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserList);

@@ -1,6 +1,6 @@
 import React from 'react';
-import AuthenticationService from "../redux/services/AuthenticationAPI";
 import connect from "react-redux/lib/connect/connect";
+import {Redirect} from "react-router-dom";
 
 function PrivateComponent(props){
         let currentUser=props.curUser;
@@ -10,7 +10,7 @@ function PrivateComponent(props){
 
         if (!props.isLogged) {
             // not logged in so redirect to authentication page with the return url
-            return null;
+            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
         // check if route is restricted by role

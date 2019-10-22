@@ -2,8 +2,7 @@ import React from "react";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
 import connect from "react-redux/lib/connect/connect";
-import {fetchBooksByUserId} from "../redux/reducers/userBooksReducer";
-import {downloadBookFile, returnBook} from "../redux/reducers/booksReducer";
+import {downloadBookFile, fetchBooksByUserId, returnBook} from "../redux/reducers/userBooksReducer";
 
 class MyBooksList extends React.Component{
 

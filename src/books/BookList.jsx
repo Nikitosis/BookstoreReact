@@ -1,14 +1,12 @@
 import React from "react";
 import BookItem from "./BookItem";
-import BooksService from "../redux/services/BooksAPI";
-import AuthenticationService from "../redux/services/AuthenticationAPI";
-import Book from "../redux/models/Book";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
 import CreateBookDialog from "./CreateBookDialog";
 import {closeModalAc, openModalAC} from "../redux/reducers/booksPageReducer";
 import connect from "react-redux/lib/connect/connect";
-import {deleteBook, fetchBooks, saveBook, takeBook} from "../redux/reducers/booksReducer";
+import {deleteBook, fetchBooks, saveBook} from "../redux/reducers/booksReducer";
+import {takeBook} from "../redux/reducers/userBooksReducer";
 
 class BookList extends React.Component{
     componentDidMount() {
