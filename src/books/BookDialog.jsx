@@ -24,7 +24,6 @@ class BookDialog extends React.Component{
     }
 
     setConditionalState(){
-        debugger;
         if(this.props.book!=null){
             this.setbookState();
         }
@@ -65,7 +64,6 @@ class BookDialog extends React.Component{
 
     //clear form, when it opens
     componentDidUpdate(prevProps, prevState, snapshot) {
-        debugger;
         if(!prevProps.show && this.props.show){
             this.setConditionalState();
         }

@@ -1,6 +1,7 @@
 import UserService from "../services/UserAPI";
 import AuthenticationService from "../services/AuthenticationAPI";
 import {LOGIN_USER_SUCCESS, LOGOUT_USER} from "./loginReducer";
+import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
 
 const FETCH_USER_STARTED="FETCH_USER_STARTED";
 const FETCH_USER_SUCCESS="FETCH_USER_SUCCESS";
@@ -57,6 +58,8 @@ function currentUserReducer(state=initialState, action){
                 user:action.payload.user,
                 token:action.payload.token
             }
+        case LOGOUT_USER:
+            return initialState;
         default:
             return state;
     }
@@ -119,9 +122,13 @@ export function updateUser(firstName,lastName,country,city,gender,email,phone,av
             .then(res=>{
                 const user=res.data;
                 dispatch(updateUserSuccess(user));
+
+                showSuccessNotification("Successfully updated profile");
             })
             .catch((e)=>{
                 dispatch(updateUserFailure(e));
+
+                showErrorNotification("Error updating profile");
             })
     }
 }

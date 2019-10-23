@@ -1,5 +1,6 @@
 import BooksAPI from "../services/BooksAPI";
 import {Buffer} from "buffer";
+import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
 
 export const FETCH_BOOKS_USER_STARTED="FETCH_BOOKS_USER_STARTED";
 export const FETCH_BOOKS_USER_FAILURE="FETCH_BOOKS_USER_FAILURE";
@@ -85,10 +86,18 @@ export function takeBook(bookId){
         BooksAPI.takeBookByUserId(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
                 dispatch(takeBookSuccessAC())
-                dispatch(fetchBooksByUserId(getState().currentUser.user.id))
+                dispatch(fetchBooksByUserId(getState().currentUserReducer.user.id))
+
+                showSuccessNotification("Book is taken");
             })
             .catch(e=>{
                 dispatch(takeBookFailureAC())
+                if(e.response.data.code===4){
+                    showErrorNotification("Cannot take book. Book is already taken");
+                }
+                if(e.response.data.code===5){
+                    showErrorNotification("Cannot take book. Not enough money");
+                }
             })
     }
 }
@@ -101,9 +110,13 @@ export function returnBook(bookId){
             .then(response=>{
                 dispatch(returnBookSuccessAC())
                 dispatch(fetchBooksByUserId(getState().currentUserReducer.user.id))
+
+                showSuccessNotification("Book is returned");
             })
             .catch(e=>{
                 dispatch(returnBookFailureAC())
+
+                showErrorNotification("Cannot return book");
             })
     }
 }

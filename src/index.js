@@ -1,13 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+
+import "../node_modules/noty/lib/noty.css";
+import "../node_modules/noty/src/themes/relax.scss";
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 import store from "./redux/store";
 import Provider from "react-redux/lib/components/Provider";
-import axios from "axios";
 import * as AxiosInterceptors from "./redux/AxiosInterceptors";
 
 

@@ -3,7 +3,7 @@ import PrivateComponent from "../utils/PrivateComponent";
 import styles from "./BookItem.module.css";
 import {Dropdown} from "react-bootstrap";
 
-const customButton=(props)=>{
+const CustomButton=(props)=>{
     function handleClick(e){
         e.preventDefault();
         props.onClick(e);
@@ -25,7 +25,7 @@ const BookItem=({book,takeBook,deleteBook,openEdit})=>{
                     <p className="card-text">{book.description}</p>
                     <p className={`${styles.price}`}>Price: <em>{book.price}$</em></p>
                     <Dropdown>
-                        <Dropdown.Toggle as={customButton} className="btn-block" style={{backgroundColor:"white",border:"none",color:"black"}}>
+                        <Dropdown.Toggle as={CustomButton} className="btn-block" style={{backgroundColor:"white",border:"none",color:"black"}}>
                             ...
                         </Dropdown.Toggle>
 

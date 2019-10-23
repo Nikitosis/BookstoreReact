@@ -5,6 +5,7 @@ import {
     SAVE_BOOK_SUCCESS, UPDATE_BOOK_STARTED,
     UPDATE_BOOK_SUCCESS
 } from "./booksReducer";
+import {TAKE_BOOK_FAILURE} from "./userBooksReducer";
 
 const OPEN_BOOKS_CREATE_MODAL="OPEN_BOOKS_CREATE_MODAL";
 const CLOSE_BOOKS_CREATE_MODAL="CLOSE_BOOKS_CREATE_MODAL";
@@ -25,7 +26,8 @@ const initialState={
     nameErrorMessage:null,
     priceErrorMessage:null,
     fileErrorMessage:null,
-    imageErrorMessage:null
+    imageErrorMessage:null,
+    takeBookErrorMessage:null,
 }
 
 function booksPageReducer(state=initialState,action){
@@ -119,6 +121,11 @@ function booksPageReducer(state=initialState,action){
             return{
                 ...state,
                 imageErrorMessage: "Wrong image. Image size has to be less than 25MB"
+            }
+        case TAKE_BOOK_FAILURE:
+            return{
+                ...state,
+                takeBookErrorMessage: "Can't take book. Not enough money"
             }
         default:
             return state;

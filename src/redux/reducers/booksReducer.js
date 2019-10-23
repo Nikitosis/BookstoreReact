@@ -1,6 +1,7 @@
 import BooksAPI from "../services/BooksAPI";
-import {fetchBooksByUserId} from "./userBooksReducer";
 import {wrongBookName, wrongBookPrice} from "./booksPageReducer";
+import Noty from "noty";
+import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
 
 export const FETCH_BOOKS_STARTED="FETCH_BOOKS_STARTED";
 export const FETCH_BOOKS_FAILURE="FETCH_BOOKS_FAILURE";
@@ -124,9 +125,14 @@ export function saveBook(book,image,file){
                 .then(response => {
                     dispatch(saveBookSuccessAC());
                     dispatch(fetchBooks());
+                    //show notification
+                    showSuccessNotification("Successfully added book");
+
                 })
                 .catch(e => {
                     dispatch(saveBookFailureAC());
+
+                    showErrorNotification("Cannot save book");
                 })
 
         }
@@ -144,9 +150,13 @@ export function updateBook(book,image,file){
                 .then(response => {
                     dispatch(updateBookSuccessAC());
                     dispatch(fetchBooks());
+
+                    showSuccessNotification("Successfully updated book");
                 })
                 .catch(e => {
                     dispatch(updateBookFailureAC());
+
+                    showErrorNotification("Cannot update book");
                 })
         }
     }
@@ -159,9 +169,13 @@ export function deleteBook(bookId){
             .then(response=>{
                 dispatch(deleteBookSuccessAC())
                 dispatch(fetchBooks());
+
+                showSuccessNotification("Successfully deleted book");
             })
             .catch(e=>{
                 dispatch(deleteBookFailureAC())
+
+                showErrorNotification("Cannot delete book");
             })
     }
 }
