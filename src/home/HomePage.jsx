@@ -12,6 +12,12 @@ import {closeModal, openModal} from "../redux/reducers/homePageReducer";
 class HomePage extends React.Component{
     componentDidMount() {
         this.props.fetchUser();
+        this.timer=setInterval(()=>this.props.fetchUser(),5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer=null;
     }
 
     render() {

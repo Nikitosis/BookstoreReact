@@ -13,7 +13,7 @@ import {
 import connect from "react-redux/lib/connect/connect";
 import {deleteBook, fetchBooks, saveBook, updateBook} from "../redux/reducers/booksReducer";
 import {takeBook} from "../redux/reducers/userBooksReducer";
-import EditBookDialog from "./EditBookDialog";
+import BookDialog from "./BookDialog";
 
 class BookList extends React.Component{
     componentDidMount() {
@@ -69,8 +69,9 @@ class BookList extends React.Component{
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-                    <CreateBookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
-                    <EditBookDialog onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
+
+                    <BookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
+                    <BookDialog onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>

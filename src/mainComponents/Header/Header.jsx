@@ -12,9 +12,6 @@ const Header=(props)=>{
         <div className="navbar navbar-expand-md  navbar-light bg-light">
             <ul className="navbar-nav m-auto">
                 <PrivateComponent roles={["USER","ADMIN"]}>
-                    <li className="nav-item"><a className="nav-link" href="#" onClick={props.executeLogout}>Logout</a></li>
-                </PrivateComponent>
-                <PrivateComponent roles={["USER","ADMIN"]}>
                     <li className="nav-item"><NavLink to="/" className="nav-link">Home</NavLink></li>
                 </PrivateComponent>
                 <PrivateComponent roles={["USER","ADMIN"]}>
@@ -41,10 +38,5 @@ const Header=(props)=>{
     )
 }
 
-function mapDispatchToProps(dispatch){
-    return{
-        executeLogout:()=>dispatch(executeLogout())
-    }
-}
 
-export default connect(null,mapDispatchToProps)(Header);
+export default Header;

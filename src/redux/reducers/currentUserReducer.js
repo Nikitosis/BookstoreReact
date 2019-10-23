@@ -18,7 +18,6 @@ const initialState={
 }
 
 function currentUserReducer(state=initialState, action){
-    debugger;
     switch (action.type) {
         case FETCH_USER_STARTED:
             return {

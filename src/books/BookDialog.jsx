@@ -2,37 +2,70 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 
-class EditBookDialog extends React.Component{
+
+//if book is provided in props, then it initializes state with book's values, otherwise- with empty values
+class BookDialog extends React.Component{
     constructor(props){
         super(props);
 
         this.state={
-            name:this.props.book.name,
-            isbn:this.props.book.isbn,
-            price:this.props.book.price,
-            description:this.props.book.description,
-            imagePreviewUrl:this.props.book.photoLink,
+            name:"",
+            isbn:"",
+            price:"",
+            description:"",
+            imagePreviewUrl:"",
             filePreviewName:"",
             file:null,
             image:null
         }
+        this.setConditionalState();
+    }
+
+    setConditionalState(){
+        debugger;
+        if(this.props.book!=null){
+            this.setbookState();
+        }
+        else{
+            this.setDefaultState();
+        }
+    }
+
+    setbookState(){
+        this.setState(
+            {
+                name:this.props.book.name,
+                isbn:this.props.book.isbn,
+                price:this.props.book.price,
+                description:this.props.book.description,
+                imagePreviewUrl:this.props.book.photoLink,
+                filePreviewName:"",
+                file:null,
+                image:null
+            }
+        )
+    }
+
+    setDefaultState(){
+        this.setState(
+            {
+                name:"",
+                isbn:"",
+                price:"",
+                description:"",
+                imagePreviewUrl:"",
+                filePreviewName:"",
+                file:null,
+                image:null
+            }
+        )
     }
 
     //clear form, when it opens
     componentDidUpdate(prevProps, prevState, snapshot) {
+        debugger;
         if(!prevProps.show && this.props.show){
-            this.setState(
-                {
-                    name:this.props.book.name,
-                    isbn:this.props.book.isbn,
-                    price:this.props.book.price,
-                    description:this.props.book.description,
-                    imagePreviewUrl:this.props.book.photoLink,
-                    filePreviewName:"",
-                    file:null,
-                    image:null
-                }
-            )
+            this.setConditionalState();
         }
     }
 
@@ -133,4 +166,4 @@ class EditBookDialog extends React.Component{
 
 }
 
-export default EditBookDialog;
+export default BookDialog;
