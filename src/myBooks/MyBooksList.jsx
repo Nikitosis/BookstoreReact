@@ -28,7 +28,8 @@ class MyBooksList extends React.Component{
                     {
                         this.props.books
                             .map((book)=>(
-                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook} downloadBook={this.props.downloadBook}/>
+                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}
+                                                downloadBook={this.props.downloadBook} isDownloading={this.props.downloadingBookIds.some(id=>id===book.id)}/>
                                 )
                             )
                     }
@@ -41,7 +42,8 @@ class MyBooksList extends React.Component{
 function mapStateToProps(state){
     return{
         books:state.userBooksReducer.books,
-        curUser:state.currentUserReducer.user
+        curUser:state.currentUserReducer.user,
+        downloadingBookIds: state.myBooksPageReducer.downloadingBookIds
     }
 }
 

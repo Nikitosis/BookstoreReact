@@ -14,10 +14,13 @@ export const TAKE_BOOK_STARTED="TAKE_BOOK_STARTED";
 export const TAKE_BOOK_FAILURE="TAKE_BOOK_FAILURE";
 export const TAKE_BOOK_SUCCESS="TAKE_BOOK_SUCCESS";
 
+export const DOWNLOAD_BOOK_STARTED="DOWNLOAD_BOOK_STARTED";
+export const DOWNLOAD_BOOK_FINISHED="DOWNLOAD_BOOK_FINISHED";
+
 
 const initialState={
     books:[],
-    isError:false
+    isError:false,
 }
 
 function userBooksReducer(state=initialState,action){
@@ -76,6 +79,14 @@ function takeBookFailureAC(){
 
 function takeBookSuccessAC(){
     return {type:TAKE_BOOK_SUCCESS};
+}
+
+function downloadBookStartedAC(bookId){
+    return {type:DOWNLOAD_BOOK_STARTED,payload:bookId};
+}
+
+function downloadBookFinishedAC(bookId){
+    return {type:DOWNLOAD_BOOK_FINISHED,payload:bookId};
 }
 
 
@@ -157,13 +168,19 @@ function base64ToArrayBuffer(base64) {
 
 export function downloadBookFile(bookId){
     return (dispatch,getState)=>{
+        dispatch(downloadBookStartedAC(bookId))
         BooksAPI.getFileBook(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
                 let fileName=extractFileName(response.headers['content-disposition']);
                 FileDownload(base64ToArrayBuffer(response.data),fileName);
+
+                dispatch(downloadBookFinishedAC(bookId));
             })
             .catch(e=>{
                 console.log(e);
+                dispatch(downloadBookFinishedAC(bookId))
+
+                showErrorNotification("Cannot download book");
             })
     }
 }
