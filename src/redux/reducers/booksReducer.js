@@ -87,7 +87,6 @@ function updateBookSuccessAC(){
 export function fetchBooks(){
     return (dispatch,getState)=>{
         dispatch(fetchBooksStartedAC());
-        console.log("Fetch books");
         BooksAPI.getAllBooks()
             .then(response=>{
                 let books=response.data;

@@ -3,6 +3,8 @@ import connect from "react-redux/lib/connect/connect";
 import styles from "./UserInfo.module.css";
 import {Dropdown} from "react-bootstrap";
 import PrivateComponent from "../../../utils/PrivateComponent";
+import {executeLogout} from "../../../redux/reducers/loginReducer";
+import {fetchUser} from "../../../redux/reducers/currentUserReducer";
 
 
 const UserInfo=(props)=>{
@@ -10,6 +12,7 @@ const UserInfo=(props)=>{
 
     function handleClick(e){
         e.preventDefault();
+        props.fetchUser();
         props.onClick(e);
     }
 
@@ -28,4 +31,11 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(UserInfo);
+function mapDispatchToProps(dispatch){
+    return{
+        fetchUser:()=>dispatch(fetchUser())
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserInfo);

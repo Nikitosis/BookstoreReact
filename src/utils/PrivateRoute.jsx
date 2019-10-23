@@ -37,7 +37,6 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
 )
 
 function mapStateToProps(state){
-    console.log(state);
     return{
         currentUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged,

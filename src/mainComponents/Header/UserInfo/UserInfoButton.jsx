@@ -6,11 +6,8 @@ import styles from "./UserInfoButton.module.css"
 import {NavLink} from "react-router-dom";
 import {executeLogout} from "../../../redux/reducers/loginReducer";
 
-
 const UserInfoButton=(props)=>{
-    const onHomeClicked=()=>{
 
-    }
 
     return (
         <Dropdown>
