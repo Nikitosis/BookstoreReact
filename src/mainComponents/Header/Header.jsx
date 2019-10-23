@@ -20,9 +20,6 @@ const Header=(props)=>{
                 <PrivateComponent roles={["ADMIN"]}>
                     <li className="nav-item"><NavLink to="/users" className="nav-link">Users</NavLink></li>
                 </PrivateComponent>
-                <PrivateComponent roles={["ADMIN"]}>
-                    <li className="nav-item"><NavLink to="/logs" className="nav-link">Logs</NavLink></li>
-                </PrivateComponent>
                 <PrivateComponent nonAuthorised={true}>
                     <li className="nav-item"><NavLink to="/registration" className="nav-link">Register</NavLink></li>
                 </PrivateComponent>
