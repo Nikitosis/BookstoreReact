@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
+import booksPageReducer from "../redux/reducers/booksPageReducer";
+import connect from "react-redux/lib/connect/connect";
 
 
 //if book is provided in props, then it initializes state with book's values, otherwise- with empty values
@@ -105,6 +107,9 @@ class BookDialog extends React.Component{
     }
 
     render() {
+        let nameValidationStyle=this.props.nameErrorMessage==null ? "" : "is-invalid";
+        let priceValidationStyle=this.props.priceErrorMessage==null ? "" : "is-invalid";
+
         return (
             <Modal show={this.props.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
@@ -114,7 +119,10 @@ class BookDialog extends React.Component{
                     <form className="form">
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Name</label>
-                            <input type="text" className="form-control" placeholder="Book name" name="name" value={this.state.name} onChange={this.handleChange}/>
+                            <input type="text" className={`form-control ${nameValidationStyle}`} placeholder="Book name" name="name" value={this.state.name} onChange={this.handleChange}/>
+                            <small className="text-danger">
+                                {this.props.nameErrorMessage}
+                            </small>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>ISBN</label>
@@ -122,7 +130,10 @@ class BookDialog extends React.Component{
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Price</label>
-                            <input type="number" className="form-control" placeholder="0.00" name="price" value={this.state.price} onChange={this.handleChange}/>
+                            <input type="number" className={`form-control ${priceValidationStyle}`} placeholder="0.00" name="price" value={this.state.price} onChange={this.handleChange}/>
+                            <small className="text-danger">
+                                {this.props.priceErrorMessage}
+                            </small>
                         </div>
 
                         <div className="form-group">
@@ -166,4 +177,11 @@ class BookDialog extends React.Component{
 
 }
 
-export default BookDialog;
+function mapStateToProps(state){
+    return {
+        nameErrorMessage:state.booksPageReducer.nameErrorMessage,
+        priceErrorMessage:state.booksPageReducer.priceErrorMessage
+    }
+}
+
+export default connect(mapStateToProps)(BookDialog);

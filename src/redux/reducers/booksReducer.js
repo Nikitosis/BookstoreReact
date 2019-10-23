@@ -1,5 +1,6 @@
 import BooksAPI from "../services/BooksAPI";
 import {fetchBooksByUserId} from "./userBooksReducer";
+import {wrongBookName, wrongBookPrice} from "./booksPageReducer";
 
 export const FETCH_BOOKS_STARTED="FETCH_BOOKS_STARTED";
 export const FETCH_BOOKS_FAILURE="FETCH_BOOKS_FAILURE";
@@ -84,6 +85,20 @@ function updateBookSuccessAC(){
     return {type:UPDATE_BOOK_SUCCESS};
 }
 
+function executeBookValidation(book,dispatch){
+    let isValid=true;
+    if(book.name==null || book.name===""){
+        isValid=false;
+        dispatch(wrongBookName());
+    }
+    if(book.price==null || book.price===""){
+        isValid=false;
+        dispatch(wrongBookPrice());
+    }
+
+    return isValid;
+}
+
 export function fetchBooks(){
     return (dispatch,getState)=>{
         dispatch(fetchBooksStartedAC());
@@ -101,28 +116,39 @@ export function fetchBooks(){
 export function saveBook(book,image,file){
     return (dispatch)=>{
         dispatch(saveBookStartedAC());
-        BooksAPI.saveBook(book,image,file)
-            .then(response=>{
-                dispatch(saveBookSuccessAC());
-                dispatch(fetchBooks());
-            })
-            .catch(e=>{
-                dispatch(saveBookFailureAC());
-            })
+
+        let isValid=executeBookValidation(book,dispatch);
+        if(isValid) {
+
+            BooksAPI.saveBook(book, image, file)
+                .then(response => {
+                    dispatch(saveBookSuccessAC());
+                    dispatch(fetchBooks());
+                })
+                .catch(e => {
+                    dispatch(saveBookFailureAC());
+                })
+
+        }
     }
 }
 
 export function updateBook(book,image,file){
     return (dispatch)=>{
         dispatch(updateBookStartedAC());
-        BooksAPI.updateBook(book,image,file)
-            .then(response=>{
-                dispatch(updateBookSuccessAC());
-                dispatch(fetchBooks());
-            })
-            .catch(e=>{
-                dispatch(updateBookFailureAC());
-            })
+
+        let isValid=executeBookValidation(book,dispatch);
+
+        if(isValid) {
+            BooksAPI.updateBook(book, image, file)
+                .then(response => {
+                    dispatch(updateBookSuccessAC());
+                    dispatch(fetchBooks());
+                })
+                .catch(e => {
+                    dispatch(updateBookFailureAC());
+                })
+        }
     }
 }
 

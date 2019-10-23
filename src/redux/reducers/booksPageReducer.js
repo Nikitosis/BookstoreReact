@@ -1,8 +1,8 @@
 import {
     FETCH_BOOKS_FAILURE,
     FETCH_BOOKS_STARTED,
-    FETCH_BOOKS_SUCCESS,
-    SAVE_BOOK_SUCCESS,
+    FETCH_BOOKS_SUCCESS, SAVE_BOOK_STARTED,
+    SAVE_BOOK_SUCCESS, UPDATE_BOOK_STARTED,
     UPDATE_BOOK_SUCCESS
 } from "./booksReducer";
 
@@ -12,11 +12,20 @@ const CLOSE_BOOKS_CREATE_MODAL="CLOSE_BOOKS_CREATE_MODAL";
 const OPEN_BOOKS_EDIT_MODAL="OPEN_BOOKS_EDIT_MODAL";
 const CLOSE_BOOKS_EDIT_MODAL="CLOSE_BOOKS_EDIT_MODAL";
 
+export const WRONG_BOOK_NAME_ERROR="WRONG_BOOK_NAME_ERROR";
+export const WRONG_BOOK_PRICE_ERROR="WRONG_BOOK_PRICE_ERROR";
+export const WRONG_BOOK_FILE_ERROR="WRONG_BOOK_FILE_ERROR";
+export const WRONG_BOOK_IMAGE_ERROR="WRONG_BOOK_IMAGE_ERROR";
+
 const initialState={
     isCreateModalOpened:false,
     isEditModalOpened:false,
     isLoading:false,
-    curBook:{}
+    curBook:{},
+    nameErrorMessage:null,
+    priceErrorMessage:null,
+    fileErrorMessage:null,
+    imageErrorMessage:null
 }
 
 function booksPageReducer(state=initialState,action){
@@ -46,10 +55,22 @@ function booksPageReducer(state=initialState,action){
                 ...state,
                 isLoading: false
             }
+        case SAVE_BOOK_STARTED:
+            return{
+                ...state,
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null
+            }
         case SAVE_BOOK_SUCCESS:
             return{
                 ...state,
-                isCreateModalOpened: false
+                isCreateModalOpened: false,
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null
             }
         case OPEN_BOOKS_EDIT_MODAL:
             return{
@@ -62,15 +83,62 @@ function booksPageReducer(state=initialState,action){
                 ...state,
                 isEditModalOpened: false
             }
-        case UPDATE_BOOK_SUCCESS:{
+        case UPDATE_BOOK_STARTED:
             return{
                 ...state,
-                isEditModalOpened: false
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null
             }
+        case UPDATE_BOOK_SUCCESS:
+            return{
+                ...state,
+                isEditModalOpened: false,
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null
         }
+        case WRONG_BOOK_NAME_ERROR:
+            return{
+                ...state,
+                nameErrorMessage: "Wrong name."
+            }
+        case WRONG_BOOK_PRICE_ERROR:
+            return{
+                ...state,
+                priceErrorMessage: "Wrong price."
+            }
+        case WRONG_BOOK_FILE_ERROR:
+            return {
+                ...state,
+                fileErrorMessage: "Wrong file. File size has to be less than 300MB"
+            }
+        case WRONG_BOOK_IMAGE_ERROR:
+            return{
+                ...state,
+                imageErrorMessage: "Wrong image. Image size has to be less than 25MB"
+            }
         default:
             return state;
     }
+}
+
+export function wrongBookName(){
+    return {type:WRONG_BOOK_NAME_ERROR};
+}
+
+export function wrongBookPrice(){
+    return {type:WRONG_BOOK_PRICE_ERROR};
+}
+
+export function wrongBookFile(){
+    return {type:WRONG_BOOK_FILE_ERROR};
+}
+
+export function wrongBookImage(){
+    return {type:WRONG_BOOK_IMAGE_ERROR};
 }
 
 export function openCreateModalAC() {
