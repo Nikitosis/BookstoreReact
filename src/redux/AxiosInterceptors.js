@@ -1,8 +1,7 @@
 import axios from "axios";
-import store from "./store";
 import {executeLogout} from "./reducers/loginReducer";
 
-export function setupInterceptors(){
+export function setupInterceptors(store){
     axios.interceptors.request.use(
         (config)=>{
             console.log("Authorized token: ");

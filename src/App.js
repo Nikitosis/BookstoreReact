@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "./mainComponents/Header";
+import Header from "./mainComponents/Header/Header";
 import UserList from "./users/UserList";
 import logo from './logo.svg';
 import './App.css';
@@ -9,7 +9,6 @@ import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
 import AuthenticationService from "./redux/services/AuthenticationAPI";
 import MyBooksList from "./myBooks/MyBooksList";
-import LogoutPage from "./authentication/LogoutPage";
 import RegistrationPage from "./authentication/RegistrationPage";
 import UserPage from "./userPage/UserPage";
 import UserBooksList from "./userPage/UserBooksList";
@@ -23,7 +22,6 @@ function App(props){
                 <Header/>
                 <div className="content-wrapper">
                     <Route exact path="/books" component={BookList}/>
-                    <PrivateRoute roles={["USER","ADMIN"]} exact path="/logout" component={LogoutPage}/>
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/myBooks"  component={MyBooksList}/>
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/" component={HomePage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList}/>

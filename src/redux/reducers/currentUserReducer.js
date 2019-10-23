@@ -18,6 +18,7 @@ const initialState={
 }
 
 function currentUserReducer(state=initialState, action){
+    debugger;
     switch (action.type) {
         case FETCH_USER_STARTED:
             return {
@@ -57,8 +58,6 @@ function currentUserReducer(state=initialState, action){
                 user:action.payload.user,
                 token:action.payload.token
             }
-        case LOGOUT_USER:
-            return initialState;
         default:
             return state;
     }

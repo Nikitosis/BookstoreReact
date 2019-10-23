@@ -36,7 +36,12 @@ export default function loginReducer(state=initialState, action){
                 isLogged:false,
             }
         case LOGOUT_USER:
-            return initialState;
+            debugger;
+            return {
+                ...state,
+                isLogged: false,
+            }
+            ///return initialState;
 
         default:
             return state;
@@ -56,14 +61,8 @@ function loginUserFailed(){
     return {type:LOGIN_USER_FAILED};
 }
 
-function logoutUser(){
-    return {type:LOGOUT_USER};
-}
-
 export function executeLogout(){
-    return (dispatch)=>{
-        dispatch(logoutUser());
-    }
+    return {type:LOGOUT_USER};
 }
 
 export function executeLogin(username,password){

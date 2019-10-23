@@ -11,7 +11,8 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
         }
         // not logged in so redirect to login page with the return url
         if (!isLogged) {
-            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            //return null;
+            props.history.push("/login");
         }
 
         // check if route is restricted by role
@@ -36,6 +37,7 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
 )
 
 function mapStateToProps(state){
+    console.log(state);
     return{
         currentUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged,

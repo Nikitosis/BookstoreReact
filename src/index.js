@@ -10,7 +10,6 @@ import Provider from "react-redux/lib/components/Provider";
 import axios from "axios";
 import * as AxiosInterceptors from "./redux/AxiosInterceptors";
 
-AxiosInterceptors.setupInterceptors();
 
 ReactDOM.render(
     <Provider store={store}>
@@ -20,6 +19,7 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
+AxiosInterceptors.setupInterceptors(store);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

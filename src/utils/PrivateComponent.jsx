@@ -3,6 +3,7 @@ import connect from "react-redux/lib/connect/connect";
 import {Redirect} from "react-router-dom";
 
 function PrivateComponent(props){
+        debugger;
         let currentUser=props.curUser;
         if(props.nonAuthorised && !props.isLogged){
             return props.children;
@@ -10,7 +11,8 @@ function PrivateComponent(props){
 
         if (!props.isLogged) {
             // not logged in so redirect to authentication page with the return url
-            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            return null;
+            //return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
         // check if route is restricted by role
@@ -33,6 +35,7 @@ function PrivateComponent(props){
         return props.children;
 }
 function mapStateToProps(state){
+    debugger;
     return{
         curUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged

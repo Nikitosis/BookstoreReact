@@ -1,0 +1,11 @@
+.userImg{
+    height:35px;
+    border-radius: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.wrapper{
+    cursor: pointer;
+}
