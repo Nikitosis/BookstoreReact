@@ -1,18 +1,14 @@
 import React from "react";
-import BooksService from "../services/BooksService";
-import AuthenticationService from "../services/AuthenticationService";
 import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
+import connect from "react-redux/lib/connect/connect";
+import {downloadBookFile, fetchBooksByUserId, returnBook} from "../redux/reducers/userBooksReducer";
 
 class MyBooksList extends React.Component{
-    state={
-        books:[],
-        isLoading:false
-    }
 
     componentDidMount() {
-        this.fetchBooks();
-        this.timer=setInterval(()=>this.fetchBooks(),5000);
+        this.props.fetchBooks(this.props.curUser.id);
+        this.timer=setInterval(()=>this.props.fetchBooks(this.props.curUser.id),5000);
     }
 
     componentWillUnmount() {
@@ -20,32 +16,8 @@ class MyBooksList extends React.Component{
         this.timer=null;
     }
 
-    fetchBooks=()=>{
-        BooksService.getBooksByUserId(AuthenticationService.getCurrentUser().id)
-            .then((res)=>{
-                const books=res.data;
-                this.setState({
-                    books:books,
-                    isLoading:false
-                })
-            })
-            .catch(()=>{
-                console.log("Cannot load books")
-                this.setState({
-                    isLoading:true
-                });
-            })
-    }
-
     returnBook=(bookId)=>{
-        BooksService.returnBookByUserId(AuthenticationService.getCurrentUser().id,bookId)
-            .then((res)=>{
-                console.log("Book returned: "+bookId);
-                this.fetchBooks();
-            })
-            .catch(()=>{
-                console.log("Cannot return book");
-            })
+        this.props.returnBook(bookId);
     }
 
 
@@ -54,9 +26,11 @@ class MyBooksList extends React.Component{
             <div className="container">
                 <div className={`${styles.cardList} row`}>
                     {
-                        this.state.books
+                        this.props.books
+                            .filter((book)=>book.taken)
                             .map((book)=>(
-                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}/>
+                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}
+                                                downloadBook={this.props.downloadBook} isDownloading={this.props.downloadingBookIds.some(id=>id===book.id)}/>
                                 )
                             )
                     }
@@ -66,4 +40,20 @@ class MyBooksList extends React.Component{
     }
 }
 
-export default MyBooksList;
+function mapStateToProps(state){
+    return{
+        books:state.booksReducer.books,
+        curUser:state.currentUserReducer.user,
+        downloadingBookIds: state.myBooksPageReducer.downloadingBookIds
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        returnBook:(bookId)=>dispatch(returnBook(bookId)),
+        fetchBooks:(userId)=>dispatch(fetchBooksByUserId(userId)),
+        downloadBook:(bookId)=>dispatch(downloadBookFile(bookId))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyBooksList);

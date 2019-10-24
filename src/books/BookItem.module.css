@@ -5,3 +5,29 @@
 .control_button{
     margin:10px;
 }
+
+.bookPhoto{
+    height:200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin:0;
+    padding:0;
+}
+
+.price{
+    font-weight: bolder;
+}
+
+.price em{
+    color:green;
+}
+
+.navigationButton{
+    background-color:green;
+    color:red;
+}
+
+.takenCard{
+    background-color:#f9ffeb;
+}

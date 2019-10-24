@@ -1,26 +1,25 @@
 import React from "react";
 import {ClipLoader} from "react-spinners";
-import styles from "./HomePage.module.css";
-import EditProfile from "./EditProfile";
+import styles from "./UserPage.module.css"
+import {withRouter} from "react-router-dom";
 import connect from "react-redux/lib/connect/connect";
-import {
-    fetchUser,
-    updateUser,
-} from "../redux/reducers/currentUserReducer";
-import {closeModal, openModal} from "../redux/reducers/homePageReducer";
+import {fetchUserById} from "../redux/reducers/userPageReducer";
+import EditProfile from "../home/EditProfile";
 
-class HomePage extends React.Component{
+class UserPage extends React.Component{
     componentDidMount() {
-        this.props.fetchUser();
-        this.timer=setInterval(()=>this.props.fetchUser(),5000);
+        this.props.fetchUser(this.props.match.params.userId);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-        this.timer=null;
+    openBooksPage=()=>{
+        this.props.history.push("/users/"+this.props.match.params.userId+"/books");
     }
 
     render() {
+        if(this.props.isError){
+            return <div className="alert alert-warning">Cannot load user</div>
+        }
+
         if(this.props.isLoading){
             return <ClipLoader loading={true}/>;
         }
@@ -57,37 +56,28 @@ class HomePage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-1">
-                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.props.openModal}>
-                            <i className="fa fa-edit"></i>
+                        <button className={`${styles.profile__openBooksButton} btn btn-primary btn-block shadow-lg`} onClick={this.openBooksPage}>
+                            <i className="fa fa-book"></i>
                         </button>
                     </div>
                 </div>
-
-                <EditProfile curUser={this.props.curUser} onSave={this.props.updateUser} onClose={this.props.closeModal} show={this.props.isModalOpened}/>
             </div>
 
         );
     }
 }
-
 function mapStateToProps(state){
-    return {
-        curUser: state.currentUserReducer.user,
-        isLoading:state.currentUserReducer.isLoading,
-        isModalOpened:state.homePageReducer.isModalOpened,
-        error:state.currentUserReducer.error
+    return{
+        curUser:state.userPageReducer.user,
+        isLoading:state.userPageReducer.isLoading,
+        isError:state.userPageReducer.isError
     }
 }
+
 function mapDispatchToProps(dispatch){
     return{
-        fetchUser: ()=>dispatch(fetchUser()),
-        updateUser:(firstName,lastName,country,city,gender,email,phone,avatar)=>dispatch(updateUser(firstName,lastName,country,city,gender,email,phone,avatar)),
-        openModal:()=>dispatch(openModal()),
-        closeModal:()=>dispatch(closeModal())
+        fetchUser:(userId)=>dispatch(fetchUserById(userId))
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(HomePage)
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserPage));

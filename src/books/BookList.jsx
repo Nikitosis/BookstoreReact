@@ -1,25 +1,23 @@
 import React from "react";
 import BookItem from "./BookItem";
-import BooksService from "../services/BooksService";
-import AuthenticationService from "../services/AuthenticationService";
-import Book from "../models/Book";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
-import CreateBookDialog from "./CreateBookDialog";
+import {
+    closeCreateModalAc, closeEditModalAC,
+    closeModalAc,
+    openCreateModalAC,
+    openEditModalAC,
+    openModalAC
+} from "../redux/reducers/booksPageReducer";
+import connect from "react-redux/lib/connect/connect";
+import {deleteBook, fetchBooks, saveBook, updateBook} from "../redux/reducers/booksReducer";
+import {takeBook} from "../redux/reducers/userBooksReducer";
+import BookDialog from "./BookDialog";
 
 class BookList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            books: [],
-            isLoading:false,
-            isCreateModalOpened:false
-        }
-    }
-
     componentDidMount() {
-        this.fetchBooks();
-        this.timer=setInterval(()=>this.fetchBooks(),5000);
+        this.props.fetchBooks();
+        this.timer=setInterval(()=>this.props.fetchBooks(),5000);
     }
 
     componentWillUnmount() {
@@ -27,80 +25,59 @@ class BookList extends React.Component{
         this.timer=null;
     }
 
-    fetchBooks=()=>{
-        BooksService.getAllBooks()
-            .then((res)=>{
-                let books=res.data.map((book)=> new Book(book.id,book.name,book.taken));
-                this.setState({
-                    books:books,
-                    isLoading:false
-                })
-            })
-            .catch(()=>{
-                this.setState({
-                    isLoading:true
-                });
-                console.log("Can't fetch books");
-            })
-    }
-
     takeBook=(bookId)=>{
-        BooksService.takeBookByUserId(AuthenticationService.getCurrentUser().id,bookId)
-            .then(()=>{
-                this.fetchBooks();
-            })
-            .catch(()=>{
-            console.log("Cannot take book");
-        })
+        this.props.takeBook(bookId);
     }
 
-    openCreateModal=()=>{
-        this.setState({
-            isCreateModalOpened:true
-        })
+    openEdit=(book)=>{
+        this.props.openEditModal(book);
     }
 
-    closeCreateModal=()=>{
-        this.setState({
-            isCreateModalOpened:false
-        })
+    saveBook=(name,isbn,price,description,image,file)=>{
+        let book={
+            name:name,
+            isbn:isbn,
+            price:price,
+            description:description
+        }
+        this.props.saveBook(book,image,file);
     }
 
-    saveBook=(name)=>{
-        let book=new Book(null, name ,null);
-        BooksService.saveBook(book)
-            .then(res=>{
-                this.fetchBooks();
-            })
-        this.closeCreateModal();
+    updateBook=(name,isbn,price,description,image,file)=>{
+        let book={
+            id:this.props.curBook.id,
+            name:name,
+            isbn:isbn,
+            price:price,
+            description:description
+        }
+        this.props.updateBook(book,image,file);
     }
 
     deleteBook=(id)=>{
-        BooksService.deleteBook(id)
-            .then(()=>{
-                this.fetchBooks();
-            })
+        this.props.deleteBook(id);
     }
 
     render() {
         return (
             <div className="container">
 
-                <PrivateComponent roles={["ROLE_ADMIN"]}>
+                <PrivateComponent roles={["ADMIN"]}>
                     <div className={`${styles.controlButtons} row`}>
-                        <button className={`${styles.controlButtons__button} btn btn-primary`} onClick={this.openCreateModal}>
+                        <button className={`${styles.controlButtons__button} btn btn-primary`} onClick={this.props.openCreateModal}>
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-                    <CreateBookDialog onSave={this.saveBook} onClose={this.closeCreateModal} show={this.state.isCreateModalOpened}/>
+
+                    <BookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
+                    <BookDialog onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>
                     {
-                        this.state.books
-                        .filter((book)=> book.taken===false)
+                        this.props.books
                         .map((book)=>(
-                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}/>
+                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook} openEdit={()=>this.openEdit(book)} isTaken={book.taken}/>
                                 )
                         )
                     }
@@ -109,4 +86,28 @@ class BookList extends React.Component{
         );
     }
 }
-export default BookList;
+
+function mapStateToProps(state){
+    return {
+        books:state.booksReducer.books,
+        isCreateModalOpened: state.booksPageReducer.isCreateModalOpened,
+        isEditModalOpened:state.booksPageReducer.isEditModalOpened,
+        curBook:state.booksPageReducer.curBook
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        openCreateModal:()=>dispatch(openCreateModalAC()),
+        closeCreateModal:()=>dispatch(closeCreateModalAc()),
+        openEditModal:(book)=>dispatch(openEditModalAC(book)),
+        closeEditModal:(book)=>dispatch(closeEditModalAC(book)),
+        fetchBooks:()=>dispatch(fetchBooks()),
+        takeBook:(bookId)=>dispatch(takeBook(bookId)),
+        saveBook:(book,image,file)=>dispatch(saveBook(book,image,file)),
+        deleteBook:(bookId)=>dispatch(deleteBook(bookId)),
+        updateBook:(book,image,file)=>dispatch(updateBook(book,image,file))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(BookList);

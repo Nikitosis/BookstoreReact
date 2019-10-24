@@ -1,23 +1,23 @@
 import React from 'react';
-import AuthenticationService from "../services/AuthenticationService";
+import connect from "react-redux/lib/connect/connect";
+import {Redirect} from "react-router-dom";
 
-class PrivateComponent extends React.Component{
-    render() {
-        const currentUser = AuthenticationService.getCurrentUser();
-
-        if(this.props.nonAuthorised &&!currentUser){
-            return this.props.children;
+function PrivateComponent(props){
+        let currentUser=props.curUser;
+        if(props.nonAuthorised && !props.isLogged){
+            return props.children;
         }
 
-        if (!currentUser) {
+        if (!props.isLogged) {
             // not logged in so redirect to authentication page with the return url
             return null;
+            //return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
 
         // check if route is restricted by role
         let isRolePass=false;
-        let accessRoles=this.props.roles!==undefined? this.props.roles : null;
-        let userRoles=currentUser.roles.split(",");
+        let accessRoles=props.roles!==undefined? props.roles : null;
+        let userRoles=currentUser.roles.map(role=> role.name);
         for(let i=0;i<userRoles.length;i++){
             if(accessRoles && accessRoles.indexOf(userRoles[i])!==-1){
                 isRolePass=true;
@@ -31,7 +31,13 @@ class PrivateComponent extends React.Component{
         }
 
         // authorised so return component
-        return this.props.children;
+        return props.children;
+}
+function mapStateToProps(state){
+    return{
+        curUser:state.currentUserReducer.user,
+        isLogged:state.loginReducer.isLogged
     }
 }
-export default PrivateComponent;
+
+export default connect(mapStateToProps,null)(PrivateComponent);

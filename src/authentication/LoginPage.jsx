@@ -1,5 +1,8 @@
 import React from "react";
-import AuthenticationService from "../services/AuthenticationService";
+import {executeLogin} from "../redux/reducers/loginReducer";
+import connect from "react-redux/lib/connect/connect";
+import Log from "../redux/models/Log";
+import {Redirect} from "react-router";
 class LoginPage extends React.Component{
 
     constructor(props){
@@ -7,8 +10,7 @@ class LoginPage extends React.Component{
 
         this.state={
             username:"",
-            password:"",
-            hasLoginFailed:false
+            password:""
         }
     }
 
@@ -19,31 +21,22 @@ class LoginPage extends React.Component{
         )
     }
 
-    loginClicked=()=>{
-        AuthenticationService.executeAuthentication(this.state.username,this.state.password)
-            .then((response)=>{
-                console.log("Authenticated");
-                AuthenticationService.registerSuccessfulLogin(response.headers.authorization);
-                this.props.history.push("/home");
-                window.location.reload(true);
-            })
-            .catch(()=>{
-                this.setState({
-                    hasLoginFailed:true
-                })
-                console.log("Not Authenticated");
-            })
+    onLoginClicked=()=>{
+        this.props.executeLogin(this.state.username,this.state.password);
     }
 
     render() {
+        if(this.props.isLogged)
+            return <Redirect to="/" />
+
         return (
           <div className="container">
               <div className="row">
                   <div className="col-md-6 m-auto">
-                      {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid credentials</div>}
+                      {this.props.isLoginFailed && <div className="alert alert-warning">Invalid credentials</div>}
                       <input type="text" name="username" placeholder="username" className="form-control" value={this.state.username} onChange={this.onInputChange}/>
                       <input type="password" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
-                      <button className="btn btn-primary btn-block" name="loginButton" onClick={this.loginClicked}>Sign in</button>
+                      <button className="btn btn-primary btn-block" name="loginButton" onClick={this.onLoginClicked}>Sign in</button>
                   </div>
               </div>
           </div>
@@ -51,4 +44,18 @@ class LoginPage extends React.Component{
     }
 }
 
-export default LoginPage;
+function mapStateToProps(state){
+    return{
+        isLoginFailed:state.loginReducer.isLoginFailed,
+        isLoading:state.loginReducer.isLoading,
+        isLogged:state.loginReducer.isLogged
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        executeLogin:(username,password)=>dispatch(executeLogin(username,password))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginPage);
