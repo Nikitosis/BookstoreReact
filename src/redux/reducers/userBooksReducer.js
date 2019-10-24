@@ -1,6 +1,7 @@
 import BooksAPI from "../services/BooksAPI";
 import {Buffer} from "buffer";
 import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
+import {fetchBooks} from "./booksReducer";
 
 export const FETCH_BOOKS_USER_STARTED="FETCH_BOOKS_USER_STARTED";
 export const FETCH_BOOKS_USER_FAILURE="FETCH_BOOKS_USER_FAILURE";
@@ -96,8 +97,8 @@ export function takeBook(bookId){
 
         BooksAPI.takeBookByUserId(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
-                dispatch(takeBookSuccessAC())
-                dispatch(fetchBooksByUserId(getState().currentUserReducer.user.id))
+                dispatch(takeBookSuccessAC());
+                dispatch(fetchBooks());
 
                 showSuccessNotification("Book is taken");
             })
@@ -119,8 +120,8 @@ export function returnBook(bookId){
 
         BooksAPI.returnBookByUserId(getState().currentUserReducer.user.id,bookId)
             .then(response=>{
-                dispatch(returnBookSuccessAC())
-                dispatch(fetchBooksByUserId(getState().currentUserReducer.user.id))
+                dispatch(returnBookSuccessAC());
+                dispatch(fetchBooks());
 
                 showSuccessNotification("Book is returned");
             })

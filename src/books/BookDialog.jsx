@@ -20,7 +20,6 @@ class BookDialog extends React.Component{
             file:null,
             image:null
         }
-        this.setConditionalState();
     }
 
     setConditionalState(){
@@ -35,11 +34,11 @@ class BookDialog extends React.Component{
     setbookState(){
         this.setState(
             {
-                name:this.props.book.name,
-                isbn:this.props.book.isbn,
-                price:this.props.book.price,
-                description:this.props.book.description,
-                imagePreviewUrl:this.props.book.photoLink,
+                name:this.props.book.name!=null ? this.props.book.name:"",
+                isbn:this.props.book.isbn!=null ? this.props.book.isbn:"",
+                price:this.props.book.price!=null ? this.props.book.price:"",
+                description:this.props.book.description!=null ? this.props.book.description:"",
+                imagePreviewUrl:this.props.book.photoLink!=null ? this.props.book.imagePreviewUrl:"",
                 filePreviewName:"",
                 file:null,
                 image:null

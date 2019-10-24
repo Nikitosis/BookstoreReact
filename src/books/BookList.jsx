@@ -77,7 +77,7 @@ class BookList extends React.Component{
                     {
                         this.props.books
                         .map((book)=>(
-                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook} openEdit={()=>this.openEdit(book)}/>
+                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook} openEdit={()=>this.openEdit(book)} isTaken={book.taken}/>
                                 )
                         )
                     }

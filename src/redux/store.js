@@ -12,6 +12,7 @@ import myBooksPageReducer from "./reducers/myBooksPageReducer";
 import userPageReducer from "./reducers/userPageReducer";
 import userBooksReducer from "./reducers/userBooksReducer";
 import userListPageReducer from "./reducers/userListPageReducer";
+import * as AxiosInterceptors from "./AxiosInterceptors";
 
 const reducers=combineReducers({
     currentUserReducer,
@@ -31,6 +32,8 @@ const store=createStore(
     persistedState,
     applyMiddleware(thunk)
     );
+
+AxiosInterceptors.setupInterceptors(store);
 
 //save state to localstorage every second
 store.subscribe(throttle(()=>{

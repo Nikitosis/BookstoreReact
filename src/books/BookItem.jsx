@@ -13,12 +13,12 @@ const CustomButton=(props)=>{
     );
 }
 
-const BookItem=({book,takeBook,deleteBook,openEdit})=>{
+const BookItem=({book,takeBook,deleteBook,openEdit,isTaken})=>{
     let imgUrl=book.photoLink!=null ? book.photoLink : "/bookImage.png";
 
     return (
         <div className={`${styles.cardWrapper} col-md-4`}>
-            <div className="card shadow-sm">
+            <div className={`card shadow-sm ${isTaken ? styles.takenCard : ""}`}>
                 <div className="card-body">
                     <h4 className="card-title">{book.name}</h4>
                     <div className={`${styles.bookPhoto}`} style={{backgroundImage: "url("+imgUrl+")"}}></div>

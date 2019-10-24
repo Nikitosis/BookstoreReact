@@ -27,6 +27,7 @@ class MyBooksList extends React.Component{
                 <div className={`${styles.cardList} row`}>
                     {
                         this.props.books
+                            .filter((book)=>book.taken)
                             .map((book)=>(
                                     <MyBookItem key={book.id} book={book} returnBook={this.returnBook}
                                                 downloadBook={this.props.downloadBook} isDownloading={this.props.downloadingBookIds.some(id=>id===book.id)}/>
@@ -41,7 +42,7 @@ class MyBooksList extends React.Component{
 
 function mapStateToProps(state){
     return{
-        books:state.userBooksReducer.books,
+        books:state.booksReducer.books,
         curUser:state.currentUserReducer.user,
         downloadingBookIds: state.myBooksPageReducer.downloadingBookIds
     }
