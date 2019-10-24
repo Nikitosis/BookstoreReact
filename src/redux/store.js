@@ -13,6 +13,7 @@ import userPageReducer from "./reducers/userPageReducer";
 import userBooksReducer from "./reducers/userBooksReducer";
 import userListPageReducer from "./reducers/userListPageReducer";
 import * as AxiosInterceptors from "./AxiosInterceptors";
+import EmailVerificationPageReducer from "./reducers/EmailVerificationPageReducer";
 
 const reducers=combineReducers({
     currentUserReducer,
@@ -24,7 +25,8 @@ const reducers=combineReducers({
     myBooksPageReducer,
     userPageReducer,
     userBooksReducer,
-    userListPageReducer
+    userListPageReducer,
+    EmailVerificationPageReducer
 });
 const persistedState=loadState();
 const store=createStore(

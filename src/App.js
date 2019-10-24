@@ -14,6 +14,7 @@ import UserPage from "./userPage/UserPage";
 import UserBooksList from "./userPage/UserBooksList";
 import PrivateRoute from "./utils/PrivateRoute";
 import connect from "react-redux/lib/connect/connect";
+import EmailVerificationPage from "./authentication/EmailVerificationPage";
 
 function App(props){
     return (
@@ -26,6 +27,7 @@ function App(props){
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/" component={HomePage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList}/>
                     <PrivateRoute nonAuthorised={true} exact path="/login" component={LoginPage}/>
+                    <Route exact path="/verifyEmail/:token" component={EmailVerificationPage}/>
                     <PrivateRoute nonAuthorised={true} exact path="/registration" component={RegistrationPage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" component={UserPage}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId/books" component={UserBooksList}/>

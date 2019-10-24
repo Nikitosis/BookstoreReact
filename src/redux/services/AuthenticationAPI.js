@@ -18,6 +18,9 @@ class AuthenticationAPI{
             }
         })
     }
+    executeEmailVerification(token){
+        return axios.get(`${API_URL}/verify/${token}`);
+    }
 }
 
 export default new AuthenticationAPI();
