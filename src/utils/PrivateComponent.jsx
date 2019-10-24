@@ -8,7 +8,7 @@ function PrivateComponent(props){
             return props.children;
         }
 
-        if (!props.isLogged || props.curUser==null) {
+        if (!props.isLogged) {
             // not logged in so redirect to authentication page with the return url
             return null;
             //return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
