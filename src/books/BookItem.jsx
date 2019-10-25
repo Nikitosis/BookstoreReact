@@ -13,7 +13,7 @@ const CustomButton=(props)=>{
     );
 }
 
-const BookItem=({book,takeBook,deleteBook,openEdit,isTaken})=>{
+const BookItem=({book,takeBook,deleteBook,openEdit,isTaken,showBookStatistics})=>{
     let imgUrl=book.photoLink!=null ? book.photoLink : "/bookImage.png";
 
     return (
@@ -38,6 +38,9 @@ const BookItem=({book,takeBook,deleteBook,openEdit,isTaken})=>{
                             </PrivateComponent>
                             <PrivateComponent roles={["ADMIN"]}>
                                 <Dropdown.Item onClick={openEdit}>Edit</Dropdown.Item>
+                            </PrivateComponent>
+                            <PrivateComponent roles={["ADMIN"]}>
+                                <Dropdown.Item onClick={()=>showBookStatistics(book.id)}>Statistics</Dropdown.Item>
                             </PrivateComponent>
                         </Dropdown.Menu>
                     </Dropdown>

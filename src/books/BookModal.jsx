@@ -6,7 +6,7 @@ import connect from "react-redux/lib/connect/connect";
 
 
 //if book is provided in props, then it initializes state with book's values, otherwise- with empty values
-class BookDialog extends React.Component{
+class BookModal extends React.Component{
     constructor(props){
         super(props);
 
@@ -181,4 +181,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(BookDialog);
+export default connect(mapStateToProps)(BookModal);

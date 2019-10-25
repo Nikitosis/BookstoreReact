@@ -7,12 +7,18 @@ import {
 } from "./booksReducer";
 import {TAKE_BOOK_FAILURE} from "./userBooksReducer";
 import {LOGOUT_USER} from "./loginReducer";
+import LogAPI from "../services/LogAPI";
 
 const OPEN_BOOKS_CREATE_MODAL="OPEN_BOOKS_CREATE_MODAL";
 const CLOSE_BOOKS_CREATE_MODAL="CLOSE_BOOKS_CREATE_MODAL";
 
 const OPEN_BOOKS_EDIT_MODAL="OPEN_BOOKS_EDIT_MODAL";
 const CLOSE_BOOKS_EDIT_MODAL="CLOSE_BOOKS_EDIT_MODAL";
+
+const OPEN_BOOKS_STATISTICS_MODAL="OPEN_BOOKS_STATISTICS_MODAL";
+const CLOSE_BOOKS_STATISTICS_MODAL="CLOSE_BOOKS_STATISTICS_MODAL";
+
+const FETCH_BOOK_STATISTICS_SUCCESS="FETCH_BOOK_STATISTICS_SUCCESS";
 
 export const WRONG_BOOK_NAME_ERROR="WRONG_BOOK_NAME_ERROR";
 export const WRONG_BOOK_PRICE_ERROR="WRONG_BOOK_PRICE_ERROR";
@@ -22,8 +28,10 @@ export const WRONG_BOOK_IMAGE_ERROR="WRONG_BOOK_IMAGE_ERROR";
 const initialState={
     isCreateModalOpened:false,
     isEditModalOpened:false,
+    isStatisticsModalOpened:false,
     isLoading:false,
     curBook:{},
+    curBookStatistics:{},
     nameErrorMessage:null,
     priceErrorMessage:null,
     fileErrorMessage:null,
@@ -91,6 +99,16 @@ function booksPageReducer(state=initialState,action){
                 imageErrorMessage:null,
                 takeBookErrorMessage:null,
             }
+        case OPEN_BOOKS_STATISTICS_MODAL:
+            return {
+                ...state,
+                isStatisticsModalOpened: true
+            }
+        case CLOSE_BOOKS_STATISTICS_MODAL:
+            return {
+                ...state,
+                isStatisticsModalOpened: false
+            }
         case CLOSE_BOOKS_EDIT_MODAL:
             return{
                 ...state,
@@ -133,6 +151,11 @@ function booksPageReducer(state=initialState,action){
                 ...state,
                 imageErrorMessage: "Wrong image. Image size has to be less than 25MB"
             }
+        case FETCH_BOOK_STATISTICS_SUCCESS:
+            return{
+                ...state,
+                curBookStatistics: action.payload
+            }
         case LOGOUT_USER:
             return initialState;
         default:
@@ -160,7 +183,7 @@ export function openCreateModalAC() {
     return {type: OPEN_BOOKS_CREATE_MODAL};
 }
 
-export function closeCreateModalAc(){
+export function closeCreateModalAC(){
     return {type:CLOSE_BOOKS_CREATE_MODAL};
 }
 
@@ -170,6 +193,31 @@ export function openEditModalAC(curBook){
 
 export function closeEditModalAC(){
     return {type:CLOSE_BOOKS_EDIT_MODAL}
+}
+
+export function openStatisticsModalAC(){
+    return {type:OPEN_BOOKS_STATISTICS_MODAL};
+}
+
+export function closeStatisticsModalAC(){
+    return {type:CLOSE_BOOKS_STATISTICS_MODAL};
+}
+
+export function fetchBookStatisticsSuccessAC(curBookStatistics){
+    return {type:FETCH_BOOK_STATISTICS_SUCCESS,payload:curBookStatistics};
+}
+
+export function showBookStatistics(bookId){
+    return (dispatch)=>{
+        LogAPI.getBookStatistics(bookId)
+            .then(response=>{
+                dispatch(fetchBookStatisticsSuccessAC(response.data));
+                dispatch(openStatisticsModalAC());
+            })
+            .catch(e=>{
+                closeStatisticsModalAC();
+            })
+    }
 }
 
 export default booksPageReducer;

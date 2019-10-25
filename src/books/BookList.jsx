@@ -3,16 +3,17 @@ import BookItem from "./BookItem";
 import styles from "./BookList.module.css";
 import PrivateComponent from "../utils/PrivateComponent";
 import {
-    closeCreateModalAc, closeEditModalAC,
-    closeModalAc,
+    closeCreateModalAC, closeEditModalAC,
+    closeModalAc, closeStatisticsModalAC,
     openCreateModalAC,
     openEditModalAC,
-    openModalAC
+    openModalAC, showBookStatistics
 } from "../redux/reducers/booksPageReducer";
 import connect from "react-redux/lib/connect/connect";
 import {deleteBook, fetchBooks, saveBook, updateBook} from "../redux/reducers/booksReducer";
 import {takeBook} from "../redux/reducers/userBooksReducer";
-import BookDialog from "./BookDialog";
+import BookStatisticsModal from "./BookStatisticsModal";
+import BookModal from "./BookModal";
 
 class BookList extends React.Component{
     componentDidMount() {
@@ -58,6 +59,10 @@ class BookList extends React.Component{
         this.props.deleteBook(id);
     }
 
+    showBookStatistics=(bookId)=>{
+        this.props.showBookStatistics(bookId);
+    }
+
     render() {
         return (
             <div className="container">
@@ -69,15 +74,17 @@ class BookList extends React.Component{
                         </button>
                     </div>
 
-                    <BookDialog onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
-                    <BookDialog onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
+                    <BookModal onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
+                    <BookModal onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
+                    <BookStatisticsModal onClose={this.props.closeStatisticsModal} show={this.props.isStatisticsModalOpened} statistics={this.props.statistics}/>
                 </PrivateComponent>
 
                 <div className={`${styles.cardList} row`}>
                     {
                         this.props.books
                         .map((book)=>(
-                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook} openEdit={()=>this.openEdit(book)} isTaken={book.taken}/>
+                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}
+                                          openEdit={()=>this.openEdit(book)} isTaken={book.taken} showBookStatistics={this.showBookStatistics}/>
                                 )
                         )
                     }
@@ -92,6 +99,8 @@ function mapStateToProps(state){
         books:state.booksReducer.books,
         isCreateModalOpened: state.booksPageReducer.isCreateModalOpened,
         isEditModalOpened:state.booksPageReducer.isEditModalOpened,
+        isStatisticsModalOpened:state.booksPageReducer.isStatisticsModalOpened,
+        statistics:state.booksPageReducer.curBookStatistics,
         curBook:state.booksPageReducer.curBook
     }
 }
@@ -99,14 +108,16 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         openCreateModal:()=>dispatch(openCreateModalAC()),
-        closeCreateModal:()=>dispatch(closeCreateModalAc()),
+        closeCreateModal:()=>dispatch(closeCreateModalAC()),
         openEditModal:(book)=>dispatch(openEditModalAC(book)),
         closeEditModal:(book)=>dispatch(closeEditModalAC(book)),
+        closeStatisticsModal:()=>dispatch(closeStatisticsModalAC()),
         fetchBooks:()=>dispatch(fetchBooks()),
         takeBook:(bookId)=>dispatch(takeBook(bookId)),
         saveBook:(book,image,file)=>dispatch(saveBook(book,image,file)),
         deleteBook:(bookId)=>dispatch(deleteBook(bookId)),
-        updateBook:(book,image,file)=>dispatch(updateBook(book,image,file))
+        updateBook:(book,image,file)=>dispatch(updateBook(book,image,file)),
+        showBookStatistics:(bookId)=>dispatch(showBookStatistics(bookId))
     }
 }
 
