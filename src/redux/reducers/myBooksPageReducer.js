@@ -6,6 +6,7 @@ import {
     FETCH_BOOKS_USER_SUCCESS
 } from "./userBooksReducer";
 import {FETCH_BOOKS_FAILURE} from "./booksReducer";
+import {LOGOUT_USER} from "./loginReducer";
 
 
 const initialState={
@@ -40,6 +41,8 @@ function myBooksPageReducer(state=initialState,action){
                 ...state,
                 downloadingBookIds:state.downloadingBookIds.filter(val=>val!==action.payload)
             }
+        case LOGOUT_USER:
+            return initialState;
         default:
             return state;
     }

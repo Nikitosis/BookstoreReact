@@ -6,6 +6,7 @@ import {
     UPDATE_BOOK_SUCCESS
 } from "./booksReducer";
 import {TAKE_BOOK_FAILURE} from "./userBooksReducer";
+import {LOGOUT_USER} from "./loginReducer";
 
 const OPEN_BOOKS_CREATE_MODAL="OPEN_BOOKS_CREATE_MODAL";
 const CLOSE_BOOKS_CREATE_MODAL="CLOSE_BOOKS_CREATE_MODAL";
@@ -35,7 +36,12 @@ function booksPageReducer(state=initialState,action){
         case OPEN_BOOKS_CREATE_MODAL:
             return{
                 ...state,
-                isCreateModalOpened: true
+                isCreateModalOpened: true,
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null,
+                takeBookErrorMessage:null,
             }
         case CLOSE_BOOKS_CREATE_MODAL:
             return{
@@ -78,12 +84,17 @@ function booksPageReducer(state=initialState,action){
             return{
                 ...state,
                 isEditModalOpened:true,
-                curBook:action.payload
+                curBook:action.payload,
+                nameErrorMessage:null,
+                priceErrorMessage:null,
+                fileErrorMessage:null,
+                imageErrorMessage:null,
+                takeBookErrorMessage:null,
             }
         case CLOSE_BOOKS_EDIT_MODAL:
             return{
                 ...state,
-                isEditModalOpened: false
+                isEditModalOpened: false,
             }
         case UPDATE_BOOK_STARTED:
             return{
@@ -122,11 +133,8 @@ function booksPageReducer(state=initialState,action){
                 ...state,
                 imageErrorMessage: "Wrong image. Image size has to be less than 25MB"
             }
-        case TAKE_BOOK_FAILURE:
-            return{
-                ...state,
-                takeBookErrorMessage: "Can't take book. Not enough money"
-            }
+        case LOGOUT_USER:
+            return initialState;
         default:
             return state;
     }

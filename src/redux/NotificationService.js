@@ -6,7 +6,7 @@ export function showSuccessNotification(text){
         theme:"relax",
         layout:"topRight",
         text:text,
-        timeout:3000
+        timeout:2000
     }).show();
 }
 
@@ -16,6 +16,6 @@ export function showErrorNotification(text){
         theme:"relax",
         layout:"topRight",
         text:text,
-        timeout:3000
+        timeout:2000
     }).show();
 }
