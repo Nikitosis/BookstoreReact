@@ -6,7 +6,7 @@ const BookStatisticsModal=({show,onClose,statistics})=>{
     return (
         <Modal show={show} onHide={onClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add book</Modal.Title>
+                <Modal.Title>Book info</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                <ul className="list-group">
