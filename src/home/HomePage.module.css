@@ -26,3 +26,7 @@
 .profile__editButton{
     margin-top: 20px;
 }
+
+.profile__depositButton{
+    background-color: darkgreen;
+}

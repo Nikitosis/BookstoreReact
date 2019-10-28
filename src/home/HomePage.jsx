@@ -4,10 +4,12 @@ import styles from "./HomePage.module.css";
 import EditProfile from "./EditProfile";
 import connect from "react-redux/lib/connect/connect";
 import {
+    depositMoney,
     fetchUser,
     updateUser,
 } from "../redux/reducers/currentUserReducer";
-import {closeModal, openModal} from "../redux/reducers/homePageReducer";
+import {closeDepositModal, closeEditModal, openDepositModal, openEditModal} from "../redux/reducers/homePageReducer";
+import DepositModal from "./DepositModal";
 
 class HomePage extends React.Component{
     componentDidMount() {
@@ -57,13 +59,17 @@ class HomePage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-1">
-                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.props.openModal}>
+                        <button className={`${styles.profile__editButton} btn btn-primary btn-block shadow-lg`} onClick={this.props.openEditModal}>
                             <i className="fa fa-edit"></i>
+                        </button>
+                        <button className={`${styles.profile__depositButton} btn btn-success btn-block shadow-lg`} onClick={this.props.openDepositModal}>
+                            <i className="fa fa-dollar"></i>
                         </button>
                     </div>
                 </div>
 
-                <EditProfile curUser={this.props.curUser} onSave={this.props.updateUser} onClose={this.props.closeModal} show={this.props.isModalOpened}/>
+                <EditProfile curUser={this.props.curUser} onSave={this.props.updateUser} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened}/>
+                <DepositModal onSave={this.props.depositMoney} onClose={this.props.closeDepositModal} show={this.props.isDepositModalOpened}/>
             </div>
 
         );
@@ -74,7 +80,8 @@ function mapStateToProps(state){
     return {
         curUser: state.currentUserReducer.user,
         isLoading:state.currentUserReducer.isLoading,
-        isModalOpened:state.homePageReducer.isModalOpened,
+        isEditModalOpened:state.homePageReducer.isEditModalOpened,
+        isDepositModalOpened:state.homePageReducer.isDepositModalOpened,
         error:state.currentUserReducer.error
     }
 }
@@ -82,8 +89,11 @@ function mapDispatchToProps(dispatch){
     return{
         fetchUser: ()=>dispatch(fetchUser()),
         updateUser:(firstName,lastName,country,city,gender,email,phone,avatar)=>dispatch(updateUser(firstName,lastName,country,city,gender,email,phone,avatar)),
-        openModal:()=>dispatch(openModal()),
-        closeModal:()=>dispatch(closeModal())
+        openEditModal:()=>dispatch(openEditModal()),
+        closeEditModal:()=>dispatch(closeEditModal()),
+        depositMoney:(money)=>dispatch(depositMoney(money)),
+        closeDepositModal:()=>dispatch(closeDepositModal()),
+        openDepositModal:()=>dispatch(openDepositModal())
     }
 }
 

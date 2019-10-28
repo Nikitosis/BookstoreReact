@@ -11,6 +11,8 @@ const UPDATE_USER_STARTED="UPDATE_USER_STARTED";
 export const UPDATE_USER_SUCCESS="UPDATE_USER_SUCCESS";
 const UPDATE_USER_FAILURE="UPDATE_USER_FAILURE";
 
+export const DEPOSIT_USER_SUCCESS="DEPOSIT_USER_SUCCESS";
+
 const initialState={
     user:null,
     loading:false,
@@ -89,6 +91,10 @@ export function updateUserFailure(error) {
     return {type:UPDATE_USER_FAILURE,payload:error};
 }
 
+export function depositUserSuccess(){
+    return {type:DEPOSIT_USER_SUCCESS};
+}
+
 export function fetchUser(){
         return (dispatch,getState)=>{
             dispatch(fetchUserStarted());
@@ -129,6 +135,19 @@ export function updateUser(firstName,lastName,country,city,gender,email,phone,av
                 dispatch(updateUserFailure(e));
 
                 showErrorNotification("Error updating profile");
+            })
+    }
+}
+
+export function depositMoney(money){
+    return (dispatch,getState)=>{
+        UserService.depositMoney(getState().currentUserReducer.user.id,money)
+            .then(res=>{
+                dispatch(fetchUser());
+                dispatch(depositUserSuccess())
+            })
+            .catch(e=>{
+
             })
     }
 }

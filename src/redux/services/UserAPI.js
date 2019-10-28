@@ -48,6 +48,13 @@ class UserAPI{
                 },
             })
     }
+
+    depositMoney(userId,money){
+        return axios.put(`${API_URL}/users/${userId}/money`,
+            {
+                money:money
+        })
+    }
 }
 
 export default new UserAPI();
