@@ -18,17 +18,19 @@ class EditProfile extends React.Component{
         }
     }
 
-    componentWillReceiveProps=(nextProps) =>{
-        this.setState({
-            firstName: nextProps.curUser.fName,
-            lastName: nextProps.curUser.lName,
-            country:nextProps.curUser.country,
-            city:nextProps.curUser.city,
-            gender:nextProps.curUser.gender,
-            email:nextProps.curUser.email,
-            phone:nextProps.curUser.phone,
-            avatarPreviewUrl:nextProps.curUser.avatarLink
-        })
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(!prevProps.show && this.props.show) {
+            this.setState({
+                firstName: this.props.curUser.fName,
+                lastName: this.props.curUser.lName,
+                country: this.props.curUser.country,
+                city: this.props.curUser.city,
+                gender: this.props.curUser.gender,
+                email: this.props.curUser.email,
+                phone: this.props.curUser.phone,
+                avatarPreviewUrl: this.props.curUser.avatarLink
+            })
+        }
     }
 
     handleChange=(event)=>{
@@ -65,19 +67,19 @@ class EditProfile extends React.Component{
                     <form className="form">
                         <div className="form-group">
                             <label className={"font-weight-bold"}>First Name</label>
-                            <input type="text" className="form-control" placeholder="First Name" name="firstName" defaultValue={this.state.firstName} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="First Name" name="firstName" value={this.state.firstName} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Last Name</label>
-                            <input type="text" className="form-control" placeholder="Last Name" name="lastName" defaultValue={this.state.lastName} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="Last Name" name="lastName" value={this.state.lastName} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Last Name</label>
-                            <input type="text" className="form-control" placeholder="Country" name="country" defaultValue={this.state.country} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="Country" name="country" value={this.state.country} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Last Name</label>
-                            <input type="text" className="form-control" placeholder="City" name="city" defaultValue={this.state.city} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" placeholder="City" name="city" value={this.state.city} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <p className={"font-weight-bold"}>Gender: </p>
@@ -87,12 +89,12 @@ class EditProfile extends React.Component{
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Email: </label>
-                            <input type="email" className="form-control" placeholder="example@gmail.com" name="email" defaultValue={this.state.email} onChange={this.handleChange}/>
+                            <input type="email" className="form-control" placeholder="example@gmail.com" name="email" value={this.state.email} onChange={this.handleChange}/>
                         </div>
 
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Phone: </label>
-                            <input type="tel" className={"form-control"} placeholder="+38012334123" pattern={"[+]{1}[0-9]{11,14}"} name="phone" defaultValue={this.state.phone} onChange={this.handleChange}/>
+                            <input type="tel" className={"form-control"} placeholder="+38012334123" pattern={"[+]{1}[0-9]{11,14}"} name="phone" value={this.state.phone} onChange={this.handleChange}/>
                         </div>
 
                         <div className={"form-group"}>

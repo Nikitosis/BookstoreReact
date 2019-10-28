@@ -12,10 +12,12 @@ class DepositModal extends React.Component{
         }
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({
-            money:nextProps.money
-        })
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(!prevProps.show && this.props.show) {
+            this.setState({
+               money:""
+            })
+        }
     }
 
     handleChange=(event)=>{
@@ -38,7 +40,7 @@ class DepositModal extends React.Component{
                     <form className="form">
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Amount</label>
-                            <input type="number" className="form-control" placeholder="0.00" name="money" defaultValue={this.state.money} onChange={this.handleChange}/>
+                            <input type="number" className="form-control" placeholder="0.00" name="money" value={this.state.money} onChange={this.handleChange}/>
                         </div>
                     </form>
                 </Modal.Body>

@@ -3,12 +3,13 @@ import MyBookItem from "./MyBookItem";
 import styles from "./BookList.module.css";
 import connect from "react-redux/lib/connect/connect";
 import {downloadBookFile, fetchBooksByUserId, returnBook} from "../redux/reducers/userBooksReducer";
+import {fetchBooks} from "../redux/reducers/booksReducer";
 
 class MyBooksList extends React.Component{
 
     componentDidMount() {
-        this.props.fetchBooks(this.props.curUser.id);
-        this.timer=setInterval(()=>this.props.fetchBooks(this.props.curUser.id),5000);
+        this.props.fetchBooks();
+        this.timer=setInterval(()=>this.props.fetchBooks(),5000);
     }
 
     componentWillUnmount() {
@@ -51,7 +52,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         returnBook:(bookId)=>dispatch(returnBook(bookId)),
-        fetchBooks:(userId)=>dispatch(fetchBooksByUserId(userId)),
+        fetchBooks:()=>dispatch(fetchBooks()),
         downloadBook:(bookId)=>dispatch(downloadBookFile(bookId))
     }
 }
