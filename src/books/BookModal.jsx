@@ -38,12 +38,13 @@ class BookModal extends React.Component{
                 isbn:this.props.book.isbn!=null ? this.props.book.isbn:"",
                 price:this.props.book.price!=null ? this.props.book.price:"",
                 description:this.props.book.description!=null ? this.props.book.description:"",
-                imagePreviewUrl:this.props.book.photoLink!=null ? this.props.book.imagePreviewUrl:"",
+                imagePreviewUrl:this.props.book.photoLink!=null ? this.props.book.photoLink:"",
                 filePreviewName:"",
                 file:null,
                 image:null
             }
         )
+        console.log(this.state);
     }
 
     setDefaultState(){
