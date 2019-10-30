@@ -33,7 +33,6 @@ class RegistrationPage extends React.Component{
             <div className="container">
                 <form>
                     <div className="form-group row">
-                        <label htmlFor={"inputUsername"} className="col-form-label col-md-2">Username</label>
                         <input type="text" className={`form-control col-md-3`} id={"inputFirstName"} name="fName" placeholder="First Name" onChange={this.onInputChange}/>
                         <div className="col-md-1"></div>
                         <input type="text" className="form-control col-md-3" id={"inputLastName"} name="lName" placeholder="Last Name" onChange={this.onInputChange}/>
