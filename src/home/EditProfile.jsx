@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
+import connect from "react-redux/lib/connect/connect";
 
 class EditProfile extends React.Component{
     constructor(props){
@@ -58,6 +59,8 @@ class EditProfile extends React.Component{
     }
 
     render() {
+        let emailValidationStyle=this.props.emailErrorMessage==null? "":"is-invalid";
+
         return (
             <Modal show={this.props.show} onHide={this.props.onClose}>
                 <Modal.Header closeButton>
@@ -89,7 +92,10 @@ class EditProfile extends React.Component{
                         </div>
                         <div className="form-group">
                             <label className={"font-weight-bold"}>Email: </label>
-                            <input type="email" className="form-control" placeholder="example@gmail.com" name="email" value={this.state.email} onChange={this.handleChange}/>
+                            <input type="email" className={`${emailValidationStyle} form-control`} placeholder="example@gmail.com" name="email" value={this.state.email} onChange={this.handleChange}/>
+                            <small className="text-danger">
+                                {this.props.emailErrorMessage}
+                            </small>
                         </div>
 
                         <div className="form-group">
@@ -123,4 +129,9 @@ class EditProfile extends React.Component{
 
 }
 
-export default EditProfile;
+function mapStateToProps(state){
+    return{
+        emailErrorMessage: state.homePageReducer.emailErrorMessage
+    }
+}
+export default connect(mapStateToProps)(EditProfile);
