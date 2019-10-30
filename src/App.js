@@ -19,9 +19,9 @@ import EmailVerificationPage from "./authentication/EmailVerificationPage";
 function App(props){
     return (
         <BrowserRouter>
-            <div className="App container-fluid">
+            <div className="App container-fluid d-flex flex-column">
                 <Header/>
-                <div className="content-wrapper">
+                <div className="content-wrapper flex-grow-1">
                     <Route exact path="/books" component={BookList}/>
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/myBooks"  component={MyBooksList}/>
                     <PrivateRoute roles={["USER","ADMIN"]} exact path="/" component={HomePage}/>

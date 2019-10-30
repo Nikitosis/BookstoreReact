@@ -23,19 +23,28 @@ class MyBooksList extends React.Component{
 
 
     render() {
+        let booksAmount=this.props.books.filter((book) => book.taken).length;
+
         return (
-            <div className="container">
-                <div className={`${styles.cardList} row`}>
-                    {
-                        this.props.books
-                            .filter((book)=>book.taken)
-                            .map((book)=>(
-                                    <MyBookItem key={book.id} book={book} returnBook={this.returnBook}
-                                                downloadBook={this.props.downloadBook} isDownloading={this.props.downloadingBookIds.some(id=>id===book.id)}/>
+            <div className={`${styles.mainWrapper} container d-flex flex-column`}>
+                {booksAmount > 0 &&
+                    <div className={`${styles.cardList} row`}>
+                        {
+                            this.props.books
+                                .filter((book) => book.taken)
+                                .map((book) => (
+                                        <MyBookItem key={book.id} book={book} returnBook={this.returnBook}
+                                                    downloadBook={this.props.downloadBook}
+                                                    isDownloading={this.props.downloadingBookIds.some(id => id === book.id)}/>
+                                    )
                                 )
-                            )
-                    }
-                </div>
+                        }
+                    </div>
+                }
+
+                {booksAmount==0 &&
+                    <div className={`${styles.noBooksDiv} flex-grow-1`}></div>
+                }
             </div>
         );
     }

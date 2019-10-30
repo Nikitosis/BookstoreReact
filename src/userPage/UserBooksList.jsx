@@ -21,18 +21,25 @@ class UserBooksList extends React.Component{
         if(this.props.isError){
             return <div className="alert alert-warning">Cannot load user's books</div>
         }
+        let booksAmount=this.props.books.length;
 
         return (
-            <div className="container">
-                <div className={`${styles.cardList} row`}>
-                    {
-                        this.props.books
-                            .map((book)=>(
-                                    <UserBookItem key={book.id} book={book}/>
+            <div className={`${styles.mainWrapper} container d-flex flex-column`}>
+                {booksAmount > 0 &&
+                    <div className={`${styles.cardList} row`}>
+                        {
+                            this.props.books
+                                .map((book) => (
+                                        <UserBookItem key={book.id} book={book}/>
+                                    )
                                 )
-                            )
-                    }
-                </div>
+                        }
+                    </div>
+                }
+
+                {booksAmount ==0 &&
+                    <div className={`${styles.noBooksDiv} flex-grow-1`}></div>
+                }
             </div>
         );
     }

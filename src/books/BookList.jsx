@@ -64,8 +64,10 @@ class BookList extends React.Component{
     }
 
     render() {
+        let booksAmount=this.props.books.length;
+
         return (
-            <div className="container">
+            <div className={`${styles.mainWrapper} container d-flex flex-column`}>
 
                 <PrivateComponent roles={["ADMIN"]}>
                     <div className={`${styles.controlButtons} row`}>
@@ -73,22 +75,30 @@ class BookList extends React.Component{
                             <i className="fa fa-plus"></i>
                         </button>
                     </div>
-
-                    <BookModal onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
-                    <BookModal onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
-                    <BookStatisticsModal onClose={this.props.closeStatisticsModal} show={this.props.isStatisticsModalOpened} statistics={this.props.statistics}/>
                 </PrivateComponent>
 
-                <div className={`${styles.cardList} row`}>
-                    {
-                        this.props.books
-                        .map((book)=>(
-                                <BookItem key={book.id} book={book} takeBook={this.takeBook} deleteBook={this.deleteBook}
-                                          openEdit={()=>this.openEdit(book)} isTaken={book.taken} showBookStatistics={this.showBookStatistics}/>
+                {booksAmount > 0 &&
+                    <div className={`${styles.cardList} row`}>
+                        {
+                            this.props.books
+                                .map((book) => (
+                                        <BookItem key={book.id} book={book} takeBook={this.takeBook}
+                                                  deleteBook={this.deleteBook}
+                                                  openEdit={() => this.openEdit(book)} isTaken={book.taken}
+                                                  showBookStatistics={this.showBookStatistics}/>
+                                    )
                                 )
-                        )
-                    }
-                </div>
+                        }
+                    </div>
+                }
+
+                {booksAmount==0 &&
+                    <div className={`${styles.noBooksDiv} flex-grow-1`}></div>
+                }
+
+                <BookModal onSave={this.saveBook} onClose={this.props.closeCreateModal} show={this.props.isCreateModalOpened}/>
+                <BookModal onSave={this.updateBook} onClose={this.props.closeEditModal} show={this.props.isEditModalOpened} book={this.props.curBook}/>
+                <BookStatisticsModal onClose={this.props.closeStatisticsModal} show={this.props.isStatisticsModalOpened} statistics={this.props.statistics}/>
             </div>
         );
     }

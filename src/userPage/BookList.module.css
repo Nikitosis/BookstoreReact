@@ -1,3 +1,16 @@
+.mainWrapper{
+    height: 100%;
+}
+
 .cardList{
     margin-top: 20px;
+}
+
+.noBooksDiv{
+    background-image:url("/noBooksLogo.jpg") ;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: auto;
+    opacity: 0.1;
 }
