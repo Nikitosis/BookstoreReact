@@ -2,7 +2,7 @@ import UserService from "../services/UserAPI";
 import AuthenticationService from "../services/AuthenticationAPI";
 import {LOGIN_USER_SUCCESS, LOGOUT_USER} from "./loginReducer";
 import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
-import {emailAlreadyExistsAC} from "./homePageReducer";
+import {emailAlreadyExistsAC, emailNotValidAC} from "./homePageReducer";
 
 const FETCH_USER_STARTED="FETCH_USER_STARTED";
 const FETCH_USER_SUCCESS="FETCH_USER_SUCCESS";
@@ -136,6 +136,8 @@ export function updateUser(firstName,lastName,country,city,gender,email,phone,av
                 dispatch(updateUserFailure(e));
                 if(e.response.data.code===4)
                     dispatch(emailAlreadyExistsAC());
+                if(e.response.data.code===6)
+                    dispatch(emailNotValidAC());
 
                 showErrorNotification("Error updating profile");
             })

@@ -9,6 +9,7 @@ export const OPEN_HOME_DEPOSIT_MODAL="OPEN_HOME_DEPOSIT_MODAL";
 export const CLOSE_HOME_DEPOSIT_MODAL="CLOSE_HOME_DEPOSIT_MODAL";
 
 const EDIT_USER_EMAIL_ALREADY_EXISTS="EDIT_USER_EMAIL_ALREADY_EXISTS";
+const EDIT_USER_EMAIL_NOT_VALID="EDIT_USER_EMAIL_NOT_VALID";
 
 
 const initialState={
@@ -51,6 +52,11 @@ function homePageReducer(state=initialState,action){
                 ...state,
                 emailErrorMessage: "Email already in use"
             }
+        case EDIT_USER_EMAIL_NOT_VALID:
+            return{
+                ...state,
+                emailErrorMessage: "Email not valid"
+            }
         case UPDATE_USER_SUCCESS:
             return{
                 ...state,
@@ -87,6 +93,10 @@ export function closeDepositModal() {
 
 export function emailAlreadyExistsAC(){
     return {type:EDIT_USER_EMAIL_ALREADY_EXISTS};
+}
+
+export function emailNotValidAC(){
+    return {type:EDIT_USER_EMAIL_NOT_VALID};
 }
 
 export default homePageReducer;
