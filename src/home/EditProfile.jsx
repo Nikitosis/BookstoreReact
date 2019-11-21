@@ -2,6 +2,8 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import connect from "react-redux/lib/connect/connect";
+import {fetchCountries} from "../redux/reducers/countryReducer";
+import Select from "react-select";
 
 class EditProfile extends React.Component{
     constructor(props){
@@ -17,6 +19,16 @@ class EditProfile extends React.Component{
             phone:props.curUser.phone,
             avatarPreviewUrl:props.curUser.avatarLink
         }
+    }
+
+    componentDidMount() {
+        this.props.fetchCountries();
+        this.timer=setInterval(()=>this.props.fetchCountries(),50000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer=null;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -40,6 +52,13 @@ class EditProfile extends React.Component{
         })
     }
 
+    handleCountryChange=(option)=>{
+        debugger;
+        this.setState({
+            "country":option.value
+        })
+    }
+
     handleChangeImage=(event)=>{
         this.setState({
             avatar:event.target.files[0],
@@ -59,6 +78,7 @@ class EditProfile extends React.Component{
     }
 
     render() {
+        debugger;
         let emailValidationStyle=this.props.emailErrorMessage==null? "":"is-invalid";
 
         return (
@@ -77,11 +97,19 @@ class EditProfile extends React.Component{
                             <input type="text" className="form-control" placeholder="Last Name" name="lastName" value={this.state.lastName} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
-                            <label className={"font-weight-bold"}>Last Name</label>
-                            <input type="text" className="form-control" placeholder="Country" name="country" value={this.state.country} onChange={this.handleChange}/>
+                            <label className={"font-weight-bold"}>Country</label>
+                            <Select value={{value:this.state.country,label:this.state.country}}
+                                    onChange={this.handleCountryChange}
+                                    isSearchable={true}
+                                    options={
+                                        this.props.countries.map(country=>{
+                                            return {value:country.name,label:country.name};
+                                        })
+                                    }
+                            />
                         </div>
                         <div className="form-group">
-                            <label className={"font-weight-bold"}>Last Name</label>
+                            <label className={"font-weight-bold"}>City</label>
                             <input type="text" className="form-control" placeholder="City" name="city" value={this.state.city} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
@@ -131,7 +159,15 @@ class EditProfile extends React.Component{
 
 function mapStateToProps(state){
     return{
-        emailErrorMessage: state.homePageReducer.emailErrorMessage
+        emailErrorMessage: state.homePageReducer.emailErrorMessage,
+        countries:state.countryReducer.countries
     }
 }
-export default connect(mapStateToProps)(EditProfile);
+
+function mapDispatchToProps(dispatch){
+    return{
+        fetchCountries:()=>dispatch(fetchCountries())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditProfile);
