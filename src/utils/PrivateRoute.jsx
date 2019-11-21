@@ -6,14 +6,16 @@ import connect from "react-redux/lib/connect/connect";
 const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,isLogged, ...rest }) => (
     <Route {...rest} render={props => {
         //not logged in, but nonAuthorised flag
+        debugger;
         if(nonAuthorised && !isLogged){
             return <Component {...props} />
         }
         // not logged in so redirect to login page with the return url
         if (!isLogged) {
             //return null;
-            props.history.push("/login");
-            return null;
+            return <Redirect to={{ pathname: '/login'}} />
+            //props.history.push("/login");
+            //return null;
         }
 
         // check if route is restricted by role
@@ -30,6 +32,7 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
         // role not authorised so redirect to home page
         if (!isRolePass) {
             return <Redirect to={{ pathname: '/'}} />
+            //return null;
         }
 
         // authorised so return component
@@ -37,11 +40,4 @@ const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,is
     }} />
 )
 
-function mapStateToProps(state){
-    return{
-        currentUser:state.currentUserReducer.user,
-        isLogged:state.loginReducer.isLogged,
-    }
-}
-
-export default connect(mapStateToProps)(PrivateRoute);
+export default PrivateRoute;

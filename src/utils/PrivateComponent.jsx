@@ -3,6 +3,7 @@ import connect from "react-redux/lib/connect/connect";
 import {Redirect} from "react-router-dom";
 
 function PrivateComponent(props){
+        debugger;
         let currentUser=props.curUser;
         if(props.nonAuthorised && !props.isLogged){
             return props.children;
@@ -34,6 +35,7 @@ function PrivateComponent(props){
         return props.children;
 }
 function mapStateToProps(state){
+    debugger;
     return{
         curUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged
