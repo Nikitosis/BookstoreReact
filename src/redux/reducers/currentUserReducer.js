@@ -1,6 +1,12 @@
 import UserService from "../services/UserAPI";
 import AuthenticationService from "../services/AuthenticationAPI";
-import {LOGIN_USER_SUCCESS, LOGOUT_USER} from "./loginReducer";
+import {
+    LOGIN_TOKEN_STARTED,
+    LOGIN_TOKEN_SUCCESS, LOGIN_USER_FAILED,
+    LOGIN_USER_SUCCESS,
+    LOGOUT_USER,
+    SET_AUTH_TOKEN
+} from "./loginReducer";
 import {showErrorNotification, showNotification, showSuccessNotification} from "../NotificationService";
 import {emailAlreadyExistsAC, emailNotValidAC} from "./homePageReducer";
 
@@ -61,8 +67,20 @@ function currentUserReducer(state=initialState, action){
                 user:action.payload.user,
                 token:action.payload.token
             }
+        case LOGIN_USER_FAILED:
+            return{
+                ...state,
+                user:null,
+                token:null
+            }
+
         case LOGOUT_USER:
             return initialState;
+        case LOGIN_TOKEN_STARTED:
+            return{
+                ...state,
+                token:action.payload
+            }
         default:
             return state;
     }
@@ -99,13 +117,16 @@ export function depositUserSuccess(){
 export function fetchUser(){
         return (dispatch,getState)=>{
             dispatch(fetchUserStarted());
-            UserService.getUserInfo(getState().currentUserReducer.user.id)
+            debugger;
+            UserService.getMyInfo()
                 .then(res=> {
+                    debugger;
                     const user=res.data;
                     dispatch(fetchUserSuccess(user));
                     }
                 )
                 .catch((e)=>{
+                    debugger;
                     dispatch(fetchUserFailure(e));
                 })
     };
