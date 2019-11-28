@@ -53,7 +53,6 @@ class EditProfile extends React.Component{
     }
 
     handleCountryChange=(option)=>{
-        debugger;
         this.setState({
             "country":option.value
         })
@@ -78,7 +77,6 @@ class EditProfile extends React.Component{
     }
 
     render() {
-        debugger;
         let emailValidationStyle=this.props.emailErrorMessage==null? "":"is-invalid";
 
         return (

@@ -15,6 +15,7 @@ import UserBooksList from "./userPage/UserBooksList";
 import PrivateRoute from "./utils/PrivateRoute";
 import connect from "react-redux/lib/connect/connect";
 import EmailVerificationPage from "./authentication/EmailVerificationPage";
+import OauthLoginPage from "./authentication/OauthLoginPage";
 
 function App(props){
     return (
@@ -28,6 +29,7 @@ function App(props){
                     <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute nonAuthorised={true} exact path="/login" component={LoginPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <Route exact path="/verifyEmail/:token" component={EmailVerificationPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
+                    <Route exact path="/oauthLogin/:token" component={OauthLoginPage}/>
                     <PrivateRoute nonAuthorised={true} exact path="/registration" component={RegistrationPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" component={UserPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId/books" component={UserBooksList} currentUser={props.currentUser} isLogged={props.isLogged}/>
@@ -38,7 +40,6 @@ function App(props){
 }
 
 function mapStateToProps(state){
-    debugger;
     return{
         currentUser:state.currentUserReducer.user,
         isLogged:state.loginReducer.isLogged,

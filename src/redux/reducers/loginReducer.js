@@ -1,10 +1,14 @@
 import AuthenticationService from "../services/AuthenticationAPI";
 import axios from "axios";
+import {fetchUser, fetchUserFailure, fetchUserSuccess} from "./currentUserReducer";
+import UserService from "../services/UserAPI";
 
 const LOGIN_USER_STARTED="LOGIN_USER_STARTED";
 export const LOGIN_USER_SUCCESS="LOGIN_USER_SUCCESS";
 const LOGIN_USER_FAILED="LOGIN_USER_FAILED";
 export const LOGOUT_USER="LOGOUT_USER";
+
+export const LOGIN_TOKEN_STARTED="LOGIN_TOKEN_STARTED";
 
 const initialState={
     isLoginFailed:false,
@@ -59,6 +63,27 @@ export function executeLogout(){
     return {type:LOGOUT_USER};
 }
 
+function loginTokenStarted(token){
+    return {type:LOGIN_TOKEN_STARTED,payload:token};
+}
+
+export function executeTokenLogin(token){
+    return (dispatch)=>{
+        dispatch(loginTokenStarted(token));
+        debugger;
+        UserService.getMyInfo()
+            .then(res=> {
+                    debugger;
+                    const user=res.data;
+                    dispatch(loginUserSuccess(user,token))
+                }
+            )
+            .catch((e)=>{
+                debugger;
+                dispatch(loginUserFailed());
+            })
+    }
+}
 export function executeLogin(username,password){
     return (dispatch)=> {
         dispatch(loginUserStarted());

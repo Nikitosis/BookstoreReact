@@ -13,6 +13,10 @@ class UserAPI{
         return axios.get(`${API_URL}/users/${userId}`)
     }
 
+    getMyInfo(){
+        return axios.get(`${API_URL}/users/me`)
+    }
+
     createUser(user){
         let userInfoJson=JSON.stringify(user);
         let userInfo=new Blob([userInfoJson],{
