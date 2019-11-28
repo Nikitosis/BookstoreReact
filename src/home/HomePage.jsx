@@ -88,7 +88,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         fetchUser: ()=>dispatch(fetchUser()),
-        updateUser:(firstName,lastName,country,city,gender,email,phone,avatar)=>dispatch(updateUser(firstName,lastName,country,city,gender,email,phone,avatar)),
+        updateUser:(firstName,lastName,country,city,gender,email,phone,avatar,isSubscribedToNews)=>dispatch(updateUser(firstName,lastName,country,city,gender,email,phone,avatar,isSubscribedToNews)),
         openEditModal:()=>dispatch(openEditModal()),
         closeEditModal:()=>dispatch(closeEditModal()),
         depositMoney:(money)=>dispatch(depositMoney(money)),

@@ -8,7 +8,6 @@ import Select from "react-select";
 class EditProfile extends React.Component{
     constructor(props){
         super(props);
-
         this.state={
             firstName:props.curUser.fName,
             lastName:props.curUser.lName,
@@ -17,7 +16,8 @@ class EditProfile extends React.Component{
             gender:props.curUser.gender,
             email:props.curUser.email,
             phone:props.curUser.phone,
-            avatarPreviewUrl:props.curUser.avatarLink
+            avatarPreviewUrl:props.curUser.avatarLink,
+            subscribedToNews:props.curUser.subscribedToNews
         }
     }
 
@@ -41,7 +41,8 @@ class EditProfile extends React.Component{
                 gender: this.props.curUser.gender,
                 email: this.props.curUser.email,
                 phone: this.props.curUser.phone,
-                avatarPreviewUrl: this.props.curUser.avatarLink
+                avatarPreviewUrl: this.props.curUser.avatarLink,
+                subscribedToNews:this.props.curUser.subscribedToNews
             })
         }
     }
@@ -53,7 +54,6 @@ class EditProfile extends React.Component{
     }
 
     handleCountryChange=(option)=>{
-        debugger;
         this.setState({
             "country":option.value
         })
@@ -66,6 +66,12 @@ class EditProfile extends React.Component{
         })
     }
 
+    handleChangeSubscription=(event)=>{
+        this.setState({
+            subscribedToNews:!this.state.subscribedToNews
+        })
+}
+
     handleSave=()=>{
         this.props.onSave(this.state.firstName,
             this.state.lastName,
@@ -74,11 +80,11 @@ class EditProfile extends React.Component{
             this.state.gender,
             this.state.email,
             this.state.phone,
-            this.state.avatar);
+            this.state.avatar,
+            this.state.subscribedToNews);
     }
 
     render() {
-        debugger;
         let emailValidationStyle=this.props.emailErrorMessage==null? "":"is-invalid";
 
         return (
@@ -140,6 +146,11 @@ class EditProfile extends React.Component{
                             {this.state.avatarPreviewUrl != null &&
                                 <img src={this.state.avatarPreviewUrl} className={"img-thumbnail"} alt=""/>
                             }
+                        </div>
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" id="isSubscribedCheckbox" name={"isSubscribedToNews"}
+                                   checked={this.state.subscribedToNews} onChange={this.handleChangeSubscription}/>
+                                <label className="custom-control-label" htmlFor="isSubscribedCheckbox">subscribe to news</label>
                         </div>
                     </form>
                 </Modal.Body>

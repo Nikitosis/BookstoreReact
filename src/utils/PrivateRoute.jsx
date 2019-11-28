@@ -6,7 +6,6 @@ import connect from "react-redux/lib/connect/connect";
 const PrivateRoute = ({ component: Component, roles,nonAuthorised,currentUser,isLogged, ...rest }) => (
     <Route {...rest} render={props => {
         //not logged in, but nonAuthorised flag
-        debugger;
         if(nonAuthorised && !isLogged){
             return <Component {...props} />
         }

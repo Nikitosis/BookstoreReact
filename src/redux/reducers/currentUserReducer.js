@@ -111,7 +111,7 @@ export function fetchUser(){
     };
 }
 
-export function updateUser(firstName,lastName,country,city,gender,email,phone,avatar){
+export function updateUser(firstName,lastName,country,city,gender,email,phone,avatar,subscribedToNews){
     return (dispatch,getState)=>{
         let user={
             id:getState().currentUserReducer.user.id,
@@ -122,7 +122,8 @@ export function updateUser(firstName,lastName,country,city,gender,email,phone,av
             city:city,
             gender:gender,
             email:email,
-            phone:phone
+            phone:phone,
+            subscribedToNews:subscribedToNews
         }
         dispatch(updateUserStarted());
         UserService.updateUser(user,avatar)
