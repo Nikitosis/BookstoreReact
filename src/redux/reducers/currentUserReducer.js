@@ -2,7 +2,7 @@ import UserService from "../services/UserAPI";
 import AuthenticationService from "../services/AuthenticationAPI";
 import {
     LOGIN_TOKEN_STARTED,
-    LOGIN_TOKEN_SUCCESS,
+    LOGIN_TOKEN_SUCCESS, LOGIN_USER_FAILED,
     LOGIN_USER_SUCCESS,
     LOGOUT_USER,
     SET_AUTH_TOKEN
@@ -67,6 +67,13 @@ function currentUserReducer(state=initialState, action){
                 user:action.payload.user,
                 token:action.payload.token
             }
+        case LOGIN_USER_FAILED:
+            return{
+                ...state,
+                user:null,
+                token:null
+            }
+
         case LOGOUT_USER:
             return initialState;
         case LOGIN_TOKEN_STARTED:
