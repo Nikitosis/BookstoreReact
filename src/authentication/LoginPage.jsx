@@ -39,7 +39,13 @@ class LoginPage extends React.Component{
                       <input type="password" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
                       <button className="btn btn-primary btn-block" name="loginButton" onClick={this.onLoginClicked}>Sign in</button>
                       <a className="btn btn-secondary btn-block"
-                         href={AUTHORISER_URL+"/oauth2/authorization/google?redirect_uri="+OAUTH_LOGIN_URL}>Google sign in</a>
+                         href={AUTHORISER_URL+"/oauth2/authorization/google?redirect_uri="+OAUTH_LOGIN_URL}>
+                          Google sign in
+                      </a>
+                      <a className="btn btn-secondary btn-block"
+                         href={AUTHORISER_URL+"/oauth2/authorization/facebook?redirect_uri="+OAUTH_LOGIN_URL}>
+                          Facebook sign in
+                      </a>
                   </div>
               </div>
           </div>
