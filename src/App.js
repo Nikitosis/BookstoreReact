@@ -29,7 +29,7 @@ function App(props){
                     <PrivateRoute roles={["ADMIN"]} exact path="/users" component={UserList} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute nonAuthorised={true} exact path="/login" component={LoginPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <Route exact path="/verifyEmail/:token" component={EmailVerificationPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
-                    <Route exact path="/oauthLogin/:token" component={OauthLoginPage}/>
+                    <Route exact path="/oauthLogin" component={OauthLoginPage}/>
                     <PrivateRoute nonAuthorised={true} exact path="/registration" component={RegistrationPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId" component={UserPage} currentUser={props.currentUser} isLogged={props.isLogged}/>
                     <PrivateRoute roles={["ADMIN"]} exact path="/users/:userId/books" component={UserBooksList} currentUser={props.currentUser} isLogged={props.isLogged}/>

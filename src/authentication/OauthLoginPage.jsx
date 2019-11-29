@@ -5,13 +5,17 @@ import {executeTokenLogin, setAuthToken} from "../redux/reducers/loginReducer";
 class OauthLoginPage extends React.Component{
 
     componentDidMount() {
-        console.log(this.props.match.params.token);
-        this.props.executeTokenLogin(this.props.match.params.token);
+        this.props.executeTokenLogin(this.getQueryToken());
+    }
+
+    getQueryToken=()=>{
+        const queryString = require('query-string');
+        var parsedQueryParams = queryString.parse(this.props.location.search);
+        return parsedQueryParams.token;
     }
 
     render() {
-        return <Redirect to={{ pathname: '/login'}} />
-        //return (<div></div>)
+        return <Redirect to={{ pathname: '/'}} />
     }
 }
 

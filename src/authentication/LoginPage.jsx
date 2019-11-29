@@ -3,6 +3,7 @@ import {executeLogin} from "../redux/reducers/loginReducer";
 import connect from "react-redux/lib/connect/connect";
 import Log from "../redux/models/Log";
 import {Redirect} from "react-router";
+import {AUTHORISER_URL, OAUTH_LOGIN_URL} from "../utils/UrlConstraints";
 class LoginPage extends React.Component{
 
     constructor(props){
@@ -37,6 +38,8 @@ class LoginPage extends React.Component{
                       <input type="text" name="username" placeholder="username" className="form-control" value={this.state.username} onChange={this.onInputChange}/>
                       <input type="password" name="password" placeholder="password" className="form-control" value={this.state.password} onChange={this.onInputChange}/>
                       <button className="btn btn-primary btn-block" name="loginButton" onClick={this.onLoginClicked}>Sign in</button>
+                      <a className="btn btn-secondary btn-block"
+                         href={AUTHORISER_URL+"/oauth2/authorization/google?redirect_uri="+OAUTH_LOGIN_URL}>Google sign in</a>
                   </div>
               </div>
           </div>
